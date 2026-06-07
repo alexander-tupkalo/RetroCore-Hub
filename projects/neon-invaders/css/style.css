@@ -1,0 +1,258 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #050508;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Courier New', Courier, monospace;
+  overflow: hidden;
+}
+
+.arcade-cabinet {
+  background-color: #0c0c14;
+  border: 2px solid #1a1a2e;
+  border-radius: 12px 12px 4px 4px;
+  padding: 20px;
+  box-shadow: 
+    0 0 10px #ff007f,
+    0 0 30px rgba(255, 0, 127, 0.4),
+    0 0 60px rgba(0, 240, 255, 0.2),
+    inset 0 0 20px rgba(0, 240, 255, 0.05);
+}
+
+.marquee {
+  text-align: center;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  background: linear-gradient(180deg, #120810 0%, #0c0c14 100%);
+  border-bottom: 1px solid rgba(255, 0, 127, 0.5);
+}
+
+.marquee-title {
+  font-size: 2.5rem;
+  letter-spacing: 6px;
+  color: #ff007f;
+  text-transform: uppercase;
+  text-shadow: 
+    0 0 5px #ff007f,
+    0 0 15px #ff007f,
+    0 0 30px #ff007f,
+    2px 2px 0px #00f0ff,
+    -2px -2px 0px #00f0ff,
+    0 0 10px #00f0ff;
+}
+
+.screen-bezel {
+  background-color: #08080d;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #15151f;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9);
+}
+
+.screen-container {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#gameCanvas {
+  display: block;
+  background-color: #000511;
+  width: 100%;
+  height: 100%;
+}
+
+.crt-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  animation: flicker 0.15s infinite;
+  z-index: 10;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.92; }
+  5% { opacity: 0.95; }
+  10% { opacity: 0.9; }
+  15% { opacity: 0.96; }
+  20% { opacity: 0.92; }
+  100% { opacity: 0.94; }
+}
+
+.control-panel {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #0a0a10;
+  border-top: 1px solid #1a1a2e;
+  border-radius: 0 0 4px 4px;
+  display: flex;
+  justify-content: center;
+}
+
+.coin-slot {
+  width: 30px;
+  height: 8px;
+  background-color: #000;
+  border: 1px solid #00f0ff;
+  border-radius: 10px;
+  box-shadow: 0 0 5px #00f0ff, inset 0 0 3px #00f0ff;
+}
+
+.mobile-controls {
+    display: none;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #151522;
+    border-top: 2px solid #00f0ff;
+}
+
+.mobile-btn {
+    width: 60px;
+    height: 60px;
+    background: #2a2a3a;
+    border: 2px solid #ff007f;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 0 1opx #ff007f;
+}
+
+.mobile-btn:active {
+    background: #ff007f;
+    box-shadow:  0 0 20px #ff007f;
+}
+
+@media (max-width: 768px) {
+  html, body {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .arcade-cabinet {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .marquee {
+    flex-shrink: 0;
+    padding: 10px 0;
+  }
+
+  .marquee-title {
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+  }
+
+  .screen-bezel {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none;
+  }
+
+  .screen-container {
+    position: relative;
+    flex: 1;
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  #gameCanvas {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: fill !important;
+    max-height: none !important;
+    display: block;
+  }
+
+  .control-panel {
+    flex-shrink: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    border-radius: 0;
+    border-top: 1px solid #1a1a2e;
+  }
+
+  .mobile-controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .mobile-btn {
+    flex: 1;
+    padding: 15px 0;
+    background: #0c0c14;
+    color: #00f0ff;
+    border: 1px solid #00f0ff;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00f0ff;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3), inset 0 0 10px rgba(0, 240, 255, 0.1);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .mobile-btn:active {
+    background: #00f0ff;
+    color: #050508;
+  }
+
+  #btnFire {
+    flex: 2;
+    border-color: #ff007f;
+    color: #ff007f;
+    text-shadow: 0 0 5px #ff007f;
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.3), inset 0 0 10px rgba(255, 0, 127, 0.1);
+  }
+
+  #btnFire:active {
+    background: #ff007f;
+    color: #050508;
+  }
+
+  .coin-slot {
+    display: none;
+  }
+}
+
