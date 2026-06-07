@@ -1,0 +1,554 @@
+body {
+    font-family: var(--font-main);
+    color: var(--text-primary);
+    background: radial-gradient(ellipse at center, var(--bg-secondary) 0%, var(--bg-primary) 70%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Базовые классы для CRT оверлеев, которые создаст JS */
+.crt-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Чтобы не блокировать клики по игре */
+    z-index: 9999;
+}
+
+.crt-scanlines {
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0) 50%,
+        rgba(0,0,0,0.15) 50%,
+        rgba(0,0,0,0.15) 100%
+    );
+    background-size: 100% 4px; /* Толщина и шаг линий */
+    opacity: 0.6;
+}
+
+.crt-vignette {
+    background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.8) 100%);
+}
+
+.crt-noise {
+    opacity: 0.04; /* Очень слабый шум, не переборщить */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    animation: noise-shift 0.5s steps(5) infinite;
+}
+
+/* Класс для эффекта мерцания, будет вешаться через JS */
+.flicker-active {
+    animation: crt-flicker 0.15s ease-in-out;
+}
+
+/* === BOOT SCREEN & TERMINAL === */
+
+#boot-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 15% 12%; /* Смещаем текст влево-вниз, как в консоли */
+    z-index: 10;
+    background: var(--bg-primary);
+}
+
+#terminal-output {
+    font-size: clamp(0.9rem, 2vw, 1.2rem); /* Адаптивный размер шрифта */
+    line-height: 1.8;
+    color: var(--cyan-primary);
+    text-shadow: 0 0 5px var(--cyan-glow);
+    white-space: pre-wrap; /* Сохраняем пробелы и переносы строк */
+    max-width: 700px;
+    width: 100%;
+}
+
+/* Мерцающий курсор */
+.terminal-cursor {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.1rem;
+    background-color: var(--cyan-primary);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    box-shadow: 0 0 5px var(--cyan-glow);
+    animation: cursor-blink 0.7s step-end infinite;
+}
+
+/* Кнопка пропуска загрузки */
+.boot-skip {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    color: var(--text-dim);
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--text-dim);
+    padding: 0.5rem 1.2rem;
+    transition: all 0.2s;
+    z-index: 20;
+    letter-spacing: 2px;
+}
+
+.boot-skip:hover {
+    color: var(--cyan-primary);
+    border-color: var(--cyan-primary);
+    text-shadow: 0 0 5px var(--cyan-glow);
+    box-shadow: 0 0 10px rgba(0, 210, 211, 0.2);
+}
+
+/* Класс для выключения экрана (CRT Power Off) */
+.crt-power-off {
+    animation: crt-shutdown 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* === UTILITY === */
+.hidden { display: none !important; }
+.text-red { color: var(--red-alert); text-shadow: 0 0 5px var(--red-glow); }
+
+/* === GAME UI LAYOUT === */
+#game-ui {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.ui-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--cyan-dim);
+    margin-bottom: 1.5rem;
+}
+
+.main-title {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: var(--cyan-primary);
+    text-shadow: 0 0 10px var(--cyan-glow);
+    letter-spacing: 4px;
+    font-weight: 400;
+}
+
+.sys-tag {
+    font-size: 0.75rem;
+    color: var(--cyan-primary);
+    text-shadow: 0 0 5px var(--cyan-glow);
+    letter-spacing: 1px;
+}
+
+.tactical-layout {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 2.5fr 1.5fr 2.5fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    min-height: 0; /* Важно для корректного сжатия */
+}
+
+/* === SIDE PANELS === */
+.side-panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--cyan-dim);
+    padding: 1rem;
+    height: 100%;
+    min-width: 0;
+}
+
+.panel-title {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--cyan-dim);
+    letter-spacing: 2px;
+}
+
+.status-list p {
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+/* === GRID CONTAINERS === */
+.grid-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid-label {
+    font-size: 0.9rem;
+    color: var(--cyan-primary);
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px var(--cyan-glow);
+}
+
+.enemy-label {
+    color: var(--red-alert);
+    text-shadow: 0 0 5px var(--red-glow);
+}
+
+/* === THE BOARDS (10x10) === */
+.grid-board {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr); /* 1 для цифр, 10 для ячеек */
+    grid-template-rows: repeat(11, 1fr);  /* 1 для букв, 10 для ячеек */
+    gap: 2px;
+    width: 100%;
+   /* aspect-ratio: 1 / 1; */
+    background: rgba(0, 210, 211, 0.1); /* Цвет линий сетки */
+    border: 1px solid var(--cyan-dim);
+    padding: 2px;
+}
+
+.cell {
+    background: var(--bg-primary);
+    position: relative;
+    transition: background var(--transition-fast);
+    /* Запрет на выделение текста при быстрых кликах */
+    user-select: none; 
+    -webkit-user-select: none;
+    aspect-ratio: 1 / 1;
+}
+
+/* Координаты */
+.coord {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(0.5rem, 1.2vw, 0.7rem);
+    color: var(--text-dim);
+    background: transparent;
+}
+
+/* Эффект прицела на вражеской сетке */
+#enemy-board .cell:hover {
+    background: rgba(255, 42, 42, 0.3);
+    box-shadow: inset 0 0 10px var(--red-glow);
+    cursor: crosshair;
+}
+
+/* Подавление прицела на своей сетке */
+#player-board .cell {
+    cursor: default;
+}
+
+/* === CENTER INFO & RADAR === */
+.center-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Индикатор хода */
+#turn-indicator {
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    padding: 0.5rem 1rem;
+    border: 1px solid;
+    text-align: center;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+#turn-indicator.turn-player {
+    color: var(--cyan-primary);
+    border-color: var(--cyan-primary);
+    text-shadow: 0 0 10px var(--cyan-glow);
+    box-shadow: 0 0 15px rgba(0, 210, 211, 0.2), inset 0 0 15px rgba(0, 210, 211, 0.05);
+}
+
+#turn-indicator.turn-enemy {
+    color: var(--red-alert);
+    border-color: var(--red-alert);
+    text-shadow: 0 0 10px var(--red-glow);
+    box-shadow: 0 0 15px rgba(255, 42, 42, 0.2), inset 0 0 15px rgba(255, 42, 42, 0.05);
+    animation: neon-pulse-red 1s infinite;
+}
+
+.radar-scope {
+    width: 100%;
+    max-width: 180px;
+    aspect-ratio: 1 / 1;
+    border: 1px solid var(--cyan-dim);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 210, 211, 0.05) 0%, var(--bg-primary) 70%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 0 30px rgba(0, 210, 211, 0.1);
+    overflow: hidden; /* Чтобы луч не выходил за круг */
+}
+
+/* Кольца радара */
+.radar-ring {
+    position: absolute;
+    border: 1px solid rgba(0, 210, 211, 0.15);
+    border-radius: 50%;
+}
+.ring-1 { width: 65%; height: 65%; }
+.ring-2 { width: 30%; height: 30%; }
+
+/* Сам луч развертки */
+.radar-sweep {
+    position: absolute;
+    top: 10%; left: 50%;
+    width: 2px; height: 45%;
+    background: linear-gradient(to top, var(--cyan-primary), transparent);
+    transform-origin: bottom center;
+    animation: radar-spin 4s linear infinite;
+    box-shadow: 0 0 10px var(--cyan-primary), 5px 0 15px var(--cyan-glow);
+    opacity: 0.8;
+}
+
+/* Точка в центре */
+.radar-dot {
+    width: 4px; height: 4px;
+    background: var(--cyan-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--cyan-primary);
+}
+
+.message-terminal {
+    background: var(--bg-panel);
+    border: 1px solid var(--cyan-dim);
+    padding: 1rem;
+    min-height: 150px;
+}
+
+.msg-line {
+    font-size: 0.8rem;
+    color: var(--cyan-primary);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 3px var(--cyan-glow);
+}
+
+/* === RESPONSIVE (TABLET & MOBILE) === */
+@media (max-width: 1200px) {
+    .tactical-layout {
+        grid-template-columns: 1fr 3fr 1.5fr 3fr 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    /* Планшеты: Прячем боковые панели, сетки становятся крупнее */
+    .side-panel { display: none; }
+    
+    .tactical-layout {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Просто разрешаем странице расти вниз и скроллиться */
+    html, body { 
+        height: auto;
+        overflow-y: auto !important; 
+        overflow-x: hidden;
+    }
+    
+    #game-ui { 
+        padding: 1rem; 
+        /* Убираем любые привязки к высоте экрана */
+        height: auto; 
+        min-height: auto; 
+    }
+    
+    .ui-header { 
+        flex-direction: row; 
+        justify-content: space-between; 
+        align-items: center;
+        padding-bottom: 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .main-title {
+        font-size: 1.1rem; 
+        letter-spacing: 2px;
+    }
+    
+    /* Прячем центральный радар на мобилках */
+    .center-info { display: none; }
+    
+    /* Строим в одну колонку */
+    .tactical-layout {
+        grid-template-columns: 1fr; 
+        gap: 2rem; 
+    }
+    
+    .grid-container {
+        width: 100%;
+    }
+    
+    /* Крупные, читаемые координаты */
+    .coord {
+        font-size: 1rem !important; 
+        color: var(--text-primary) !important; 
+        font-weight: bold;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    
+    .grid-label {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    #turn-indicator {
+        font-size: 1rem;
+    }
+}
+
+/* === HOLOGRAPHIC SHIP VISUALS === */
+.cell-ship {
+    background: linear-gradient(135deg, rgba(0, 210, 211, 0.15) 0%, rgba(0, 210, 211, 0.05) 100%) !important;
+    border: 1px solid rgba(0, 210, 211, 0.6) !important;
+    box-shadow: inset 0 0 8px var(--cyan-glow), 0 0 3px var(--cyan-glow) !important;
+}
+
+.cell-ship::before {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px; right: 2px; bottom: 2px;
+    border: 1px dashed rgba(0, 210, 211, 0.3);
+}
+
+/* === COMBAT VISUALS === */
+
+/* Попадание (Пробой + Перекрестие) */
+.cell-hit {
+    background: radial-gradient(circle, rgba(255, 42, 42, 0.2) 20%, var(--bg-primary) 100%) !important;
+    border: 1px solid var(--red-alert) !important;
+    box-shadow: inset 0 0 5px var(--red-glow) !important;
+    animation: impact-shockwave 0.4s ease-out;
+}
+
+.cell-hit::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 15%;
+    width: 70%; height: 2px;
+    background: var(--red-alert);
+    box-shadow: 0 0 8px #fff, 0 0 15px var(--red-alert);
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.cell-hit::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 15%;
+    width: 70%; height: 2px;
+    background: var(--red-alert);
+    box-shadow: 0 0 8px #fff, 0 0 15px var(--red-alert);
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+/* Промах (Слабый эхо-сигнал) */
+.cell-miss {
+    background: rgba(0, 210, 211, 0.05) !important;
+    border: 1px solid rgba(0, 210, 211, 0.2) !important;
+    box-shadow: inset 0 0 15px rgba(0, 210, 211, 0.05) !important;
+}
+
+/* Маленькая точка в центре промаха (имитация исчезающего пинга) */
+.cell-miss::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px; height: 4px;
+    background: var(--cyan-dim);
+    border-radius: 50%;
+}
+
+/* === GAME OVER SCREEN === */
+.game-over-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5, 5, 9, 0.92);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    animation: overlay-fade-in 1.5s ease-out;
+}
+
+.game-over-title {
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: 10px;
+    margin-bottom: 1rem;
+}
+
+.game-over-subtitle {
+    font-size: 1rem;
+    color: var(--text-dim);
+    margin-bottom: 3rem;
+    letter-spacing: 2px;
+}
+
+.game-over-title.win {
+    color: var(--cyan-primary);
+    text-shadow: 0 0 20px var(--cyan-glow), 0 0 40px var(--cyan-glow);
+}
+
+.game-over-title.lose {
+    color: var(--red-alert);
+    text-shadow: 0 0 20px var(--red-glow), 0 0 40px var(--red-glow);
+    animation: neon-pulse-red 1.5s infinite;
+}
+
+.btn-action {
+    padding: 1rem 3rem;
+    font-family: var(--font-main);
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    color: var(--bg-primary);
+    background: var(--cyan-primary);
+    border: 1px solid var(--cyan-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 15px var(--cyan-glow);
+    text-transform: uppercase;
+}
+
+.btn-action:hover {
+    background: #fff;
+    color: var(--bg-primary);
+    box-shadow: 0 0 25px #fff, 0 0 10px var(--cyan-primary);
+    transform: scale(1.05);
+}
+
+@keyframes overlay-fade-in {
+    from { opacity: 0; backdrop-filter: blur(0px); }
+    to { opacity: 1; backdrop-filter: blur(4px); }
+}

@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RETROCORE://HUB — Vintage signals from a forgotten digital future.">
+  <meta name="theme-color" content="#020408">
+
+  <!-- Favicon pack -->
+  <link rel="icon"             type="image/x-icon" href="assets/favicon/favicon.ico">
+  <link rel="icon"             type="image/png"    sizes="64x64"   href="assets/favicon/favicon-64x64.png">
+  <link rel="icon"             type="image/png"    sizes="32x32"   href="assets/favicon/favicon-32x32.png">
+  <link rel="icon"             type="image/png"    sizes="16x16"   href="assets/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon"                     sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="RETROCORE://HUB">
+  <meta property="og:description" content="Vintage signals from a forgotten digital future.">
+  <meta property="og:type" content="website">
+
+  <title>RETROCORE://HUB</title>
+
+  <!-- Stylesheets — load order matters -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/modules.css">
+  <link rel="stylesheet" href="css/lower.css">
+  <link rel="stylesheet" href="css/immersion.css">
+  <link rel="stylesheet" href="css/battleship.css">
+  <link rel="stylesheet" href="css/signal-ai.css">
+  <link rel="stylesheet" href="css/unknown-sector.css">
+  <link rel="stylesheet" href="css/platform.css">
+  <link rel="stylesheet" href="css/network.css">
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════════════
+       AMBIENT BACKGROUND SYSTEM
+  ══════════════════════════════════════════════════ -->
+  <div class="bg-system" aria-hidden="true">
+    <!-- deep multi-layer gradients -->
+    <div class="bg-gradient"></div>
+
+    <!-- atmospheric glow orbs -->
+    <div class="bg-orb bg-orb--primary"></div>
+    <div class="bg-orb bg-orb--secondary"></div>
+    <div class="bg-orb bg-orb--tertiary"></div>
+
+    <!-- perspective grid -->
+    <div class="bg-grid"></div>
+
+    <!-- VHS scanlines -->
+    <div class="bg-scanlines"></div>
+
+    <!-- moving CRT scan beam -->
+    <div class="bg-scanline-beam"></div>
+
+    <!-- animated film grain -->
+    <div class="bg-noise"></div>
+
+    <!-- vignette frame -->
+    <div class="bg-vignette"></div>
+
+    <!-- particle canvas -->
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  </div><!-- /.bg-system -->
+
+
+  <!-- ══════════════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════════════ -->
+  <header class="header" role="banner">
+    <div class="container">
+      <div class="header__inner">
+
+        <!-- Logo -->
+        <a href="/" class="logo" aria-label="RETROCORE HUB — Home">
+          <div class="logo__status" aria-hidden="true">
+            <span class="logo__status-ring"></span>
+            <span class="logo__status-dot"></span>
+          </div>
+          <span class="logo__wordmark">
+            <span class="protocol">RETRO</span><span class="separator">CORE</span><span class="separator">://</span><span class="name">HUB</span>
+          </span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="header__nav" aria-label="Primary navigation">
+          <!-- Language Switcher -->
+          <div class="lang-switcher" role="group" aria-label="Language selection">
+            <button
+              class="lang-btn active"
+              data-lang="en"
+              aria-pressed="true"
+              aria-label="English"
+            >EN</button>
+            <button
+              class="lang-btn"
+              data-lang="ua"
+              aria-pressed="false"
+              aria-label="Ukrainian"
+            >UA</button>
+          </div>
+
+          <!-- Register CTA -->
+          <button class="btn-register" aria-label="Create an account" data-i18n="navRegister">
+            REGISTER
+          </button>
+        </nav>
+
+        <!-- Mobile Hamburger -->
+        <button
+          class="header__menu-toggle"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+      </div><!-- /.header__inner -->
+    </div><!-- /.container -->
+  </header>
+
+  <!-- Mobile nav drawer -->
+  <nav
+    id="mobile-nav"
+    class="header__mobile-nav"
+    aria-label="Mobile navigation"
+    aria-hidden="true"
+  >
+    <div class="lang-switcher" role="group" aria-label="Language selection">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ua">UA</button>
+    </div>
+    <button class="btn-register" style="width:100%; text-align:center;" data-i18n="navRegister">
+      REGISTER
+    </button>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════════════════ -->
+  <main id="main" role="main">
+
+    <!-- ── HERO ──────────────────────────────────── -->
+    <section class="hero" aria-label="Hero">
+
+      <!-- CRT scanline overlay -->
+      <div class="hero__crt" aria-hidden="true"></div>
+
+      <!-- Cinematic corner brackets -->
+      <div class="hero__frame" aria-hidden="true">
+        <div class="hero__frame-corner--tr"></div>
+        <div class="hero__frame-corner--bl"></div>
+      </div>
+
+      <!-- VHS Timestamp — top left -->
+      <div class="hero__vhs-stamp" aria-hidden="true">00:00:00  01/01/1994</div>
+
+      <!-- VHS REC indicator — top right -->
+      <div class="hero__vhs-rec" aria-hidden="true">
+        <span class="hero__vhs-dot"></span>
+        REC
+      </div>
+
+      <!-- Hero Content -->
+      <div class="hero__content">
+
+        <!-- Eyebrow label -->
+        <p class="hero__eyebrow" aria-label="System label" data-i18n="heroEyebrow">
+          SIGNAL&nbsp;INTERCEPTED&nbsp;//&nbsp;CHANNEL&nbsp;94
+        </p>
+
+        <!-- Main Tagline -->
+        <h1 class="hero__title" data-i18n="heroTitle">
+          Vintage signals from a<br>forgotten digital future.
+        </h1>
+
+        <!-- Horizontal divider -->
+        <div class="hero__divider" aria-hidden="true"></div>
+
+        <!-- Subtitle -->
+        <p class="hero__subtitle" data-i18n="heroSubtitle">
+          The archive is open. Connect to the grid.
+        </p>
+
+        <!-- Terminal prompt -->
+        <div class="hero__terminal" aria-hidden="true">
+          <span class="hero__terminal-prefix">SYS:&gt;</span>
+          <span class="hero__terminal-text" data-i18n="heroTerminalText">awaiting_signal.exe</span>
+          <span class="hero__cursor"></span>
+        </div>
+
+        <!-- Meta Badges -->
+        <div class="hero__badges" role="list" aria-label="System status tags">
+          <span class="hero__badge" role="listitem" data-i18n="heroBadge1">V/HS-1994</span>
+          <span class="hero__badge" role="listitem" data-i18n="heroBadge2">SIGNAL&nbsp;STABLE</span>
+          <span class="hero__badge" role="listitem" data-i18n="heroBadge3">GRID&nbsp;ONLINE</span>
+          <span class="hero__badge" role="listitem" data-i18n="heroBadge4">ENCRYPTED</span>
+        </div>
+
+      </div><!-- /.hero__content -->
+
+      <!-- Scroll hint -->
+      <div class="hero__scroll-hint" aria-label="Scroll down">
+        <div class="hero__scroll-line" aria-hidden="true"></div>
+        <span class="hero__scroll-label" data-i18n="heroScrollLabel">SCROLL</span>
+      </div>
+
+    </section><!-- /.hero -->
+
+    <!-- Future sections will be inserted here:
+         <section class="features"> … </section>
+         <section class="showcase"> … </section>
+         <section class="pricing"> … </section>
+         <section class="cta"> … </section>
+    -->
+
+    <!-- ── ACTIVE MODULES ────────────────────────── -->
+    <section class="modules" id="modules" aria-label="Active Modules">
+
+      <!-- Section intro -->
+      <div class="container">
+        <div class="modules__intro">
+          <p class="modules__eyebrow" data-i18n="modulesEyebrow">SYSTEM&nbsp;//&nbsp;MODULE&nbsp;REGISTRY</p>
+          <h2 class="modules__title" data-i18n="modulesTitle">Active Modules</h2>
+          <div class="modules__divider" aria-hidden="true"></div>
+          <p class="modules__subtitle">
+            <span class="modules__subtitle-prefix">SYS:&gt;&nbsp;</span>
+            <span data-i18n="modulesSubtitle">Select a signal and initialize module.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Module Grid -->
+      <div class="modules__grid" role="list">
+
+        <!-- ── MODULE 01 — VHS MovieClub ─────────── -->
+        <a
+          class="mod-card mod-card--vhs"
+          href="/projects/vhs-movieclub/index.html"
+          role="listitem"
+          aria-label="VHS MovieClub — Launch module"
+        >
+          <!-- bg layers -->
+          <div class="mod-card__bg"        aria-hidden="true"></div>
+          <div class="mod-card__noise"     aria-hidden="true"></div>
+          <div class="mod-card__scanlines" aria-hidden="true"></div>
+          <div class="mod-card__scan-beam" aria-hidden="true"></div>
+          <div class="mod-card__holo"      aria-hidden="true"></div>
+          <div class="mod-card__corners"   aria-hidden="true"></div>
+          <div class="mod-card__accent-line" aria-hidden="true"></div>
+          <div class="mod-card__reflection"  aria-hidden="true"></div>
+
+          <!-- content -->
+          <div class="mod-card__body">
+            <div class="mod-card__header">
+              <span class="mod-card__slot">MOD://01</span>
+              <div class="mod-card__status" aria-label="Status: Online">
+                <span class="mod-card__status-dot">
+                  <span class="mod-card__status-dot-ring"></span>
+                  <span class="mod-card__status-dot-inner"></span>
+                </span>
+                <span class="mod-card__status-label" data-i18n="mod01StatusLabel">ONLINE</span>
+              </div>
+            </div>
+
+            <div class="mod-card__icon-wrap">
+              <div class="mod-card__icon">
+                <!-- VHS cassette icon -->
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="2" y="6" width="20" height="14" rx="2"/>
+                  <circle cx="8"  cy="13" r="2.2"/>
+                  <circle cx="16" cy="13" r="2.2"/>
+                  <path d="M10.2 13 h3.6"/>
+                  <rect x="5" y="7.5" width="14" height="2" rx="0.5" opacity="0.5"/>
+                </svg>
+              </div>
+            </div>
+
+            <h3 class="mod-card__title" data-i18n="mod01Title">VHS&nbsp;MovieClub</h3>
+            <p class="mod-card__desc" data-i18n="mod01Desc">
+              Curated cinema from the analog era. Stream degraded signals,
+              magnetic echoes, and forgotten cuts from the pre-digital archive.
+            </p>
+
+            <div class="mod-card__line" aria-hidden="true"></div>
+
+            <div class="mod-card__footer">
+              <div class="mod-card__run" aria-label="Run module">
+                <span class="mod-card__run-blink"></span>
+                <span>RUN MODULE</span>
+                <span class="mod-card__run-arrow">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 6h8M7 3l3 3-3 3"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="mod-card__tags" aria-label="Module tags">
+                <span class="mod-card__tag">CINEMA</span>
+                <span class="mod-card__tag">V/HS</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- ── MODULE 02 — Neon Invaders ─────────── -->
+        <a
+          class="mod-card mod-card--invaders"
+          href="/projects/neon-invaders/index.html"
+          role="listitem"
+          aria-label="Neon Invaders — Launch module"
+        >
+          <div class="mod-card__bg"        aria-hidden="true"></div>
+          <div class="mod-card__noise"     aria-hidden="true"></div>
+          <div class="mod-card__scanlines" aria-hidden="true"></div>
+          <div class="mod-card__scan-beam" aria-hidden="true"></div>
+          <div class="mod-card__holo"      aria-hidden="true"></div>
+          <div class="mod-card__corners"   aria-hidden="true"></div>
+          <div class="mod-card__accent-line" aria-hidden="true"></div>
+          <div class="mod-card__reflection"  aria-hidden="true"></div>
+
+          <div class="mod-card__body">
+            <div class="mod-card__header">
+              <span class="mod-card__slot">MOD://02</span>
+              <div class="mod-card__status" aria-label="Status: Stable">
+                <span class="mod-card__status-dot">
+                  <span class="mod-card__status-dot-ring"></span>
+                  <span class="mod-card__status-dot-inner"></span>
+                </span>
+                <span class="mod-card__status-label" data-i18n="mod02StatusLabel">STABLE</span>
+              </div>
+            </div>
+
+            <div class="mod-card__icon-wrap">
+              <div class="mod-card__icon">
+                <!-- arcade / invader icon -->
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 16 L3 20 h18 L19 16"/>
+                  <rect x="9" y="14" width="6" height="3"/>
+                  <rect x="6" y="10" width="12" height="5" rx="1"/>
+                  <rect x="4"  y="7" width="4" height="4"/>
+                  <rect x="16" y="7" width="4" height="4"/>
+                  <rect x="9" y="5" width="6" height="3" rx="0.5"/>
+                  <circle cx="9"  cy="12" r="0.8" fill="currentColor" stroke="none"/>
+                  <circle cx="15" cy="12" r="0.8" fill="currentColor" stroke="none"/>
+                </svg>
+              </div>
+            </div>
+
+            <h3 class="mod-card__title" data-i18n="mod02Title">Neon&nbsp;Invaders</h3>
+            <p class="mod-card__desc" data-i18n="mod02Desc">
+              Vector-rendered grid combat. Engage descending formations across
+              phosphor battlefields. High-score persistence. Infinite loops.
+            </p>
+
+            <div class="mod-card__line" aria-hidden="true"></div>
+
+            <div class="mod-card__footer">
+              <div class="mod-card__run" aria-label="Run module">
+                <span class="mod-card__run-blink"></span>
+                <span>RUN MODULE</span>
+                <span class="mod-card__run-arrow">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 6h8M7 3l3 3-3 3"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="mod-card__tags">
+                <span class="mod-card__tag">ARCADE</span>
+                <span class="mod-card__tag">GRID</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- ── MODULE 03 — Neon Cyber-Deck ──────── -->
+        <a
+          class="mod-card mod-card--cyberdeck"
+          href="/projects/neon-cyberdeck/index.html"
+          role="listitem"
+          aria-label="Neon Cyber-Deck — Launch module"
+        >
+          <div class="mod-card__bg"        aria-hidden="true"></div>
+          <div class="mod-card__noise"     aria-hidden="true"></div>
+          <div class="mod-card__scanlines" aria-hidden="true"></div>
+          <div class="mod-card__scan-beam" aria-hidden="true"></div>
+          <div class="mod-card__holo"      aria-hidden="true"></div>
+          <div class="mod-card__corners"   aria-hidden="true"></div>
+          <div class="mod-card__accent-line" aria-hidden="true"></div>
+          <div class="mod-card__reflection"  aria-hidden="true"></div>
+
+          <div class="mod-card__body">
+            <div class="mod-card__header">
+              <span class="mod-card__slot">MOD://03</span>
+              <div class="mod-card__status" aria-label="Status: Experimental">
+                <span class="mod-card__status-dot">
+                  <span class="mod-card__status-dot-ring" style="animation-duration:1.6s"></span>
+                  <span class="mod-card__status-dot-inner"></span>
+                </span>
+                <span class="mod-card__status-label" data-i18n="mod03StatusLabel">EXPERIMENTAL</span>
+              </div>
+            </div>
+
+            <div class="mod-card__icon-wrap">
+              <div class="mod-card__icon">
+                <!-- terminal / cyberdeck icon -->
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="2" y="4" width="20" height="14" rx="2"/>
+                  <path d="M6 20 h12"/>
+                  <path d="M12 18 v2"/>
+                  <path d="M7 9 l2.5 2.5 -2.5 2.5"/>
+                  <path d="M12 14 h5"/>
+                </svg>
+              </div>
+            </div>
+
+            <h3 class="mod-card__title" data-i18n="mod03Title">Neon&nbsp;Cyber&#8209;Deck</h3>
+            <p class="mod-card__desc" data-i18n="mod03Desc">
+              Unauthorized terminal access. Navigate encrypted nodes, decrypt
+              ghost packets, and breach the perimeter of forgotten systems.
+            </p>
+
+            <div class="mod-card__line" aria-hidden="true"></div>
+
+            <div class="mod-card__footer">
+              <div class="mod-card__run" aria-label="Run module">
+                <span class="mod-card__run-blink"></span>
+                <span>RUN MODULE</span>
+                <span class="mod-card__run-arrow">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 6h8M7 3l3 3-3 3"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="mod-card__tags">
+                <span class="mod-card__tag">HACK</span>
+                <span class="mod-card__tag">TERM</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- ── MODULE 04 — Neon Battleship (DEPLOYED) ── -->
+        <a
+          class="mod-card mod-card--battleship mod-card--naval"
+          href="/projects/neon-battleship/index.html"
+          role="listitem"
+          aria-label="Neon Battleship — Launch module"
+          id="card-battleship"
+        >
+          <!-- standard bg layer stack -->
+          <div class="mod-card__bg"          aria-hidden="true"></div>
+          <div class="mod-card__noise"       aria-hidden="true"></div>
+          <div class="mod-card__scanlines"   aria-hidden="true"></div>
+          <div class="mod-card__scan-beam"   aria-hidden="true"></div>
+          <div class="mod-card__holo"        aria-hidden="true"></div>
+          <div class="mod-card__corners"     aria-hidden="true"></div>
+          <div class="mod-card__accent-line" aria-hidden="true"></div>
+          <div class="mod-card__reflection"  aria-hidden="true"></div>
+
+          <!-- ── Naval-exclusive atmosphere layers ── -->
+          <!-- Radar sweep canvas -->
+          <canvas
+            class="bs-radar"
+            id="bs-radar-canvas"
+            width="180" height="180"
+            aria-hidden="true"
+          ></canvas>
+
+          <!-- Tactical grid overlay -->
+          <div class="bs-grid" aria-hidden="true"></div>
+
+          <!-- Sonar ripple rings -->
+          <div class="bs-sonar" aria-hidden="true">
+            <span class="bs-sonar__ring bs-sonar__ring--1"></span>
+            <span class="bs-sonar__ring bs-sonar__ring--2"></span>
+            <span class="bs-sonar__ring bs-sonar__ring--3"></span>
+          </div>
+
+          <!-- NEW DEPLOYMENT badge -->
+          <div class="bs-deploy-badge" aria-label="New deployment">
+            <span class="bs-deploy-badge__pip"></span>
+            <span class="bs-deploy-badge__text" data-i18n="mod04DeployBadge">NEW&nbsp;DEPLOYMENT</span>
+          </div>
+
+          <!-- Coordinate readout -->
+          <div class="bs-coords" aria-hidden="true">
+            <span class="bs-coords__label">GRID:&nbsp;</span>
+            <span class="bs-coords__val" id="bs-coords-val">G7·H4</span>
+          </div>
+
+          <!-- card body -->
+          <div class="mod-card__body">
+            <div class="mod-card__header">
+              <span class="mod-card__slot">MOD://04</span>
+              <div class="mod-card__status" aria-label="Status: Tactical online">
+                <span class="mod-card__status-dot">
+                  <span class="mod-card__status-dot-ring"></span>
+                  <span class="mod-card__status-dot-inner"></span>
+                </span>
+                <span class="mod-card__status-label" data-i18n="mod04StatusLabel">TACTICAL&nbsp;ONLINE</span>
+              </div>
+            </div>
+
+            <div class="mod-card__icon-wrap">
+              <div class="mod-card__icon bs-icon">
+                <!-- radar crosshair icon -->
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"/>
+                  <circle cx="12" cy="12" r="5" opacity="0.55"/>
+                  <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+                  <!-- crosshair ticks -->
+                  <path d="M12 3 v2.5"/>
+                  <path d="M12 18.5 v2.5"/>
+                  <path d="M3 12 h2.5"/>
+                  <path d="M18.5 12 h2.5"/>
+                  <!-- sweep arm -->
+                  <path class="bs-icon__sweep" d="M12 12 L19.5 5.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+
+            <h3 class="mod-card__title" data-i18n="mod04Title">Neon&nbsp;Battleship</h3>
+            <p class="mod-card__desc" data-i18n="mod04Desc">
+              Encrypted naval warfare across a cold radar grid. Track
+              hostile signatures, triangulate depth charges, and eliminate
+              enemy fleets before your coordinates are compromised.
+            </p>
+
+            <div class="mod-card__line" aria-hidden="true"></div>
+
+            <div class="mod-card__footer">
+              <div class="mod-card__run" aria-label="Run module">
+                <span class="mod-card__run-blink"></span>
+                <span>RUN MODULE</span>
+                <span class="mod-card__run-arrow">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 6h8M7 3l3 3-3 3"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="mod-card__tags">
+                <span class="mod-card__tag">RADAR</span>
+                <span class="mod-card__tag">TACTICAL</span>
+                <span class="mod-card__tag">NAVAL</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div><!-- /.modules__grid -->
+
+      <!-- Extended grid: MOD 05–06 -->
+      <div class="modules__grid modules__grid--extended" role="list">
+
+        <!-- ── MODULE 05 — Retro Signal Archive ──── -->
+        <a
+          class="mod-card mod-card--archive"
+          href="./projects/retro-signal-archive/index.html"
+          role="listitem"
+          aria-label="Retro Signal Archive — Open archive"
+        >
+          <div class="mod-card__bg"          aria-hidden="true"></div>
+          <div class="mod-card__noise"       aria-hidden="true"></div>
+          <div class="mod-card__scanlines"   aria-hidden="true"></div>
+          <div class="mod-card__scan-beam"   aria-hidden="true"></div>
+          <div class="mod-card__holo"        aria-hidden="true"></div>
+          <div class="mod-card__corners"     aria-hidden="true"></div>
+          <div class="mod-card__accent-line" aria-hidden="true"></div>
+          <div class="mod-card__reflection"  aria-hidden="true"></div>
+
+          <div class="mod-card__body">
+            <div class="mod-card__header">
+              <span class="mod-card__slot">MOD://05</span>
+              <div class="mod-card__status" aria-label="Status: Archived">
+                <span class="mod-card__status-dot">
+                  <span class="mod-card__status-dot-ring"></span>
+                  <span class="mod-card__status-dot-inner"></span>
+                </span>
+                <span class="mod-card__status-label" data-i18n="mod05StatusLabel">ARCHIVED</span>
+              </div>
+            </div>
+
+            <div class="mod-card__icon-wrap">
+              <div class="mod-card__icon">
+                <!-- VHS tape / archive icon -->
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <rect x="6" y="8" width="12" height="8" rx="1" opacity="0.4"/>
+                  <circle cx="8"  cy="14" r="2"/>
+                  <circle cx="16" cy="14" r="2"/>
+                  <path d="M10 14h4"/>
+                  <path d="M5 4v2M19 4v2"/>
+                </svg>
+              </div>
+            </div>
+
+            <h3 class="mod-card__title" data-i18n="mod05Title">Retro&nbsp;Signal&nbsp;Archive</h3>
+            <p class="mod-card__desc" data-i18n="mod05Desc">
+              Recovered visual fragments from a corrupted analog timeline.
+              Browse forgotten broadcasts and restored memory artifacts.
+            </p>
+
+            <div class="mod-card__line" aria-hidden="true"></div>
+
+            <div class="mod-card__footer">
+              <div class="mod-card__run" aria-label="Open archive">
+                <span class="mod-card__run-blink"></span>
+                <span data-i18n="mod05RunBtn">OPEN ARCHIVE</span>
+                <span class="mod-card__run-arrow">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 6h8M7 3l3 3-3 3"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="mod-card__tags">
+                <span class="mod-card__tag">ARCHIVE</span>
+                <span class="mod-card__tag">VHS</span>
+                <span class="mod-card__tag">DATA</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- ── MODULE 06 — Retro Wavecast ──────────── -->
+        <a
+          class="mod-card mod-card--wavecast"
+          href="./projects/retro-wavecast/index.html"
+          role="listitem"
+          aria-label="Retro Wavecast — Tune in"
+        >
+          <div class="mod-card__bg"          aria-hidden="true"></div>
+          <div class="mod-card__noise"       aria-hidden="true"></div>
+          <div class="mod-card__scanlines"   aria-hidden="true"></div>
+          <div class="mod-card__scan-beam"   aria-hidden="true"></div>
+          <div class="mod-card__holo"        aria-hidden="true"></div>
+          <div class="mod-card__corners"     aria-hidden="true"></div>
+          <div class="mod-card__accent-line" aria-hidden="true"></div>
+          <div class="mod-card__reflection"  aria-hidden="true"></div>
+
+          <div class="mod-card__body">
+            <div class="mod-card__header">
+              <span class="mod-card__slot">MOD://06</span>
+              <div class="mod-card__status" aria-label="Status: Live">
+                <span class="mod-card__status-dot">
+                  <span class="mod-card__status-dot-ring"></span>
+                  <span class="mod-card__status-dot-inner"></span>
+                </span>
+                <span class="mod-card__status-label" data-i18n="mod06StatusLabel">LIVE</span>
+              </div>
+            </div>
+
+            <div class="mod-card__icon-wrap">
+              <div class="mod-card__icon">
+                <!-- Radio wave / broadcast icon -->
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8.5 17.5a6 6 0 0 1 0-11"/>
+                  <path d="M15.5 17.5a6 6 0 0 0 0-11"/>
+                  <path d="M5 20.5a11 11 0 0 1 0-17"/>
+                  <path d="M19 20.5a11 11 0 0 0 0-17"/>
+                  <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+                </svg>
+              </div>
+            </div>
+
+            <h3 class="mod-card__title" data-i18n="mod06Title">Retro&nbsp;Wavecast</h3>
+            <p class="mod-card__desc" data-i18n="mod06Desc">
+              Continuous retro-wave transmission across the grid.
+              Late-night neon frequencies and analog signal drift.
+            </p>
+
+            <div class="mod-card__line" aria-hidden="true"></div>
+
+            <div class="mod-card__footer">
+              <div class="mod-card__run" aria-label="Tune in">
+                <span class="mod-card__run-blink"></span>
+                <span data-i18n="mod06RunBtn">TUNE IN</span>
+                <span class="mod-card__run-arrow">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 6h8M7 3l3 3-3 3"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="mod-card__tags">
+                <span class="mod-card__tag">RADIO</span>
+                <span class="mod-card__tag">FM</span>
+                <span class="mod-card__tag">SYNTH</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div><!-- /.modules__grid--extended -->
+
+      <!-- Section separator -->
+      <div class="container">
+        <div class="modules__separator">
+          <div class="modules__separator-line"></div>
+          <span class="modules__separator-icon" data-i18n="modulesSeparator">// END OF MODULE REGISTRY //</span>
+          <div class="modules__separator-line"></div>
+        </div>
+      </div>
+
+    </section><!-- /.modules -->
+
+    <!-- ── INCOMING SIGNALS ───────────────────────── -->
+    <section class="signals lower-atmosphere" id="signals" aria-label="Incoming Signals">
+      <div class="container">
+
+        <!-- Section intro -->
+        <div class="signals__intro">
+          <p class="signals__eyebrow" data-i18n="signalsEyebrow">TRANSMISSION&nbsp;//&nbsp;ADJACENT&nbsp;SECTORS</p>
+          <h2 class="signals__title" data-i18n="signalsTitle">Incoming Signals</h2>
+          <div class="signals__divider" aria-hidden="true"></div>
+          <p class="signals__subtitle" data-i18n="signalsSubtitle">Unstable transmissions detected from adjacent sectors.</p>
+        </div>
+
+        <!-- Terminal panel -->
+        <div class="signals__panel" role="region" aria-label="Signal diagnostics panel">
+
+          <!-- Fake terminal title bar -->
+          <div class="signals__panel-bar" aria-hidden="true">
+            <span class="signals__panel-title" data-i18n="signalsPanelTitle">DIAG://SIGNAL_REGISTRY&nbsp;—&nbsp;SECTOR_07</span>
+            <div class="signals__panel-dots">
+              <span class="signals__panel-dot"></span>
+              <span class="signals__panel-dot"></span>
+              <span class="signals__panel-dot"></span>
+            </div>
+          </div>
+
+          <!-- Signal list -->
+          <ul class="signals__list" role="list">
+
+            <!-- ROW 01 — Steampunk Tower Defense -->
+            <li class="sig-row sig-row--tower" role="listitem" aria-label="Steampunk Tower Defense — Unstable">
+
+              <!-- signal strength bars -->
+              <div class="sig-row__indicator" aria-hidden="true">
+                <span class="sig-bar"></span>
+                <span class="sig-bar"></span>
+                <span class="sig-bar"></span>
+              </div>
+
+              <!-- module info -->
+              <div class="sig-row__info">
+                <span class="sig-row__name" data-i18n="sig01Name">Steampunk&nbsp;Tower&nbsp;Defense</span>
+                <span class="sig-row__desc" data-i18n="sig01Desc">Analogue fortifications against the machine uprising. Victorian-era combat protocols.</span>
+              </div>
+
+              <!-- progress -->
+              <div class="sig-row__progress" aria-label="Signal load: 38%">
+                <div class="sig-row__progress-track">
+                  <div class="sig-row__progress-fill" style="--prog-target:38%"></div>
+                </div>
+                <div class="sig-row__progress-label">
+                  <span class="sig-row__pct" data-i18n="sigLoadLabel">LOAD</span>
+                  <span class="sig-row__pct-val">38%</span>
+                </div>
+              </div>
+
+              <!-- status -->
+              <div class="sig-row__status" aria-label="Status: Unstable">
+                <span class="sig-row__status-pip"></span>
+                <span class="sig-row__status-text" data-i18n="sig01Status">UNSTABLE</span>
+              </div>
+            </li>
+
+            <!-- ROW 02 — Synthwave Racer -->
+            <li class="sig-row sig-row--racer" role="listitem" aria-label="Synthwave Racer — Scanning">
+
+              <div class="sig-row__indicator" aria-hidden="true">
+                <span class="sig-bar"></span>
+                <span class="sig-bar"></span>
+                <span class="sig-bar"></span>
+              </div>
+
+              <div class="sig-row__info">
+                <span class="sig-row__name" data-i18n="sig02Name">Synthwave&nbsp;Racer</span>
+                <span class="sig-row__desc" data-i18n="sig02Desc">High-velocity grid pursuit across infinite neon horizons. Velocity exceeds known limits.</span>
+              </div>
+
+              <div class="sig-row__progress" aria-label="Signal load: 61%">
+                <div class="sig-row__progress-track">
+                  <div class="sig-row__progress-fill" style="--prog-target:61%"></div>
+                </div>
+                <div class="sig-row__progress-label">
+                  <span class="sig-row__pct" data-i18n="sigLoadLabel">LOAD</span>
+                  <span class="sig-row__pct-val">61%</span>
+                </div>
+              </div>
+
+              <div class="sig-row__status" aria-label="Status: Scanning">
+                <span class="sig-row__status-pip" style="animation-duration:1.6s"></span>
+                <span class="sig-row__status-text" data-i18n="sig02Status">SCANNING</span>
+              </div>
+            </li>
+
+            <!-- ROW 03 — Terminal Runner -->
+            <li class="sig-row sig-row--runner" role="listitem" aria-label="Terminal Runner — Unknown Signal">
+
+              <div class="sig-row__indicator" aria-hidden="true">
+                <span class="sig-bar"></span>
+                <span class="sig-bar"></span>
+                <span class="sig-bar"></span>
+              </div>
+
+              <div class="sig-row__info">
+                <span class="sig-row__name" data-i18n="sig03Name">Terminal&nbsp;Runner</span>
+                <span class="sig-row__desc" data-i18n="sig03Desc">Source unverified. Procedural escape across hostile command-line terrain. Decrypt to proceed.</span>
+              </div>
+
+              <div class="sig-row__progress" aria-label="Signal load: 22%">
+                <div class="sig-row__progress-track">
+                  <div class="sig-row__progress-fill" style="--prog-target:22%"></div>
+                </div>
+                <div class="sig-row__progress-label">
+                  <span class="sig-row__pct" data-i18n="sigLoadLabel">LOAD</span>
+                  <span class="sig-row__pct-val">22%</span>
+                </div>
+              </div>
+
+              <div class="sig-row__status" aria-label="Status: Unknown signal">
+                <span class="sig-row__status-pip" style="animation-duration:3.2s"></span>
+                <span class="sig-row__status-text" data-i18n="sig03Status">UNKNOWN&nbsp;SIG</span>
+              </div>
+            </li>
+
+          </ul><!-- /.signals__list -->
+
+          <!-- Panel footer -->
+          <div class="signals__panel-footer" aria-hidden="true">
+            <span class="signals__panel-footer-text" data-i18n="signalsPanelFooter">3&nbsp;SIGNALS&nbsp;DETECTED&nbsp;//&nbsp;SECTOR_07&nbsp;//&nbsp;CLEARANCE&nbsp;PENDING</span>
+            <span class="signals__panel-footer-hash">0x4R7C·F2A9·B001</span>
+          </div>
+
+        </div><!-- /.signals__panel -->
+
+      </div><!-- /.container -->
+    </section><!-- /.signals -->
+
+    <!-- ── SIGNAL ANOMALY — UNKNOWN SECTOR ───────────── -->
+    <section class="unknown-sector" id="unknown-sector" aria-label="Signal Anomaly Detected">
+      <div class="container">
+
+        <!-- Separator trace -->
+        <div class="unknown-sector__sep" aria-hidden="true">
+          <div class="unknown-sector__sep-line"></div>
+          <span class="unknown-sector__sep-label">// ANOMALOUS SIGNAL //</span>
+          <div class="unknown-sector__sep-line"></div>
+        </div>
+
+        <!-- Main panel -->
+        <div class="us-panel" role="region" aria-label="Unknown sector signal panel">
+          <div class="us-panel__noise" aria-hidden="true"></div>
+          <div class="us-panel__signal-line" aria-hidden="true"></div>
+
+          <!-- Title bar -->
+          <div class="us-panel__bar" aria-hidden="true">
+            <span class="us-panel__bar-id">DIAG://SIGNAL_MATRIX&nbsp;—&nbsp;ANOMALY_DETECTED</span>
+            <span class="us-panel__bar-hash">0x??·????·????</span>
+          </div>
+
+          <!-- Body -->
+          <div class="us-panel__body">
+
+            <!-- Left: content -->
+            <div class="us-panel__content">
+
+              <!-- Eyebrow -->
+              <div class="us-panel__eyebrow">
+                <div class="us-panel__pip-wrap" aria-hidden="true">
+                  <span class="us-panel__pip-ring"></span>
+                  <span class="us-panel__pip"></span>
+                </div>
+                <span>UNKNOWN SECTOR</span>
+              </div>
+
+              <!-- Title -->
+              <h2 class="us-panel__title" data-i18n="unknownSectorTitle">
+                SIGNAL ANOMALY DETECTED
+              </h2>
+
+              <!-- Description -->
+              <p class="us-panel__desc" data-i18n="unknownSectorDesc">
+                An unidentified network branch has been detected outside standard RETROCORE infrastructure.
+                Source classification: UNKNOWN.&nbsp;&nbsp;Status: MONITORING.
+              </p>
+
+              <!-- Metadata -->
+              <div class="us-panel__meta" aria-label="Signal metadata" role="list">
+                <div class="us-panel__meta-item" role="listitem">
+                  <span class="us-panel__meta-key">NODE</span>
+                  <span class="us-panel__meta-val">UNKNOWN</span>
+                </div>
+                <div class="us-panel__meta-item" role="listitem">
+                  <span class="us-panel__meta-key">ORIGIN</span>
+                  <span class="us-panel__meta-val">UNRESOLVED</span>
+                </div>
+                <div class="us-panel__meta-item" role="listitem">
+                  <span class="us-panel__meta-key">CLEARANCE</span>
+                  <span class="us-panel__meta-val">RESTRICTED</span>
+                </div>
+                <div class="us-panel__meta-item" role="listitem">
+                  <span class="us-panel__meta-key">STATUS</span>
+                  <span class="us-panel__meta-val us-panel__meta-val--blink">MONITORING</span>
+                </div>
+              </div>
+
+              <!-- CTA -->
+              <div class="us-panel__actions">
+                <a
+                  href="./projects/unknown-retrocore/index.html"
+                  class="us-panel__btn"
+                  aria-label="Access the Unknown Sector"
+                >
+                  <span data-i18n="unknownSectorBtn">ACCESS UNKNOWN SECTOR</span>
+                  <span class="us-panel__btn-arrow" aria-hidden="true">
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M2 6.5h9M8 3l4 3.5L8 10"/>
+                    </svg>
+                  </span>
+                </a>
+              </div>
+
+            </div><!-- /.us-panel__content -->
+
+            <!-- Right: ghost radar -->
+            <div class="us-panel__radar-wrap" aria-hidden="true">
+              <canvas id="us-radar-canvas" aria-hidden="true"></canvas>
+              <div class="us-panel__radar-corners"></div>
+            </div>
+
+          </div><!-- /.us-panel__body -->
+
+          <!-- Bottom strip -->
+          <div class="us-panel__strip" aria-hidden="true">
+            <span class="us-panel__strip-text">SECTOR_ID: ██████ &nbsp;//&nbsp; FREQ: ???.?? MHz &nbsp;//&nbsp; LAST_SEEN: [TIMESTAMP CORRUPTED]</span>
+            <span class="us-panel__strip-coords">COORDS: ??°??'N &nbsp;???°??'E</span>
+          </div>
+
+        </div><!-- /.us-panel -->
+
+      </div><!-- /.container -->
+    </section><!-- /.unknown-sector -->
+
+  </main><!-- /#main -->
+
+  <!-- ── FOOTER TERMINAL PANEL ──────────────────────── -->
+  <footer class="footer" role="contentinfo" aria-label="System footer">
+    <div class="footer__noise" aria-hidden="true"></div>
+    <div class="footer__separator" aria-hidden="true"></div>
+
+    <div class="footer__main">
+      <div class="container">
+        <div class="footer__grid">
+
+          <!-- LEFT: System status -->
+          <div class="footer__left">
+
+            <div class="footer__sys-status" aria-label="System status: Online">
+              <div style="position:relative;width:8px;height:8px;flex-shrink:0">
+                <span class="footer__sys-ring"></span>
+                <span class="footer__sys-dot"></span>
+              </div>
+              <span class="footer__sys-label" data-i18n="footerSysStatus">SYSTEM&nbsp;STATUS:&nbsp;ONLINE</span>
+            </div>
+
+            <!-- Micro waveform -->
+            <div class="footer__waveform" aria-hidden="true">
+              <span class="footer__wave-bar"></span>
+              <span class="footer__wave-bar"></span>
+              <span class="footer__wave-bar"></span>
+              <span class="footer__wave-bar"></span>
+              <span class="footer__wave-bar"></span>
+              <span class="footer__wave-bar"></span>
+              <span class="footer__wave-bar"></span>
+              <span class="footer__wave-bar"></span>
+              <span class="footer__wave-bar"></span>
+            </div>
+
+            <!-- Diagnostic readout -->
+            <div class="footer__diag" aria-hidden="true">
+              <div class="footer__diag-line">
+                <span class="footer__diag-key">UPTIME</span>
+                <span>94:17:33</span>
+              </div>
+              <div class="footer__diag-line">
+                <span class="footer__diag-key">NOISE</span>
+                <span>−88&nbsp;dBm</span>
+              </div>
+              <div class="footer__diag-line">
+                <span class="footer__diag-key">SIGNAL</span>
+                <span>CHANNEL&nbsp;94</span>
+              </div>
+            </div>
+
+          </div><!-- /.footer__left -->
+
+          <!-- CENTER: Logo + Socials -->
+          <div class="footer__center">
+
+            <div class="footer__logo" aria-label="Retrocore Hub">
+              RETROCORE://HUB
+            </div>
+
+            <nav class="footer__socials" aria-label="Social links">
+
+              <!-- Telegram -->
+              <a
+                href="#"
+                class="footer__social-btn footer__social-btn--tg"
+                aria-label="Telegram"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M21.2 4.4L3.1 11.2c-1.2.5-1.2 1.2-.2 1.5l4.6 1.4 1.8 5.4c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.2-2.1 4.5 3.3c.8.5 1.4.2 1.6-.7L22 5.5c.3-1.2-.4-1.7-1-1.3z"/>
+                </svg>
+              </a>
+
+              <!-- Facebook -->
+              <a
+                href="#"
+                class="footer__social-btn footer__social-btn--fb"
+                aria-label="Facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+              </a>
+
+              <!-- Instagram -->
+              <a
+                href="#"
+                class="footer__social-btn footer__social-btn--ig"
+                aria-label="Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+                </svg>
+              </a>
+
+            </nav>
+
+            <span class="footer__social-label" data-i18n="footerSocialLabel">CONNECT&nbsp;//&nbsp;BROADCAST</span>
+
+          </div><!-- /.footer__center -->
+
+          <!-- RIGHT: Copyright -->
+          <div class="footer__right">
+
+            <span class="footer__copyright" data-i18n="footerCopyright">© RETROCORE SYSTEMS 2089</span>
+            <span class="footer__tagline" data-i18n="footerTagline">"Vintage signals persist."</span>
+
+            <div class="footer__vhs-stamp" aria-hidden="true" id="footer-timestamp">
+              00:00:00&nbsp;&nbsp;01/01/2089
+            </div>
+
+            <div class="footer__rec" aria-hidden="true">
+              <span class="footer__rec-dot"></span>
+              <span class="footer__rec-text">REC&nbsp;//&nbsp;ARCHIVE&nbsp;ACTIVE</span>
+            </div>
+
+          </div><!-- /.footer__right -->
+
+        </div><!-- /.footer__grid -->
+      </div><!-- /.container -->
+    </div><!-- /.footer__main -->
+
+    <!-- Bottom system bar -->
+    <div class="footer__bottom">
+      <div class="container">
+        <div class="footer__bottom-inner" aria-hidden="true">
+          <span class="footer__coords">GEO:&nbsp;48°52'N&nbsp;024°43'E&nbsp;//&nbsp;NODE_94</span>
+          <span class="footer__hash">SHA:&nbsp;4R7CF2A9·B001E882·0C3D·F19A</span>
+          <span class="footer__ver">BUILD&nbsp;v0.3.0&nbsp;//&nbsp;CORE_STABLE</span>
+        </div>
+      </div>
+    </div>
+
+  </footer><!-- /.footer -->
+
+  <!-- ── JS Module ──────────────────────────────── -->
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/immersion.js"></script>
+  <script type="module" src="js/systems/platform.js"></script>
+  <script type="module">
+    import { initBattleship }     from './js/systems/battleship.js';
+    import { initMiniPlayer }     from './js/systems/mini-player.js';
+    import { initSignalAI }       from './js/systems/signal-ai.js';
+    import { initUnknownSector }  from './js/systems/unknown-sector.js';
+    function run() {
+      initBattleship();
+      initMiniPlayer();
+      initSignalAI();
+      initUnknownSector();
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run, { once: true });
+    } else {
+      run();
+    }
+  </script>
+
+</body>
+</html>

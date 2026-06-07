@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON BATTLESHIP // RETROCORE://HUB</title>
+    
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Загрузочный экран -->
+        <div id="boot-screen">
+            <div id="terminal-output"></div>
+            <button id="boot-skip-btn" class="boot-skip">SKIP >> </button>
+        </div>
+
+        <!-- Основной игровой интерфейс (изначально скрыт) -->
+        <div id="game-ui" class="hidden">
+            <header class="ui-header">
+                <span class="sys-tag">RETROCORE://NAV-CMD</span>
+                <h1 class="main-title">NEON BATTLESHIP</h1>
+                <span class="sys-tag" id="system-clock">00:00:00</span>
+            </header>
+
+            <main class="tactical-layout">
+                <!-- Левая панель (Статус игрока) -->
+                <aside class="side-panel panel-left">
+                    <div class="panel-block">
+                        <h3 class="panel-title">FLEET STATUS</h3>
+                        <div id="player-fleet-status" class="status-list"></div>
+                    </div>
+                </aside>
+
+                <!-- Сетка Игрока -->
+                <section class="grid-container" id="player-grid-container">
+                    <h2 class="grid-label">FRIENDLY WATERS</h2>
+                    <div class="grid-board" id="player-board"></div>
+                </section>
+
+                <!-- Центральный информатор -->
+                                <section class="center-info">
+                    <!-- Индикатор чей ход -->
+                    <div id="turn-indicator" class="turn-player">YOUR TURN</div>
+                    
+                    <!-- Радар -->
+                    <div class="radar-scope" id="radar-mini">
+                        <div class="radar-ring ring-1"></div>
+                        <div class="radar-ring ring-2"></div>
+                        <div class="radar-sweep"></div>
+                        <div class="radar-dot"></div>
+                    </div>
+                    
+                    <!-- Терминал -->
+                    <div class="message-terminal" id="battle-messages">
+                        <p class="msg-line">> AWAITING TARGET COORDINATES...</p>
+                    </div>
+                </section>
+
+                <!-- Сетка Врага -->
+                <section class="grid-container" id="enemy-grid-container">
+                    <h2 class="grid-label enemy-label">HOSTILE WATERS</h2>
+                    <div class="grid-board" id="enemy-board"></div>
+                </section>
+
+                <!-- Правая панель (Диагностика) -->
+                <aside class="side-panel panel-right">
+                    <div class="panel-block">
+                        <h3 class="panel-title">SIGNAL INTEL</h3>
+                        <div id="signal-data" class="status-list">
+                            <p>FREQ: 4.22 GHz</p>
+                            <p>ENCRYPTION: AES-512</p>
+                            <p>THREAT LVL: <span class="text-red">HIGH</span></p>
+                        </div>
+                    </div>
+                </aside>
+            </main>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

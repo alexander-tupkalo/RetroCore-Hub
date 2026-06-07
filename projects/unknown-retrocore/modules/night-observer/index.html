@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NIGHT OBSERVER — RETROCORE://UNKNOWN_SECTOR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <svg class="sr-only" aria-hidden="true">
+    <filter id="grain-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </svg>
+
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="grain-overlay" aria-hidden="true"></div>
+  <div class="flicker-overlay" aria-hidden="true"></div>
+
+  <div class="observer-layout">
+
+    <header class="observer-header">
+      <div class="observer-title" data-i18n="observer.title">NIGHT OBSERVER</div>
+      <div class="observer-subline" data-i18n="observer.subline">REMOTE OBSERVATION NODE 07</div>
+    </header>
+
+    <div class="observer-grid">
+
+      <div class="radar-container">
+        <canvas id="observer-radar"></canvas>
+        <div class="radar-status" id="radar-status">
+          <span id="radar-status-text" data-i18n="observer.scanning">SCANNING&#8230;</span>
+        </div>
+        <div class="audio-indicator" id="audio-indicator" aria-hidden="true">
+          <span class="audio-indicator-dot"></span>
+          <span class="audio-indicator-label" data-i18n="observer.audio.active">AUDIO ACTIVE</span>
+        </div>
+        <div class="anomaly-alert" id="anomaly-alert">
+          <div class="alert-content">
+            <div class="alert-header">
+              <span class="alert-dot" aria-hidden="true"></span>
+              <span class="alert-header-text" id="alert-header-text" data-i18n="observer.anomalyDetected">CONTACT DETECTED</span>
+            </div>
+            <div class="analysis-grid" id="analysis-grid">
+              <div class="analysis-item">
+                <span class="analysis-label" data-i18n="observer.analysis.signalType">SIGNAL TYPE:</span>
+                <span class="analysis-value" id="av-signal-type"></span>
+              </div>
+              <div class="analysis-item">
+                <span class="analysis-label" data-i18n="observer.analysis.trajectory">TRAJECTORY:</span>
+                <span class="analysis-value" id="av-trajectory"></span>
+              </div>
+              <div class="analysis-item">
+                <span class="analysis-label" data-i18n="observer.analysis.signalStrength">SIGNAL STRENGTH:</span>
+                <span class="analysis-value" id="av-signal-strength"></span>
+              </div>
+              <div class="analysis-item">
+                <span class="analysis-label" data-i18n="observer.analysis.movement">MOVEMENT:</span>
+                <span class="analysis-value" id="av-movement"></span>
+              </div>
+            </div>
+          </div>
+          <div class="alert-actions" id="alert-actions">
+            <button class="alert-btn" id="btn-confirm" data-i18n="observer.confirm">CONFIRM ANOMALY</button>
+            <button class="alert-btn alert-btn--dismiss" id="btn-dismiss" data-i18n="observer.dismiss">DISMISS CONTACT</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel">
+
+        <div class="status-block">
+          <div class="status-line">
+            <span class="status-label" data-i18n="observer.nodeStatus">NODE STATUS:</span>
+            <span class="status-value status-value--green">
+              <span class="status-dot-inline status-dot-inline--green" aria-hidden="true"></span>
+              <span data-i18n="observer.online">ONLINE</span>
+            </span>
+          </div>
+          <div class="status-line">
+            <span class="status-label" data-i18n="observer.radarStatus">RADAR STATUS:</span>
+            <span class="status-value status-value--green" data-i18n="observer.active">ACTIVE</span>
+          </div>
+          <div class="status-line">
+            <span class="status-label" data-i18n="observer.confirmedLabel">CONFIRMED ANOMALIES:</span>
+            <span class="status-value status-value--count" id="confirmed-count">0</span>
+          </div>
+          <div class="status-line">
+            <span class="status-label" data-i18n="observer.sessionLabel">SESSION ID:</span>
+            <span class="status-value status-value--id" id="session-id">NO-07------</span>
+          </div>
+        </div>
+
+        <div class="audio-panel">
+          <div class="audio-panel-title" data-i18n="observer.audio.title">AUDIO SYSTEM</div>
+          <div class="audio-panel-line">
+            <span class="audio-panel-label" data-i18n="observer.audio.status">AUDIO STATUS:</span>
+            <span class="audio-panel-value audio-status--online" id="audio-status-value" data-i18n="observer.audio.online">ONLINE</span>
+          </div>
+          <div class="audio-panel-controls">
+            <input type="range" min="0" max="100" value="35" class="audio-slider" id="audio-volume" aria-label="Volume">
+            <button class="audio-mute-btn" id="audio-mute" type="button" data-i18n="observer.audio.mute">MUTE</button>
+          </div>
+        </div>
+
+        <div class="log-block">
+          <div class="log-title" data-i18n="observer.logTitle">OBSERVATION LOG</div>
+          <div class="log-entries" id="log-entries"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <footer class="observer-footer">
+      <a href="../../index.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">&larr;</span>
+        <span data-i18n="observer.back">RETURN TO UNKNOWN_SECTOR</span>
+      </a>
+      <div class="lang-switch" role="group" aria-label="Language selector">
+        <button class="lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
+        <span class="lang-sep" aria-hidden="true">/</span>
+        <button class="lang-btn" data-lang="ua" data-i18n="lang.ua">UA</button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

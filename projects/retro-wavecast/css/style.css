@@ -1,0 +1,516 @@
+/* css/style.css */
+/* ============================================
+   RETROCORE://WAVECAST — Foundation Styles
+   Reset, variables, base layout, typography
+   ============================================ */
+
+/* --- Design Tokens --- */
+:root {
+  /* Backgrounds */
+  --bg-void:       #06080d;
+  --bg-primary:    #0a0d14;
+  --bg-secondary:  #0e1119;
+  --bg-tertiary:   #131720;
+  --bg-elevated:   #181c27;
+  --bg-surface:    #1d2230;
+
+  /* Text */
+  --text-bright:   #e2e4ea;
+  --text-primary:  #b8bbc5;
+  --text-secondary:#6b7084;
+  --text-muted:    #353a4a;
+  --text-dim:      #222639;
+
+  /* Accents */
+  --accent-cyan:   #4fd1c5;
+  --accent-pink:   #c9486b;
+  --accent-cyan-15:rgba(79,209,197,0.15);
+  --accent-cyan-08:rgba(79,209,197,0.08);
+  --accent-pink-10:rgba(201,72,107,0.10);
+
+  /* Glows */
+  --glow-cyan:     rgba(79,209,197,0.25);
+  --glow-cyan-soft:rgba(79,209,197,0.10);
+  --glow-pink:     rgba(201,72,107,0.15);
+
+  /* Borders */
+  --border-subtle: rgba(255,255,255,0.035);
+  --border-faint:  rgba(255,255,255,0.02);
+  --border-accent: rgba(79,209,197,0.12);
+
+  /* Glass */
+  --glass-bg:      rgba(14,17,25,0.88);
+  --glass-border:  rgba(255,255,255,0.05);
+  --glass-highlight:rgba(255,255,255,0.018);
+
+  /* Typography */
+  --font-mono:     'Space Mono', 'Courier New', monospace;
+  --font-display:  'Orbitron', 'Segoe UI', sans-serif;
+
+  /* Spacing scale */
+  --sp-2:  2px;
+  --sp-4:  4px;
+  --sp-6:  6px;
+  --sp-8:  8px;
+  --sp-12: 12px;
+  --sp-16: 16px;
+  --sp-20: 20px;
+  --sp-24: 24px;
+  --sp-32: 32px;
+  --sp-40: 40px;
+  --sp-48: 48px;
+  --sp-64: 64px;
+
+  /* Radii */
+  --r-xs: 1px;
+  --r-sm: 2px;
+  --r-md: 4px;
+  --r-lg: 8px;
+
+  /* Transitions */
+  --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-linear: linear;
+  --dur-slow:    0.7s;
+  --dur-med:     0.35s;
+  --dur-fast:    0.15s;
+  --t-slow:      var(--dur-slow) var(--ease-out);
+  --t-med:       var(--dur-med) var(--ease-out);
+  --t-fast:      var(--dur-fast) var(--ease-linear);
+}
+
+/* --- Reset --- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  color: var(--text-primary);
+  background: var(--bg-void);
+  line-height: 1.5;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  cursor: default;
+  user-select: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  outline: none;
+}
+
+button:focus-visible {
+  outline: 1px solid var(--accent-cyan);
+  outline-offset: 2px;
+}
+
+/* Hidden SVG filter container */
+.svg-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* --- System Container (fullscreen OS shell) --- */
+.system {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 45%, rgba(14,18,28,1) 0%, var(--bg-void) 100%),
+    var(--bg-void);
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* --- System Header --- */
+.sys-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-12) var(--sp-24);
+  border-bottom: 1px solid var(--border-faint);
+  flex-shrink: 0;
+  height: 48px;
+}
+
+.sys-header__block {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-8);
+}
+
+.sys-header__prompt {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+}
+
+.sys-header__status {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.sys-header__clock {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Status indicator dot */
+.sys-indicator {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sys-indicator--active {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 6px var(--glow-cyan-soft);
+  animation: indicator-pulse 3s var(--ease-linear) infinite;
+}
+
+.sys-indicator--ok {
+  background: var(--accent-cyan);
+  opacity: 0.6;
+}
+
+/* --- Main Content Area --- */
+.sys-main {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-40);
+  padding: var(--sp-24);
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* --- System Footer --- */
+.sys-footer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-8) var(--sp-24);
+  border-top: 1px solid var(--border-faint);
+  flex-shrink: 0;
+  height: 36px;
+}
+
+.sys-footer__block {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+}
+
+.sys-footer__text {
+  font-size: 9px;
+  letter-spacing: 0.10em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+  .sys-main {
+    flex-direction: column;
+    gap: var(--sp-24);
+    overflow-y: auto;
+    padding: var(--sp-16);
+  }
+}
+
+@media (max-width: 600px) {
+  .sys-header {
+    padding: var(--sp-8) var(--sp-12);
+  }
+  .sys-header__prompt {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+  .sys-footer {
+    padding: var(--sp-6) var(--sp-12);
+  }
+  .sys-footer__text {
+    font-size: 8px;
+  }
+  .sys-main {
+    padding: var(--sp-12);
+    gap: var(--sp-16);
+  }
+}
+
+/* ========== APPEND TO css/style.css ========== */
+
+/* Status indicator — paused state */
+.sys-indicator--paused {
+  opacity: 0.3;
+  animation: none;
+}
+
+/* Status indicator — signal lost state */
+.sys-indicator--lost {
+  background: var(--accent-pink);
+  box-shadow: 0 0 8px var(--glow-pink);
+  animation: indicator-pulse 1.4s var(--ease-linear) infinite;
+}
+
+/* ========== APPEND TO style.css ========== */
+
+/* Status indicator — paused */
+.sys-indicator--paused {
+  opacity: 0.3;
+  animation: none;
+}
+
+/* Status indicator — signal lost */
+.sys-indicator--lost {
+  background: var(--accent-pink);
+  box-shadow: 0 0 8px var(--glow-pink);
+  animation: indicator-pulse 1.4s var(--ease-linear) infinite;
+}
+
+/* Ambient glow layer — controlled by system state */
+.ambient-glow {
+  opacity: 0.65;
+  transition: opacity 4s var(--ease-out);
+}
+
+/* Glow intensifies during live transmission */
+.system--transmitting .ambient-glow {
+  opacity: 1;
+}
+
+/* Subtle system-level transition for all VHS effects */
+.system {
+  transition: filter 0.3s var(--ease-linear);
+}
+
+/* ========== HUB Transition Overlay ========== */
+.hub-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-void);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease-out);
+}
+
+.hub-transition--active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.hub-transition__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-24);
+}
+
+.hub-transition__line {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-cyan),
+    transparent
+  );
+  opacity: 0.4;
+  transition: width 0.8s var(--ease-out);
+}
+
+.hub-transition--active .hub-transition__line--1 {
+  width: 280px;
+  transition-delay: 0.1s;
+}
+
+.hub-transition--active .hub-transition__line--2 {
+  width: 280px;
+  transition-delay: 0.2s;
+}
+
+.hub-transition__msg {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--accent-cyan);
+  opacity: 0;
+  text-shadow: 0 0 20px var(--glow-cyan-soft);
+  transition: opacity 0.4s var(--ease-out);
+  min-height: 16px;
+}
+
+.hub-transition__msg--visible {
+  opacity: 0.85;
+}
+
+/* ========== Radio System States ========== */
+.sys-indicator--on-air {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--glow-cyan);
+  animation: indicator-pulse 2s var(--ease-linear) infinite;
+}
+
+.sys-indicator--station-id {
+  background: var(--accent-pink);
+  box-shadow: 0 0 6px var(--glow-pink);
+  animation: indicator-pulse 1.2s var(--ease-linear) infinite;
+}
+
+.sys-indicator--paused {
+  opacity: 0.3;
+  animation: none;
+}
+
+.sys-indicator--lost {
+  background: var(--accent-pink);
+  box-shadow: 0 0 8px var(--glow-pink);
+  animation: indicator-pulse 1.4s var(--ease-linear) infinite;
+}
+
+/* ========== FONT SIZE BOOST ========== */
+.sys-header__prompt  { font-size: 12px !important; }
+.sys-header__status  { font-size: 11px !important; }
+.sys-header__clock   { font-size: 12px !important; }
+
+.track-info__title   { font-size: 17px !important; }
+.track-info__artist  { font-size: 12px !important; }
+.track-info__album   { font-size: 11px !important; }
+.track-info__freq    { font-size: 9px !important; }
+
+.freq-display__value { font-size: 18px !important; }
+.freq-display__unit  { font-size: 10px !important; }
+.freq-display__fm    { font-size: 11px !important; }
+
+.progress__time      { font-size: 11px !important; }
+.volume__label       { font-size: 10px !important; }
+.volume__value       { font-size: 11px !important; }
+
+.playlist__title     { font-size: 11px !important; }
+.playlist__count     { font-size: 10px !important; }
+
+.radio-section__label { font-size: 9px !important; }
+.radio-item__num      { font-size: 10px !important; }
+.radio-item__name     { font-size: 12px !important; }
+.radio-item__artist   { font-size: 10px !important; }
+.radio-item__era      { font-size: 8px !important; }
+.radio-section__empty { font-size: 10px !important; }
+
+.sys-message__text    { font-size: 10px !important; }
+.sys-footer__text     { font-size: 10px !important; }
+.cover__disc          { font-size: 10px !important; }
+.cover__num           { font-size: 13px !important; }
+
+.track-info__title--jingle { font-size: 14px !important; }
+
+/* ========== CONTRAST BOOST ========== */
+
+/* Lighten the void background slightly */
+.system {
+  background: radial-gradient(ellipse 80% 60% at 50% 45%, #111520 0%, #0b0e16 100%) !important;
+}
+
+/* Header — prompt, status, clock */
+.sys-header__prompt {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+  color: #c0c4d0 !important;
+}
+
+.sys-header__status {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+  color: #a0a5b8 !important;
+}
+
+.sys-header__clock {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.10em !important;
+  color: #c0c4d0 !important;
+}
+
+/* Header indicator dots — brighter */
+.sys-indicator--active {
+  box-shadow: 0 0 10px rgba(79,209,197,0.5) !important;
+}
+
+.sys-indicator--on-air {
+  box-shadow: 0 0 12px rgba(79,209,197,0.6) !important;
+}
+
+.sys-indicator--ok {
+  opacity: 0.9 !important;
+  box-shadow: 0 0 6px rgba(79,209,197,0.3) !important;
+}
+
+/* Header border — slightly visible */
+.sys-header {
+  border-bottom-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Footer — all text */
+.sys-footer__text {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  color: #8085a0 !important;
+}
+
+/* Footer border */
+.sys-footer {
+  border-top-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Footer indicator */
+.sys-footer .sys-indicator--ok {
+  width: 7px !important;
+  height: 7px !important;
+}

@@ -1,0 +1,601 @@
+/* RETROCORE://HUB — animations.css */
+
+/* ── LOGO PULSE ──────────────────────────────────────── */
+@keyframes logoPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 6px rgba(0, 229, 255, 0.5),
+      0 0 18px rgba(0, 229, 255, 0.25),
+      0 0 40px rgba(0, 229, 255, 0.08);
+    opacity: 1;
+  }
+  45% {
+    text-shadow:
+      0 0 10px rgba(0, 229, 255, 0.7),
+      0 0 28px rgba(0, 229, 255, 0.35),
+      0 0 60px rgba(0, 229, 255, 0.12);
+    opacity: 0.97;
+  }
+  50% {
+    text-shadow:
+      0 0 4px rgba(0, 229, 255, 0.3),
+      0 0 12px rgba(0, 229, 255, 0.14);
+    opacity: 0.92;
+  }
+}
+
+/* ── CRT FLICKER ─────────────────────────────────────── */
+@keyframes crtFlicker {
+  0%   { opacity: 1; }
+  2%   { opacity: 0.94; }
+  4%   { opacity: 1; }
+  19%  { opacity: 1; }
+  20%  { opacity: 0.97; }
+  21%  { opacity: 1; }
+  56%  { opacity: 1; }
+  57%  { opacity: 0.91; }
+  58%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* ── VHS GLITCH SHIFT ────────────────────────────────── */
+@keyframes vhsShift {
+  0%    { transform: translate(0, 0) skewX(0deg); }
+  2%    { transform: translate(-1px, 0) skewX(-0.3deg); }
+  3%    { transform: translate(1px, 0) skewX(0.3deg); }
+  4%    { transform: translate(0, 0) skewX(0deg); }
+  97%   { transform: translate(0, 0) skewX(0deg); }
+  98%   { transform: translate(1px, 0) skewX(0.2deg); }
+  99%   { transform: translate(-1px, 0) skewX(-0.2deg); }
+  100%  { transform: translate(0, 0) skewX(0deg); }
+}
+
+/* ── CHROMATIC ABERRATION ────────────────────────────── */
+@keyframes chromaticDrift {
+  0%   { text-shadow: -1px 0 rgba(255, 45, 85, 0.35), 1px 0 rgba(0, 229, 255, 0.35); }
+  25%  { text-shadow: -1.5px 0 rgba(255, 45, 85, 0.25), 1.5px 0 rgba(0, 229, 255, 0.25); }
+  50%  { text-shadow: -0.5px 0 rgba(255, 45, 85, 0.4), 0.5px 0 rgba(0, 229, 255, 0.4); }
+  75%  { text-shadow: -2px 0 rgba(255, 45, 85, 0.18), 2px 0 rgba(0, 229, 255, 0.18); }
+  100% { text-shadow: -1px 0 rgba(255, 45, 85, 0.35), 1px 0 rgba(0, 229, 255, 0.35); }
+}
+
+/* ── SCANLINE CRAWL ──────────────────────────────────── */
+@keyframes scanlineCrawl {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+/* ── SCANLINE WIPE ───────────────────────────────────── */
+@keyframes scanlineWipe {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* ── NOISE GRAIN ─────────────────────────────────────── */
+@keyframes noiseShift {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-2%, -3%); }
+  20%  { transform: translate(1%, 2%); }
+  30%  { transform: translate(-1%, 1%); }
+  40%  { transform: translate(2%, -1%); }
+  50%  { transform: translate(-2%, 2%); }
+  60%  { transform: translate(1%, -2%); }
+  70%  { transform: translate(-1%, 3%); }
+  80%  { transform: translate(2%, 1%); }
+  90%  { transform: translate(-1%, -2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ── ATMOSPHERIC GLOW ────────────────────────────────── */
+@keyframes atmosphericGlow {
+  0%, 100% {
+    opacity: 0.28;
+    transform: scale(1) translateY(0);
+  }
+  33% {
+    opacity: 0.38;
+    transform: scale(1.04) translateY(-8px);
+  }
+  66% {
+    opacity: 0.22;
+    transform: scale(0.97) translateY(5px);
+  }
+}
+
+/* ── RADIAL BREATHE ──────────────────────────────────── */
+@keyframes radialBreathe {
+  0%, 100% { opacity: 0.18; transform: scale(1); }
+  50%       { opacity: 0.28; transform: scale(1.08); }
+}
+
+/* ── PARTICLE FLOAT ──────────────────────────────────── */
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 0.6; }
+  100% {
+    transform: translateY(-120vh) translateX(var(--drift)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* ── TERMINAL BLINK ──────────────────────────────────── */
+@keyframes termBlink {
+  0%, 49%  { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ── HERO REVEAL ─────────────────────────────────────── */
+@keyframes heroReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ── SUBTEXT REVEAL ──────────────────────────────────── */
+@keyframes subtextReveal {
+  0% {
+    opacity: 0;
+    letter-spacing: 0.6em;
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: var(--ls-widest);
+  }
+}
+
+/* ── BORDER TRACE ────────────────────────────────────── */
+@keyframes borderTrace {
+  0%   { width: 0; opacity: 0; }
+  20%  { opacity: 1; }
+  100% { width: 100%; opacity: 1; }
+}
+
+/* ── GRID LINE DRIFT ─────────────────────────────────── */
+@keyframes gridDrift {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(60px); }
+}
+
+/* ── STATUS PING ─────────────────────────────────────── */
+@keyframes statusPing {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.6); opacity: 0; }
+}
+
+/* ── CORNER BRACKET FLASH ────────────────────────────── */
+@keyframes bracketFlash {
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 0.85; }
+}
+
+/* ── HEADER ENTRY ────────────────────────────────────── */
+@keyframes headerSlideIn {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ── BUTTON SHIMMER ──────────────────────────────────── */
+@keyframes buttonShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ══════════════════════════════════════════════════════
+   ACTIVE MODULES — additional keyframes
+══════════════════════════════════════════════════════ */
+
+/* ── SECTION REVEAL (scroll-triggered via JS class) ─── */
+@keyframes moduleReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(36px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ── CARD AMBIENT GRADIENT DRIFT ─────────────────────── */
+@keyframes cardGradientDrift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── CARD SCANLINE SWEEP (hover) ─────────────────────── */
+@keyframes cardScanSweep {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(200%); opacity: 0; }
+}
+
+/* ── CARD CORNER PULSE ────────────────────────────────── */
+@keyframes cardCornerPulse {
+  0%, 100% { opacity: 0.25; }
+  50%       { opacity: 0.7; }
+}
+
+/* ── RUN INDICATOR BLINK ──────────────────────────────── */
+@keyframes runBlink {
+  0%, 45%  { opacity: 1; }
+  50%, 95% { opacity: 0.15; }
+  100%     { opacity: 1; }
+}
+
+/* ── STATUS DOT PULSE (per-card accent) ──────────────── */
+@keyframes accentPing {
+  0%   { transform: scale(1);   opacity: 0.9; }
+  60%  { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(1);   opacity: 0; }
+}
+
+/* ── CARD NOISE FLOAT ────────────────────────────────── */
+@keyframes cardNoiseFloat {
+  0%   { transform: translate(0, 0)     scale(1.08); }
+  25%  { transform: translate(-1%, -2%) scale(1.09); }
+  50%  { transform: translate(1%, 1%)   scale(1.08); }
+  75%  { transform: translate(-1%, 2%)  scale(1.09); }
+  100% { transform: translate(0, 0)     scale(1.08); }
+}
+
+/* ── SECTION DIVIDER TRACE ───────────────────────────── */
+@keyframes sectionDividerIn {
+  0%   { width: 0; opacity: 0; }
+  30%  { opacity: 1; }
+  100% { width: 100%; opacity: 1; }
+}
+
+/* ── MODULE GRID STAGGER (JS assigns delay) ──────────── */
+@keyframes cardSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(48px) scale(0.97);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ── CARD IDLE BREATHE ───────────────────────────────── */
+@keyframes cardBreath {
+  0%, 100% { box-shadow: var(--card-glow-rest); }
+  50%       { box-shadow: var(--card-glow-breathe); }
+}
+
+/* ── HOLOGRAPHIC SHIMMER SWEEP ───────────────────────── */
+@keyframes holoSweep {
+  0%   { transform: translateX(-100%) skewX(-12deg); }
+  100% { transform: translateX(300%)  skewX(-12deg); }
+}
+
+/* ── COMING SOON TICKER ──────────────────────────────── */
+@keyframes tickerSlide {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ══════════════════════════════════════════════════════
+   PHASE 3 — INCOMING SIGNALS + FOOTER keyframes
+══════════════════════════════════════════════════════ */
+
+/* ── SIGNAL ROW SLIDE IN ─────────────────────────────── */
+@keyframes sigRowIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-18px);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+/* ── PROGRESS BAR FILL ───────────────────────────────── */
+@keyframes progressFill {
+  0%   { width: 0%; opacity: 0.4; }
+  15%  { opacity: 1; }
+  100% { width: var(--prog-target); opacity: 1; }
+}
+
+/* ── INTERFERENCE GLITCH (signal rows) ──────────────── */
+@keyframes sigGlitch {
+  0%,  96% { transform: translateX(0) scaleY(1); opacity: 1; }
+  97%       { transform: translateX(-2px) scaleY(1.008); opacity: 0.85; }
+  98%       { transform: translateX(2px)  scaleY(0.994); opacity: 0.9; }
+  99%       { transform: translateX(-1px) scaleY(1); opacity: 0.95; }
+  100%      { transform: translateX(0) scaleY(1); opacity: 1; }
+}
+
+/* ── SIGNAL STRENGTH BARS ────────────────────────────── */
+@keyframes barFlicker {
+  0%, 100% { opacity: 1; transform: scaleY(1); }
+  45%       { opacity: 0.55; transform: scaleY(0.7); }
+  50%       { opacity: 1; transform: scaleY(1.1); }
+}
+
+/* ── WAVEFORM OSCILLATE ──────────────────────────────── */
+@keyframes waveformOsc {
+  0%   { d: path("M0 8 Q5 2 10 8 Q15 14 20 8 Q25 2 30 8 Q35 14 40 8"); }
+  50%  { d: path("M0 8 Q5 14 10 8 Q15 2 20 8 Q25 14 30 8 Q35 2 40 8"); }
+  100% { d: path("M0 8 Q5 2 10 8 Q15 14 20 8 Q25 2 30 8 Q35 14 40 8"); }
+}
+
+/* ── FOOTER TOP GLOW PULSE ───────────────────────────── */
+@keyframes footerGlowPulse {
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 0.6; }
+}
+
+/* ── SOCIAL ICON HOVER LIFT ──────────────────────────── */
+@keyframes iconLift {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+/* ── SYSTEM HEARTBEAT ────────────────────────────────── */
+@keyframes heartbeat {
+  0%,  80%, 100% { transform: scale(1);   opacity: 1; }
+  10%             { transform: scale(1.35); opacity: 0.9; }
+  20%             { transform: scale(1);   opacity: 1; }
+  30%             { transform: scale(1.18); opacity: 0.95; }
+  40%             { transform: scale(1);   opacity: 1; }
+}
+
+/* ── COORD COUNTER ───────────────────────────────────── */
+@keyframes coordScroll {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+/* ── FOOTER SCANLINE DRIFT ───────────────────────────── */
+@keyframes footScanDrift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 120px; }
+}
+
+/* ── NOISE SIGNAL FLICKER ────────────────────────────── */
+@keyframes noiseTick {
+  0%,100% { opacity: 0.022; }
+  30%      { opacity: 0.038; }
+  60%      { opacity: 0.016; }
+}
+
+/* ══════════════════════════════════════════════════════
+   BATTLESHIP — naval-specific keyframes
+══════════════════════════════════════════════════════ */
+
+/* ── SONAR RING EXPAND ───────────────────────────────── */
+@keyframes sonarRing {
+  0% {
+    transform: translate(-50%, -50%) scale(0.1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ── DEPLOY BADGE ENTRANCE ───────────────────────────── */
+@keyframes deployIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px) translateX(-50%);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+    filter: blur(0);
+  }
+}
+
+/* ── COORD FLICKER (on hover) ────────────────────────── */
+@keyframes coordFlicker {
+  0%,  90%, 100% { opacity: 1; }
+  91%             { opacity: 0.1; }
+  93%             { opacity: 0.9; }
+  95%             { opacity: 0.2; }
+  97%             { opacity: 1; }
+}
+
+/* ── DEPLOY PIP THROB ────────────────────────────────── */
+@keyframes deployPip {
+  0%,  100% { transform: scale(1);    opacity: 1; }
+  50%        { transform: scale(1.55); opacity: 0.5; }
+}
+
+/* ── TACTICAL GRID PULSE ─────────────────────────────── */
+@keyframes tacticalGridPulse {
+  0%,  100% { opacity: 0.045; }
+  50%        { opacity: 0.075; }
+}
+
+/* ── ICON SWEEP ARM ──────────────────────────────────── */
+@keyframes radarArmSpin {
+  0%   { transform: rotate(0deg);   transform-origin: 12px 12px; }
+  100% { transform: rotate(360deg); transform-origin: 12px 12px; }
+}
+
+/* ── COLD GLOW PULSE ─────────────────────────────────── */
+@keyframes coldGlowPulse {
+  0%,  100% {
+    box-shadow:
+      0 0 0 1px rgba(0, 140, 255, 0.12),
+      0 4px 32px rgba(0,0,0,0.55),
+      inset 0 1px 0 rgba(0, 140, 255, 0.05);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.22),
+      0 4px 48px rgba(0, 140, 255, 0.08),
+      0 0 28px rgba(0, 180, 255, 0.06),
+      inset 0 1px 0 rgba(0, 200, 255, 0.08);
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   PHASE 5 — BATTLESHIP / NAVAL keyframes
+══════════════════════════════════════════════════════ */
+
+/* ── SONAR RING EXPAND ────────────────────────────────── */
+@keyframes sonarRing {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.8);
+    opacity: 0;
+  }
+}
+
+/* ── DEPLOY BADGE PULSE ──────────────────────────────── */
+@keyframes deployPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.18),
+      0 0 8px rgba(0, 200, 255, 0.1);
+    opacity: 1;
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.36),
+      0 0 18px rgba(0, 200, 255, 0.2);
+    opacity: 0.92;
+  }
+}
+
+/* ── DEPLOY PIP COLD BLINK ───────────────────────────── */
+@keyframes deployPip {
+  0%,  40% { opacity: 1;    transform: scale(1); }
+  50%       { opacity: 0.2;  transform: scale(0.7); }
+  55%       { opacity: 1;    transform: scale(1.15); }
+  60%, 100% { opacity: 1;    transform: scale(1); }
+}
+
+/* ── TACTICAL GRID SHIMMER ───────────────────────────── */
+@keyframes tacticalGridShimmer {
+  0%   { opacity: 0.06; }
+  45%  { opacity: 0.11; }
+  50%  { opacity: 0.07; }
+  100% { opacity: 0.06; }
+}
+
+/* ── RADAR ICON SWEEP (CSS fallback) ─────────────────── */
+@keyframes radarSweepCSS {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ── COORD FLICKER ────────────────────────────────────── */
+@keyframes coordFlicker {
+  0%, 92% { opacity: 0.35; }
+  93%      { opacity: 0.08; }
+  94%      { opacity: 0.35; }
+  96%      { opacity: 0.12; }
+  97%      { opacity: 0.35; }
+  100%     { opacity: 0.35; }
+}
+
+/* ── NAVAL HOVER GLOW SURGE ──────────────────────────── */
+@keyframes navalGlowSurge {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.32),
+      0 8px 60px rgba(0, 180, 255, 0.13),
+      0 20px 80px rgba(0, 0, 0, 0.75),
+      inset 0 1px 0 rgba(80, 200, 255, 0.07);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.48),
+      0 8px 80px rgba(0, 200, 255, 0.2),
+      0 20px 80px rgba(0, 0, 0, 0.75),
+      inset 0 1px 0 rgba(80, 200, 255, 0.1);
+  }
+}
+
+/* ── NEW DEPLOYMENT ENTRY ────────────────────────────── */
+@keyframes deployBadgeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(8px);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   PHASE 7 — NETWORK EXPANSION keyframes
+══════════════════════════════════════════════════════ */
+
+/* ── MINI-PLAYER EQ BAR ──────────────────────────────── */
+@keyframes eqBounce {
+  0%, 100% { transform: scaleY(0.3); }
+  50%       { transform: scaleY(1);   }
+}
+
+/* ── LIVE PULSE DOT ──────────────────────────────────── */
+@keyframes livePulse {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* ── MINI-PLAYER SLIDE-IN ────────────────────────────── */
+@keyframes miniPlayerIn {
+  0%   { opacity: 0; transform: translateY(12px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* ── WAVECAST CARD GRADIENT DRIFT ───────────────────── */
+@keyframes wavecastGradientDrift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── ARCHIVE STATIC FLICKER ──────────────────────────── */
+@keyframes archiveFlicker {
+  0%, 90%, 100% { opacity: 0.08; }
+  92%            { opacity: 0.18; }
+  94%            { opacity: 0.06; }
+  96%            { opacity: 0.14; }
+}
+
+/* ── VOLUME SLIDER THUMB GLOW ────────────────────────── */
+@keyframes sliderGlow {
+  0%, 100% { box-shadow: 0 0 4px var(--clr-wavecast); }
+  50%       { box-shadow: 0 0 10px var(--clr-wavecast), 0 0 20px rgba(255,45,155,0.2); }
+}

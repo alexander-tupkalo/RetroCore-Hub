@@ -1,0 +1,382 @@
+/* ═══════════════════════════════════════════
+   STYLE.CSS — Root tokens, reset, layout,
+   header, footer, hub activation, responsive
+   ═══════════════════════════════════════════ */
+
+/* ── Root & Tokens ── */
+:root {
+    --bg: #10100f;
+    --bg-elevated: #161614;
+    --fg-primary: #ddd0a0;
+    --fg-secondary: #a09060;
+    --fg-terminal: #58a858;
+    --fg-dim: #585448;
+    --accent-red: #994444;
+    --accent-teal: #1a3030;
+    --accent-cyan: rgba(80, 200, 200, 0.85);
+    --border: #242420;
+    --border-glow: rgba(221, 208, 160, 0.14);
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ── Base ── */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--fg-primary);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── CRT Container ── */
+#crt {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+}
+
+/* CRT curvature illusion — softened to keep edges readable */
+#crt::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    border-radius: 14px;
+    box-shadow: inset 0 0 80px 20px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    z-index: 54;
+}
+
+/* ── System Grid Layout ── */
+#system {
+    position: relative;
+    z-index: 10;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    padding: 20px 24px;
+    gap: 14px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.system-visible #system {
+    opacity: 1;
+}
+
+/* ── Archive Header ── */
+#archive-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.classified-badge {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: #cc4444;
+    border: 1px solid rgba(204, 68, 68, 0.45);
+    padding: 3px 10px;
+    animation: badge-pulse 4s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.title-text {
+    font-size: 19px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    color: var(--fg-primary);
+    text-shadow:
+        -0.5px 0 rgba(200, 70, 70, 0.12),
+        0.5px 0 rgba(70, 90, 200, 0.12);
+    white-space: nowrap;
+}
+
+.header-meta {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-shrink: 0;
+}
+
+/* Signal strength */
+.signal-strength {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--fg-secondary);
+    letter-spacing: 1px;
+}
+
+.signal-bars {
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+}
+
+.signal-bars .bar {
+    width: 5px;
+    height: 8px;
+    background: var(--border);
+    transition: opacity 0.15s ease;
+}
+
+.signal-bars .bar:nth-child(1) { height: 5px; }
+.signal-bars .bar:nth-child(2) { height: 7px; }
+.signal-bars .bar:nth-child(3) { height: 10px; }
+.signal-bars .bar:nth-child(4) { height: 12px; }
+.signal-bars .bar:nth-child(5) { height: 14px; }
+
+.signal-bars .bar.active {
+    background: var(--fg-secondary);
+}
+
+.sig-value {
+    min-width: 32px;
+    text-align: right;
+}
+
+/* Status indicator */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--fg-secondary);
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--fg-secondary);
+    animation: dot-blink 3s ease-in-out infinite;
+}
+
+.header-bottom {
+    display: flex;
+    gap: 28px;
+    font-size: 11px;
+    color: var(--fg-dim);
+    letter-spacing: 1.5px;
+    flex-wrap: wrap;
+}
+
+.header-bottom span {
+    opacity: 0.8;
+}
+
+/* ── Archive Body Grid ── */
+#archive-body {
+    display: grid;
+    grid-template-columns: 1fr 310px;
+    gap: 14px;
+    min-height: 0;
+}
+
+/* ── Footer ── */
+#archive-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    transition: opacity 2s ease 0.5s;
+    gap: 16px;
+}
+
+.system-online #archive-footer {
+    opacity: 1;
+}
+
+/* ── Footer Signal Label ── */
+.footer-signal {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: var(--accent-cyan);
+    opacity: 0;
+    transition: opacity 2.5s ease;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.footer-signal.visible {
+    opacity: 1;
+    animation: route-label-pulse 4s ease-in-out infinite;
+}
+
+/* ── Hub Link (base — dim, inactive) ── */
+#hub-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--fg-secondary);
+    text-decoration: none;
+    transition: color 0.4s ease;
+    cursor: default;
+    white-space: nowrap;
+}
+
+#hub-link:focus-visible {
+    outline: 1px solid var(--fg-secondary);
+    outline-offset: 4px;
+}
+
+.hub-label {
+    pointer-events: none;
+}
+
+/* ── Hub Status Badge (hidden until activation) ── */
+.hub-status {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--accent-cyan);
+    opacity: 0;
+    transition: opacity 2s ease;
+    margin-left: 4px;
+}
+
+.hub-status.visible {
+    opacity: 0.8;
+}
+
+/* ── Hub Link: Activating (flicker phase) ── */
+#hub-link.hub-activating {
+    color: rgba(80, 200, 200, 0.75);
+    cursor: pointer;
+    animation: hub-flicker-activate 1.8s ease-out forwards;
+}
+
+#hub-link.hub-activating .hub-status {
+    opacity: 0;
+}
+
+/* ── Hub Link: Active (steady cyan pulse) ── */
+#hub-link.hub-active {
+    color: var(--accent-cyan);
+    cursor: pointer;
+    animation: hub-pulse 3s ease-in-out infinite;
+    text-decoration: none;
+}
+
+#hub-link.hub-active .nav-arrow {
+    opacity: 0.9;
+}
+
+#hub-link.hub-active .hub-status {
+    opacity: 0.8;
+    animation: route-label-pulse 3s ease-in-out infinite;
+}
+
+.nav-arrow {
+    font-size: 15px;
+    opacity: 0.7;
+    transition: opacity 0.4s ease;
+}
+
+.footer-id {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--fg-secondary);
+    opacity: 0.85;
+    margin-left: auto;
+}
+
+/* ── Fade to Black Overlay (hub exit) ── */
+.fade-to-black-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 200;
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+    #archive-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 240px;
+    }
+
+    #system {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+
+    .title-text {
+        font-size: 15px;
+        letter-spacing: 3px;
+    }
+
+    .header-meta {
+        margin-left: 0;
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 540px) {
+    .header-bottom {
+        gap: 12px;
+    }
+
+    .header-bottom span:nth-child(n+3) {
+        display: none;
+    }
+
+    .footer-id {
+        display: none;
+    }
+
+    .footer-signal {
+        display: none;
+    }
+}
+
+/* ── Reduced Motion — Layout Transitions ── */
+@media (prefers-reduced-motion: reduce) {
+    .system-visible #system,
+    .system-online #archive-footer {
+        opacity: 1 !important;
+        transition: none !important;
+    }
+
+    #hub-link.hub-activating,
+    #hub-link.hub-active,
+    .footer-signal.visible,
+    .hub-status.visible {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+
+    .fade-to-black-overlay {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+}

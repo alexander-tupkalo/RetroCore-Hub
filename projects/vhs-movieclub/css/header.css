@@ -1,0 +1,184 @@
+/* ============================================
+   VHS MovieClub — Header Styles
+   ============================================
+   Controls the top navigation bar, including the
+   neon logo and the retro-styled search input.
+   ============================================ */
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  background-color: var(--bg-primary);
+  /* Glowing neon bottom border line */
+  border-bottom: 2px solid var(--accent-cyan);
+  box-shadow: 0 2px 15px rgba(0, 240, 255, 0.25), inset 0 -2px 10px rgba(0, 240, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ----------------------------------------
+   Logo / Site Title
+   ----------------------------------------
+   Layering multiple text-shadows creates a
+   realistic neon tube glow effect.
+   ---------------------------------------- */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-icon {
+  color: var(--accent-pink);
+  font-size: 1.5rem;
+  /* Subtle glow on the play icon */
+  text-shadow: 0 0 5px var(--accent-pink);
+}
+
+.logo h1 {
+  color: var(--accent-pink);
+  font-size: 1.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  /* 
+    The Neon Glow Recipe:
+    1. Close, sharp glow (bright core)
+    2. Medium blur (inner halo)
+    3. Large blur (outer atmospheric bleed)
+    4. Extra large blur (distant ambient light)
+  */
+  text-shadow: 
+    0 0 3px var(--accent-pink),
+    0 0 10px var(--accent-pink),
+    0 0 21px var(--accent-pink),
+    0 0 42px var(--accent-pink),
+    0 0 82px var(--accent-pink);
+}
+
+/* ----------------------------------------
+   Search Bar
+   ----------------------------------------
+   Styled to look like a retro CRT terminal
+   input or a VHS tracking number display.
+   ---------------------------------------- */
+
+#search-bar {
+  width: 300px;
+  padding: 0.7rem 1.2rem;
+  background-color: #0d0d14; /* Slightly darker than body for inset feel */
+  color: var(--text-primary);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* Placeholder text styled in the muted gray */
+#search-bar::placeholder {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* 
+  Focus state: Activates the neon cyan glow.
+  We use box-shadow here instead of outline
+  to maintain the retro, rounded light aesthetic.
+*/
+#search-bar:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 
+    0 0 5px var(--accent-cyan),
+    0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+/* ----------------------------------------
+   Responsive Adjustments
+   ---------------------------------------- */
+
+@media (max-width: 768px) {
+  .site-header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .logo h1 {
+    font-size: 1.4rem;
+  }
+
+  #search-bar {
+    width: 100%;
+  }
+}
+
+/* ----------------------------------------
+   Language Switcher
+   ---------------------------------------- */
+
+.lang-switcher,
+.language-switcher {
+  display: flex;
+  gap: 0; /* Removes gap so borders touch seamlessly */
+  border-radius: 4px;
+  overflow: hidden; /* Keeps the rounded corners neat */
+  margin: 0 1.5rem; /* Adds breathing room between logo and search */
+}
+
+.lang-btn {
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--accent-cyan);
+  background-color: var(--bg-primary); /* Dark background for inactive */
+  color: var(--accent-cyan);
+  outline: none;
+  
+  /* Bulletproof against disappearing bugs */
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+/* Remove double borders between the two buttons */
+.lang-btn:first-child {
+  border-right: none;
+}
+.lang-btn:last-child {
+  border-left: none;
+}
+
+/* -----------------------------------------
+   Active State
+   ----------------------------------------- */
+.lang-btn.active {
+  background-color: var(--accent-cyan); /* Solid neon cyan background */
+  color: var(--bg-primary);             /* Dark text */
+  border-color: var(--accent-cyan);
+  position: relative;
+  z-index: 1; /* Ensures the active button sits on top of the adjacent border */
+}
+
+/* -----------------------------------------
+   Inactive Hover State
+   ----------------------------------------- */
+.lang-btn:not(.active):hover {
+  background-color: rgba(0, 240, 255, 0.1); /* Very subtle transparent tint */
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3); /* Gentle neon glow */
+  color: #ffffff; /* Brighten text slightly on hover */
+  
+  /* Reiterate stability on hover */
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}

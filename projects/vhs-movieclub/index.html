@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VHS MovieClub - Retro Cinema</title>
+  
+  <!-- CSS loaded in specific order to ensure proper cascade overriding -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/catalog.css">
+  <link rel="stylesheet" href="css/modal.css">
+</head>
+<body>
+
+  <!-- Main layout wrapper to structure header, sidebar, and content -->
+  <div class="layout-container">
+    
+    <header class="site-header">
+      <div class="logo">
+        <span class="logo-icon">▶</span>
+        <h1>VHS MovieClub</h1>
+      </div>
+      
+      <!-- Language Switcher -->
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="uk">UA</button>
+        <button class="lang-btn" data-lang="ru">RU</button>
+      </div>
+
+      <div class="search-wrapper">
+        <!-- Search input for filtering movies by title -->
+        <input type="search" id="search-bar" placeholder="Пошук..." autocomplete="off">
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <div class="filter-group">
+        <h3>Filter by Decade</h3>
+        <!-- Dropdown for year filtering (JS will populate exact years) -->
+        <select id="filter-year">
+          <option value="all">Loading...</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <h3>Filter by Genre</h3>
+        <!-- Dropdown for genre filtering (JS will populate localized genres) -->
+        <select id="filter-genre">
+          <option value="all">Loading...</option>
+        </select>
+      </div>
+    </aside>
+
+    <main class="catalog-content">
+      <!-- The grid where JS will inject the movie card elements -->
+       <div id="vhs-loader" class="vhs-loader hidden">
+        <div class="loader-content">LOADING TAPE...</div>
+       </div>
+      <div id="movie-grid" class="movie-grid">
+        <!-- Movie cards rendered by app.js -->
+      </div>
+      
+      <!-- 
+        Pagination Controls 
+        Note: Using id="pagination-container" to match the querySelector in app.js.
+        The class="pagination" is added here for your CSS styling.
+      -->
+      <div id="pagination-container" class="pagination">
+        <!-- Page buttons rendered by app.js -->
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Hidden overlay for detailed movie view -->
+  <div id="movie-modal" class="hidden">
+    <!-- Modal content rendered by app.js -->
+  </div>
+
+   <!-- WebTorrent P2P Streaming Library -->
+  <script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
+  <!-- 
+
+  
+    JavaScript Modules
+    ------------------
+    Loaded as modules to utilize ES6 import/export syntax.
+    Order matters logically: Data -> Components -> Logic -> App Initialization.
+  -->
+  <script type="module" src="js/storage.js"></script>
+  <script type="module" src="js/components.js"></script>
+  <script type="module" src="js/filters.js"></script>
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>

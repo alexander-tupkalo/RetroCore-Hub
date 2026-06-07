@@ -1,0 +1,156 @@
+/* ═══════════════════════════════════════════
+   ANIMATIONS.CSS — All @keyframes definitions
+   ═══════════════════════════════════════════ */
+
+/* ── CRT Boot ── */
+@keyframes crt-line-on {
+    0%   { opacity: 0; }
+    8%   { opacity: 1; }
+    50%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes crt-flash-on {
+    0%   { opacity: 0; }
+    3%   { opacity: 0.12; }
+    10%  { opacity: 0; }
+    18%  { opacity: 0.06; }
+    30%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@keyframes warm-flicker {
+    0%, 100% { opacity: 0.15; }
+    50%      { opacity: 0.35; }
+}
+
+/* ── Ambient Screen Flicker ── */
+@keyframes flicker-ambient {
+    0%, 100% { opacity: 1; }
+    2.5%     { opacity: 0.975; }
+    5%       { opacity: 1; }
+    8%       { opacity: 0.985; }
+    11%      { opacity: 1; }
+    48%      { opacity: 1; }
+    51%      { opacity: 0.97; }
+    53%      { opacity: 1; }
+}
+
+/* ── Scanlines ── */
+@keyframes scanline-drift {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 4px; }
+}
+
+/* ── Glow Drift ── */
+@keyframes glow-drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    33%  { transform: translate(4vw, -2vh) scale(1.08); }
+    66%  { transform: translate(-3vw, 4vh) scale(0.94); }
+    100% { transform: translate(2vw, 1vh) scale(1.04); }
+}
+
+@keyframes glow-drift-cool {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(-5vw, -3vh) scale(1.1); }
+    100% { transform: translate(3vw, 2vh) scale(0.96); }
+}
+
+/* ── Tracking Band ── */
+@keyframes tracking-move {
+    0%   { top: -10px; opacity: 0; }
+    4%   { opacity: 1; }
+    96%  { opacity: 1; }
+    100% { top: calc(100vh + 10px); opacity: 0; }
+}
+
+/* ── Header Elements ── */
+@keyframes badge-pulse {
+    0%, 100% { opacity: 0.7; }
+    50%      { opacity: 1; }
+}
+
+@keyframes dot-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.2; }
+}
+
+/* ── Panel Content ── */
+@keyframes slow-pulse {
+    0%, 100% { opacity: 0.35; }
+    50%      { opacity: 0.65; }
+}
+
+@keyframes fragment-fade {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ── Terminal Cursor ── */
+@keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
+}
+
+/* ── Panel Zoom Drift (Ken Burns) ── */
+@keyframes panel-zoom-drift {
+    0%   { transform: scale(1) translate(0, 0); }
+    20%  { transform: scale(1.012) translate(-4px, -2px); }
+    40%  { transform: scale(1.018) translate(3px, -4px); }
+    60%  { transform: scale(1.014) translate(-2px, 3px); }
+    80%  { transform: scale(1.02) translate(4px, 1px); }
+    100% { transform: scale(1.016) translate(-3px, -3px); }
+}
+
+/* ── Transition Interference Flash ── */
+@keyframes transition-flash {
+    0%   { opacity: 0; }
+    12%  { opacity: 0.1; }
+    24%  { opacity: 0; }
+    42%  { opacity: 0.06; }
+    58%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* ── Brightness Drift ── */
+@keyframes brightness-drift {
+    0%, 100% { opacity: 0.3; }
+    50%      { opacity: 0.8; }
+}
+
+/* ── Hub Activation ── */
+@keyframes hub-flicker-activate {
+    0%   { opacity: 0.4; }
+    8%   { opacity: 0.9; }
+    16%  { opacity: 0.3; }
+    26%  { opacity: 1; }
+    36%  { opacity: 0.5; }
+    48%  { opacity: 0.85; }
+    58%  { opacity: 0.4; }
+    70%  { opacity: 0.95; }
+    82%  { opacity: 0.65; }
+    92%  { opacity: 0.88; }
+    100% { opacity: 0.9; }
+}
+
+@keyframes hub-pulse {
+    0%, 100% {
+        text-shadow: 0 0 4px rgba(80, 200, 200, 0.25);
+        opacity: 0.85;
+    }
+    50% {
+        text-shadow: 0 0 14px rgba(80, 200, 200, 0.45);
+        opacity: 1;
+    }
+}
+
+@keyframes route-label-pulse {
+    0%, 100% { opacity: 0.45; }
+    50%      { opacity: 0.85; }
+}
+
+/* ── Fade to Black (hub exit) ── */
+@keyframes fade-to-black {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}

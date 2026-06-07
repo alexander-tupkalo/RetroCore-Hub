@@ -1,0 +1,357 @@
+/* RETROCORE://HUB — battleship.css
+   Phase 5: Neon Battleship — NEW DEPLOYMENT
+   Naval-exclusive visual overrides and atmosphere layers.
+   Extends modules.css + animations.css. Zero collisions.
+*/
+
+/* ═══════════════════════════════════════════════════════
+   BATTLESHIP ACCENT OVERRIDE
+   Colder, more electric than the existing deep-blue palette
+═══════════════════════════════════════════════════════ */
+.mod-card--naval {
+  --card-accent:         rgba(0, 200, 255, 1);
+  --card-accent-dim:     rgba(0, 200, 255, 0.13);
+  --card-accent-ghost:   rgba(0, 200, 255, 0.045);
+  --card-glow-rest:
+    0 0 0 1px rgba(0, 200, 255, 0.11),
+    0 4px 36px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(0, 200, 255, 0.05);
+  --card-glow-breathe:
+    0 0 0 1px rgba(0, 200, 255, 0.18),
+    0 4px 44px rgba(0, 0, 0, 0.65),
+    0 0 30px rgba(0, 180, 255, 0.05),
+    inset 0 1px 0 rgba(0, 200, 255, 0.07);
+  --card-glow-hover:
+    0 0 0 1px rgba(0, 200, 255, 0.4),
+    0 10px 70px rgba(0, 200, 255, 0.16),
+    0 24px 90px rgba(0, 0, 0, 0.78),
+    inset 0 1px 0 rgba(80, 210, 255, 0.09);
+
+  /* Unique naval background */
+  background:
+    radial-gradient(ellipse 55% 45% at 75% 20%,
+      rgba(0, 60, 100, 0.35) 0%,
+      transparent 65%),
+    rgba(4, 9, 18, 0.82);
+
+  isolation: isolate;
+}
+
+.mod-card--naval:hover {
+  animation: navalGlowSurge 3s ease-in-out infinite;
+}
+
+/* Naval-specific ambient BG */
+.mod-card--naval .mod-card__bg {
+  background: radial-gradient(
+    ellipse 85% 65% at 70% -5%,
+    rgba(0, 140, 220, 0.14) 0%,
+    rgba(0, 80, 160, 0.06) 40%,
+    transparent 70%
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   TACTICAL GRID OVERLAY
+═══════════════════════════════════════════════════════ */
+.bs-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 200, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 200, 255, 0.055) 1px, transparent 1px);
+  background-size: 22px 22px;
+  opacity: 0.06;
+  pointer-events: none;
+  animation: tacticalGridShimmer 8s ease-in-out infinite;
+  mask-image: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    black 0%,
+    transparent 80%
+  );
+  transition: opacity 0.5s ease;
+}
+
+.mod-card--naval:hover .bs-grid {
+  opacity: 0.14;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RADAR CANVAS
+═══════════════════════════════════════════════════════ */
+.bs-radar {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 180px;
+  height: 180px;
+  opacity: 0.12;
+  pointer-events: none;
+  transition: opacity var(--dur-slow) ease;
+  mix-blend-mode: screen;
+}
+
+.mod-card--naval:hover .bs-radar {
+  opacity: 0.24;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SONAR RINGS
+═══════════════════════════════════════════════════════ */
+.bs-sonar {
+  position: absolute;
+  top: 52px;
+  right: 52px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bs-sonar__ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 200, 255, 0.5);
+  opacity: 0;
+  animation: sonarRing 4s ease-out infinite;
+}
+
+.bs-sonar__ring--1 { animation-delay: 0s; }
+.bs-sonar__ring--2 { animation-delay: 1.35s; }
+.bs-sonar__ring--3 { animation-delay: 2.7s; }
+
+.mod-card--naval:hover .bs-sonar__ring {
+  border-color: rgba(0, 210, 255, 0.8);
+  animation-duration: 2.6s;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RADAR SVG ICON — sweep arm
+═══════════════════════════════════════════════════════ */
+.bs-icon__sweep {
+  transform-origin: 12px 12px;
+  animation: radarSweepCSS 4s linear infinite;
+  opacity: 0.7;
+  stroke: rgba(0, 200, 255, 0.9);
+  transition: filter var(--dur-base) ease;
+}
+
+.mod-card--naval:hover .bs-icon__sweep {
+  opacity: 1;
+  animation-duration: 2.2s;
+  filter: drop-shadow(0 0 3px rgba(0, 210, 255, 0.9));
+}
+
+.mod-card--naval:hover .mod-card__icon svg {
+  filter: drop-shadow(0 0 12px rgba(0, 200, 255, 0.5));
+}
+
+/* ═══════════════════════════════════════════════════════
+   NEW DEPLOYMENT BADGE
+═══════════════════════════════════════════════════════ */
+.bs-deploy-badge {
+  position: absolute;
+  top: var(--sp-5);
+  right: var(--sp-5);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 3px var(--sp-3) 3px var(--sp-2);
+  border-radius: 2px;
+  border: 1px solid rgba(0, 200, 255, 0.22);
+  background: rgba(0, 20, 40, 0.8);
+  z-index: 3;
+  animation:
+    deployBadgeIn 1s var(--ease-out-expo) 0.6s both,
+    deployPulse 3.5s ease-in-out 1.6s infinite;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.bs-deploy-badge__pip {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(0, 210, 255, 1);
+  box-shadow:
+    0 0 4px rgba(0, 210, 255, 0.9),
+    0 0 12px rgba(0, 200, 255, 0.4);
+  flex-shrink: 0;
+  animation: deployPip 2.2s ease-in-out infinite;
+}
+
+.bs-deploy-badge__text {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(0, 210, 255, 0.9);
+  white-space: nowrap;
+}
+
+.mod-card--naval:hover .bs-deploy-badge {
+  border-color: rgba(0, 210, 255, 0.42);
+  background: rgba(0, 35, 60, 0.88);
+  box-shadow: 0 0 16px rgba(0, 200, 255, 0.12);
+}
+
+/* ═══════════════════════════════════════════════════════
+   COORDINATE READOUT
+═══════════════════════════════════════════════════════ */
+.bs-coords {
+  position: absolute;
+  bottom: var(--sp-4);
+  right: var(--sp-5);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  z-index: 3;
+  pointer-events: none;
+  animation: coordFlicker 11s ease-in-out infinite;
+  transition: color var(--dur-base) ease;
+}
+
+.bs-coords__label {
+  color: rgba(0, 200, 255, 0.2);
+}
+
+.bs-coords__val {
+  color: rgba(0, 200, 255, 0.4);
+}
+
+.mod-card--naval:hover .bs-coords {
+  animation-duration: 4s;
+}
+
+.mod-card--naval:hover .bs-coords__label {
+  color: rgba(0, 200, 255, 0.35);
+}
+
+.mod-card--naval:hover .bs-coords__val {
+  color: rgba(0, 210, 255, 0.7);
+}
+
+/* ═══════════════════════════════════════════════════════
+   CARD TEXT — naval-specific treatment
+═══════════════════════════════════════════════════════ */
+.mod-card--naval .mod-card__title {
+  letter-spacing: 0.13em;
+}
+
+.mod-card--naval:hover .mod-card__title {
+  text-shadow:
+    0 0 14px rgba(0, 200, 255, 0.6),
+    0 0 36px rgba(0, 180, 255, 0.2);
+}
+
+.mod-card--naval .mod-card__desc {
+  color: rgba(195, 225, 240, 0.55);
+  letter-spacing: 0.025em;
+}
+
+/* ── Run module ─────────────────────────────────────── */
+.mod-card--naval .mod-card__run {
+  letter-spacing: 0.16em;
+}
+
+.mod-card--naval .mod-card__run-blink {
+  background: rgba(0, 210, 255, 0.95);
+  box-shadow: 0 0 8px rgba(0, 200, 255, 0.65);
+}
+
+/* ── Accent top line ────────────────────────────────── */
+.mod-card--naval .mod-card__accent-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 200, 255, 0.1) 20%,
+    rgba(0, 200, 255, 0.55) 50%,
+    rgba(0, 200, 255, 0.1) 80%,
+    transparent 100%
+  );
+}
+
+/* ── Corner brackets ────────────────────────────────── */
+.mod-card--naval .mod-card__corners::before,
+.mod-card--naval .mod-card__corners::after {
+  border-color: rgba(0, 200, 255, 0.55);
+}
+
+.mod-card--naval:hover .mod-card__corners::before,
+.mod-card--naval:hover .mod-card__corners::after {
+  opacity: 0.78;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TRANSITION OVERLAY — NAVAL TINT (body class applied by JS)
+═══════════════════════════════════════════════════════ */
+body.trans--naval #transition-overlay .trans__bg {
+  background:
+    radial-gradient(ellipse 65% 45% at 50% 50%,
+      rgba(0, 25, 55, 0.7) 0%,
+      rgba(0, 0, 0, 0) 72%),
+    rgba(1, 3, 8, 0.95);
+}
+
+body.trans--naval #transition-overlay .trans__chroma {
+  background: linear-gradient(
+    105deg,
+    rgba(0, 120, 220, 0.05) 0%,
+    transparent 50%,
+    rgba(0, 220, 255, 0.03) 100%
+  );
+}
+
+body.trans--naval #transition-overlay .trans__progress-fill {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 150, 240, 0.6) 0%,
+    rgba(0, 215, 255, 1) 100%
+  );
+  box-shadow: 0 0 12px rgba(0, 200, 255, 0.7);
+}
+
+body.trans--naval #transition-overlay .trans__terminal {
+  border-color: rgba(0, 200, 255, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(0, 200, 255, 0.07),
+    0 12px 80px rgba(0, 0, 0, 0.9),
+    0 0 50px rgba(0, 180, 255, 0.06),
+    inset 0 1px 0 rgba(0, 200, 255, 0.07);
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .bs-radar { width: 140px; height: 140px; top: -10px; right: -10px; }
+  .bs-sonar { top: 42px; right: 42px; }
+}
+
+@media (max-width: 600px) {
+  .bs-radar { width: 110px; height: 110px; opacity: 0.09; }
+  .bs-deploy-badge { top: var(--sp-3); right: var(--sp-3); }
+  .bs-coords { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-sonar__ring,
+  .bs-icon__sweep,
+  .bs-grid,
+  .bs-coords { animation: none !important; }
+
+  .bs-deploy-badge {
+    animation: none !important;
+    opacity: 1;
+  }
+}

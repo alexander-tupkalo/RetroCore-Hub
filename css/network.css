@@ -1,0 +1,543 @@
+/* RETROCORE://HUB — network.css
+   Phase 7: Network Expansion — two new module cards + global mini radio player
+   Extends existing architecture. Zero collisions.
+*/
+
+/* ═══════════════════════════════════════════════════════
+   MODULE 05 — RETRO SIGNAL ARCHIVE (warm amber/VHS gold)
+═══════════════════════════════════════════════════════ */
+.mod-card--archive {
+  --card-accent:       rgba(255, 179, 71, 1);
+  --card-accent-dim:   rgba(255, 179, 71, 0.14);
+  --card-accent-ghost: rgba(255, 179, 71, 0.045);
+  --card-glow-rest:
+    0 0 0 1px rgba(255, 179, 71, 0.1),
+    0 4px 32px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 179, 71, 0.05);
+  --card-glow-breathe:
+    0 0 0 1px rgba(255, 179, 71, 0.17),
+    0 4px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 179, 71, 0.07);
+  --card-glow-hover:
+    0 0 0 1px rgba(255, 179, 71, 0.38),
+    0 8px 60px rgba(255, 179, 71, 0.13),
+    0 20px 80px rgba(0, 0, 0, 0.72),
+    inset 0 1px 0 rgba(255, 200, 100, 0.08);
+
+  background:
+    radial-gradient(ellipse 55% 40% at 25% 10%,
+      rgba(120, 80, 20, 0.25) 0%,
+      transparent 65%),
+    rgba(10, 7, 2, 0.82);
+}
+
+/* Archive card — subtle static noise layer with flicker */
+.mod-card--archive .mod-card__bg {
+  background: radial-gradient(
+    ellipse 80% 60% at 20% 0%,
+    rgba(255, 150, 40, 0.1) 0%,
+    rgba(160, 90, 10, 0.04) 45%,
+    transparent 70%
+  );
+  animation: archiveFlicker 7s ease-in-out infinite;
+}
+
+.mod-card--archive:hover .mod-card__title {
+  text-shadow:
+    0 0 14px rgba(255, 179, 71, 0.65),
+    0 0 34px rgba(255, 150, 40, 0.22);
+}
+
+.mod-card--archive .mod-card__corners::before,
+.mod-card--archive .mod-card__corners::after {
+  border-color: rgba(255, 179, 71, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════
+   MODULE 06 — RETRO WAVECAST (magenta/synthwave pink)
+═══════════════════════════════════════════════════════ */
+.mod-card--wavecast {
+  --card-accent:       rgba(255, 45, 155, 1);
+  --card-accent-dim:   rgba(255, 45, 155, 0.14);
+  --card-accent-ghost: rgba(255, 45, 155, 0.045);
+  --card-glow-rest:
+    0 0 0 1px rgba(255, 45, 155, 0.1),
+    0 4px 32px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 45, 155, 0.05);
+  --card-glow-breathe:
+    0 0 0 1px rgba(255, 45, 155, 0.17),
+    0 4px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 45, 155, 0.07);
+  --card-glow-hover:
+    0 0 0 1px rgba(255, 45, 155, 0.4),
+    0 8px 60px rgba(255, 45, 155, 0.14),
+    0 20px 80px rgba(0, 0, 0, 0.72),
+    inset 0 1px 0 rgba(255, 100, 180, 0.08);
+
+  background:
+    radial-gradient(ellipse 60% 45% at 80% 15%,
+      rgba(120, 10, 70, 0.28) 0%,
+      transparent 65%),
+    rgba(10, 2, 8, 0.82);
+}
+
+.mod-card--wavecast .mod-card__bg {
+  background: radial-gradient(
+    ellipse 85% 65% at 75% -5%,
+    rgba(255, 45, 155, 0.12) 0%,
+    rgba(180, 20, 100, 0.05) 45%,
+    transparent 70%
+  );
+  animation: wavecastGradientDrift 12s ease-in-out infinite;
+}
+
+.mod-card--wavecast:hover .mod-card__title {
+  text-shadow:
+    0 0 14px rgba(255, 45, 155, 0.65),
+    0 0 34px rgba(255, 20, 130, 0.22);
+}
+
+.mod-card--wavecast .mod-card__corners::before,
+.mod-card--wavecast .mod-card__corners::after {
+  border-color: rgba(255, 45, 155, 0.5);
+}
+
+/* Wavecast LIVE badge — shown in card run area */
+.mod-card--wavecast .mod-card__status-label {
+  animation: livePulse 1.8s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════
+   MINI RADIO PLAYER
+   Fixed bottom-left. Part of the OS chrome.
+═══════════════════════════════════════════════════════ */
+#mini-player {
+  position: fixed;
+  bottom: var(--sp-6);
+  left: var(--sp-6);
+  z-index: 7200;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 220px;
+
+  background: rgba(4, 2, 8, 0.84);
+  border: 1px solid rgba(255, 45, 155, 0.12);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow:
+    0 0 0 1px rgba(255, 45, 155, 0.06),
+    0 6px 32px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 45, 155, 0.06);
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition:
+    opacity   0.4s var(--ease-out-expo),
+    transform 0.4s var(--ease-out-expo),
+    border-color 0.3s ease,
+    box-shadow   0.3s ease;
+}
+
+#mini-player.mp--visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+  animation: miniPlayerIn 0.5s var(--ease-out-expo) both;
+}
+
+#mini-player.mp--playing {
+  border-color: rgba(255, 45, 155, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(255, 45, 155, 0.1),
+    0 6px 32px rgba(0, 0, 0, 0.65),
+    0 0 20px rgba(255, 45, 155, 0.06),
+    inset 0 1px 0 rgba(255, 45, 155, 0.08);
+}
+
+/* Accent top line */
+#mini-player::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 45, 155, 0.35) 50%,
+    transparent
+  );
+  border-radius: 1px;
+  opacity: 0.6;
+}
+
+/* ── Player header ─────────────────────────────────── */
+.mp__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4) var(--sp-2);
+}
+
+.mp__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mp__title {
+  font-family: var(--font-display);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 45, 155, 0.85);
+  line-height: 1;
+}
+
+.mp__status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mp__status-pip {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 45, 155, 0.5);
+  flex-shrink: 0;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+#mini-player.mp--playing .mp__status-pip {
+  background: rgba(255, 45, 155, 1);
+  box-shadow: 0 0 5px rgba(255, 45, 155, 0.8);
+  animation: livePulse 1.6s ease-in-out infinite;
+}
+
+.mp__status-text {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.2);
+  transition: color 0.3s ease;
+}
+
+#mini-player.mp--playing .mp__status-text {
+  color: rgba(255, 45, 155, 0.6);
+}
+
+/* Collapse / expand toggle */
+.mp__collapse {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.22);
+  font-size: 10px;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.mp__collapse:hover { color: rgba(255, 45, 155, 0.7); }
+
+/* ── EQ + Controls row ─────────────────────────────── */
+.mp__body {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-4) var(--sp-3);
+  transition: max-height 0.35s var(--ease-out-expo), opacity 0.3s ease;
+  overflow: hidden;
+}
+
+#mini-player.mp--collapsed .mp__body {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Equalizer bars */
+.mp__eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.mp__eq-bar {
+  width: 2.5px;
+  border-radius: 1px;
+  background: rgba(255, 45, 155, 0.75);
+  transform-origin: bottom;
+  transform: scaleY(0.3);
+  transition: background 0.3s ease;
+}
+
+/* Animated only when playing */
+#mini-player.mp--playing .mp__eq-bar:nth-child(1) { animation: eqBounce 0.7s ease-in-out infinite; animation-delay: 0s; }
+#mini-player.mp--playing .mp__eq-bar:nth-child(2) { animation: eqBounce 0.7s ease-in-out infinite; animation-delay: 0.12s; }
+#mini-player.mp--playing .mp__eq-bar:nth-child(3) { animation: eqBounce 0.7s ease-in-out infinite; animation-delay: 0.24s; }
+#mini-player.mp--playing .mp__eq-bar:nth-child(4) { animation: eqBounce 0.7s ease-in-out infinite; animation-delay: 0.36s; }
+#mini-player.mp--playing .mp__eq-bar:nth-child(5) { animation: eqBounce 0.7s ease-in-out infinite; animation-delay: 0.18s; }
+
+/* Play / Pause button */
+.mp__play {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 45, 155, 0.25);
+  background: rgba(255, 45, 155, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    border-color 0.2s ease,
+    background   0.2s ease,
+    box-shadow   0.2s ease,
+    transform    0.15s ease;
+}
+
+.mp__play:hover {
+  border-color: rgba(255, 45, 155, 0.5);
+  background: rgba(255, 45, 155, 0.12);
+  box-shadow: 0 0 12px rgba(255, 45, 155, 0.2);
+  transform: scale(1.05);
+}
+
+.mp__play:active { transform: scale(0.96); }
+
+.mp__play svg {
+  width: 12px;
+  height: 12px;
+  fill: rgba(255, 45, 155, 0.85);
+  stroke: none;
+  transition: fill 0.2s ease;
+}
+
+.mp__play:hover svg { fill: rgba(255, 45, 155, 1); }
+
+/* Volume control */
+.mp__vol-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.mp__vol-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.18);
+}
+
+.mp__vol {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 45, 155, 0.15);
+  border-radius: 1px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.mp__vol::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 45, 155, 0.9);
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(255, 45, 155, 0.6);
+  transition: transform 0.15s ease;
+}
+
+.mp__vol::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  animation: sliderGlow 1s ease-in-out infinite;
+}
+
+.mp__vol::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 45, 155, 0.9);
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(255, 45, 155, 0.6);
+}
+
+/* ── Open station link ──────────────────────────────── */
+.mp__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-2) var(--sp-4) var(--sp-3);
+  border-top: 1px solid rgba(255, 45, 155, 0.07);
+  transition: max-height 0.35s var(--ease-out-expo), opacity 0.3s ease;
+  overflow: hidden;
+}
+
+#mini-player.mp--collapsed .mp__footer {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-top-color: transparent;
+}
+
+.mp__open {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: rgba(255, 45, 155, 0.5);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mp__open:hover { color: rgba(255, 45, 155, 0.9); }
+
+.mp__open svg {
+  width: 9px;
+  height: 9px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  transition: transform 0.2s ease;
+}
+
+.mp__open:hover svg { transform: translateX(2px); }
+
+.mp__freq {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.06em;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TRANSITION OVERLAY — ARCHIVE + WAVECAST TINTS
+═══════════════════════════════════════════════════════ */
+body.trans--archive #transition-overlay .trans__bg {
+  background:
+    radial-gradient(ellipse 65% 45% at 30% 50%,
+      rgba(80, 45, 5, 0.55) 0%,
+      rgba(0, 0, 0, 0) 70%),
+    rgba(4, 2, 1, 0.95);
+}
+
+body.trans--archive #transition-overlay .trans__chroma {
+  background: linear-gradient(
+    105deg,
+    rgba(255, 140, 30, 0.04) 0%,
+    transparent 50%,
+    rgba(255, 100, 20, 0.025) 100%
+  );
+}
+
+body.trans--archive #transition-overlay .trans__progress-fill {
+  background: linear-gradient(90deg, rgba(255, 140, 40, 0.6) 0%, rgba(255, 179, 71, 1) 100%);
+  box-shadow: 0 0 10px rgba(255, 179, 71, 0.65);
+}
+
+body.trans--archive #transition-overlay .trans__terminal {
+  border-color: rgba(255, 179, 71, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(255, 179, 71, 0.06),
+    0 12px 80px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(255, 140, 40, 0.05),
+    inset 0 1px 0 rgba(255, 179, 71, 0.07);
+}
+
+body.trans--wavecast #transition-overlay .trans__bg {
+  background:
+    radial-gradient(ellipse 65% 45% at 70% 50%,
+      rgba(80, 5, 50, 0.58) 0%,
+      rgba(0, 0, 0, 0) 70%),
+    rgba(4, 1, 4, 0.95);
+}
+
+body.trans--wavecast #transition-overlay .trans__chroma {
+  background: linear-gradient(
+    105deg,
+    rgba(255, 45, 155, 0.05) 0%,
+    transparent 50%,
+    rgba(200, 20, 120, 0.03) 100%
+  );
+}
+
+body.trans--wavecast #transition-overlay .trans__progress-fill {
+  background: linear-gradient(90deg, rgba(200, 20, 120, 0.6) 0%, rgba(255, 45, 155, 1) 100%);
+  box-shadow: 0 0 12px rgba(255, 45, 155, 0.7);
+}
+
+body.trans--wavecast #transition-overlay .trans__terminal {
+  border-color: rgba(255, 45, 155, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(255, 45, 155, 0.07),
+    0 12px 80px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(255, 45, 155, 0.05),
+    inset 0 1px 0 rgba(255, 45, 155, 0.07);
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  #mini-player {
+    bottom: var(--sp-4);
+    left: var(--sp-4);
+    width: 200px;
+  }
+}
+
+/* Push mini-player up if audio-toggle is also in bottom-right —
+   they're on opposite corners so no conflict needed */
+
+@media (prefers-reduced-motion: reduce) {
+  .mp__eq-bar,
+  .mp__status-pip { animation: none !important; }
+
+  .mp__eq-bar { transform: scaleY(0.6); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   EXTENDED GRID — MOD 05–06 (2-column centred below main)
+═══════════════════════════════════════════════════════ */
+
+/* Visual separator between grid rows */
+.modules__grid + .modules__grid--extended {
+  margin-top: var(--sp-6);
+  /* Constrain 2-card row to roughly same width as 2 cols in the 2-col main grid */
+  max-width: calc(var(--max-w) / 2 + var(--sp-6));
+}
+
+/* On narrow viewports just let it stretch full width */
+@media (max-width: 900px) {
+  .modules__grid + .modules__grid--extended {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RETROCORE://RETROWAVE-FM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <link rel="stylesheet" href="css/player.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <svg xmlns="http://www.w3.org/2000/svg" class="svg-filters" aria-hidden="true">
+    <filter id="noise-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="gray-noise"/>
+    </filter>
+  </svg>
+
+  <div id="system" class="system">
+
+    <div class="fx-layer" aria-hidden="true">
+      <div class="fx-scanlines"></div>
+      <div class="fx-scanline-sweep"></div>
+      <div class="fx-vignette"></div>
+      <div class="fx-noise"></div>
+      <div class="fx-brightness" aria-hidden="true"></div>
+      <div class="fx-distortion" id="fx-distortion" aria-hidden="true"></div>
+    </div>
+
+    <div class="ambient-glow" aria-hidden="true">
+      <div class="ambient-glow__orb ambient-glow__orb--cyan"></div>
+      <div class="ambient-glow__orb ambient-glow__orb--pink"></div>
+    </div>
+
+    <header class="sys-header">
+      <div class="sys-header__block sys-header__block--left">
+        <span class="sys-header__prompt">RETROCORE://RETROWAVE-FM</span>
+      </div>
+      <div class="sys-header__block sys-header__block--center">
+        <span class="sys-indicator sys-indicator--active" aria-hidden="true"></span>
+        <span class="sys-header__status">SYS.ACTIVE</span>
+      </div>
+      <div class="sys-header__block sys-header__block--right">
+        <span class="sys-header__clock" id="sys-clock">00:00:00</span>
+      </div>
+    </header>
+
+    <main class="sys-main">
+
+      <section class="player" aria-label="Music Player">
+        <div class="player__frame">
+          <span class="player__corner player__corner--tl" aria-hidden="true"></span>
+          <span class="player__corner player__corner--tr" aria-hidden="true"></span>
+          <span class="player__corner player__corner--bl" aria-hidden="true"></span>
+          <span class="player__corner player__corner--br" aria-hidden="true"></span>
+
+          <div class="cover">
+            <div class="cover__border">
+              <div class="cover__surface">
+                <img class="cover__img" src="https://picsum.photos/seed/retrocore-wv/400/400.jpg" alt="Album artwork" loading="lazy">
+                <div class="cover__scan" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div class="cover__label">
+              <span class="cover__disc">DISC</span>
+              <span class="cover__num">01</span>
+            </div>
+          </div>
+
+          <div class="track-info">
+            <h1 class="track-info__title" id="track-title">AWAITING SIGNAL</h1>
+            <p class="track-info__artist" id="track-artist">--</p>
+            <p class="track-info__album" id="track-album">--</p>
+            <span class="track-info__freq" id="track-freq">FREQ: --.-Hz</span>
+          </div>
+
+          <div class="freq-display">
+               <span class="freq-display__value" id="freq-value">87.5</span>
+               <span class="freq-display__bar"></span>
+               <span class="freq-display__unit">MHz</span>
+                <span class="freq-display__fm" aria-hidden="true">FM</span>
+          </div>
+
+          <div class="viz" aria-hidden="true" id="visualizer">
+            <div class="viz__bar" style="--h:14%"></div>
+            <div class="viz__bar" style="--h:30%"></div>
+            <div class="viz__bar" style="--h:48%"></div>
+            <div class="viz__bar" style="--h:62%"></div>
+            <div class="viz__bar" style="--h:38%"></div>
+            <div class="viz__bar" style="--h:54%"></div>
+            <div class="viz__bar" style="--h:72%"></div>
+            <div class="viz__bar" style="--h:58%"></div>
+            <div class="viz__bar" style="--h:44%"></div>
+            <div class="viz__bar" style="--h:28%"></div>
+            <div class="viz__bar" style="--h:50%"></div>
+            <div class="viz__bar" style="--h:66%"></div>
+            <div class="viz__bar" style="--h:40%"></div>
+            <div class="viz__bar" style="--h:55%"></div>
+            <div class="viz__bar" style="--h:32%"></div>
+            <div class="viz__bar" style="--h:20%"></div>
+            <div class="viz__bar" style="--h:45%"></div>
+            <div class="viz__bar" style="--h:60%"></div>
+            <div class="viz__bar" style="--h:35%"></div>
+            <div class="viz__bar" style="--h:22%"></div>
+            <div class="viz__bar" style="--h:16%"></div>
+            <div class="viz__bar" style="--h:10%"></div>
+            <div class="viz__bar" style="--h:6%"></div>
+          </div>
+
+          <div class="progress">
+            <div class="progress__track" id="progress-track">
+              <div class="progress__fill" id="progress-fill"></div>
+              <div class="progress__head" id="progress-head"></div>
+            </div>
+            <div class="progress__meta">
+              <span class="progress__time progress__time--current" id="time-current">0:00</span>
+              <span class="progress__time progress__time--total" id="time-total">0:00</span>
+            </div>
+          </div>
+
+          <nav class="controls" aria-label="Playback controls">
+            <button class="ctrl-btn ctrl-btn--sm" id="btn-shuffle" aria-label="Shuffle" title="SHUFFLE">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
+                <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
+                <line x1="4" y1="4" x2="9" y2="9"/>
+              </svg>
+            </button>
+            <button class="ctrl-btn" id="btn-prev" aria-label="Previous track" title="PREV">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="4" x2="5" y2="20"/><polyline points="19 4 9 12 19 20"/>
+              </svg>
+            </button>
+            <button class="ctrl-btn ctrl-btn--play" id="btn-play" aria-label="Play" title="PLAY">
+              <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><polygon points="9,4 20,12 9,20"/></svg>
+              <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                <rect x="6" y="4" width="4" height="16" rx="0.5"/><rect x="14" y="4" width="4" height="16" rx="0.5"/>
+              </svg>
+            </button>
+            <button class="ctrl-btn" id="btn-next" aria-label="Next track" title="NEXT">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="4" x2="19" y2="20"/><polyline points="5 4 15 12 5 20"/>
+              </svg>
+            </button>
+            <button class="ctrl-btn ctrl-btn--sm" id="btn-repeat" aria-label="Repeat" title="REPEAT">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+              </svg>
+            </button>
+          </nav>
+
+          <div class="volume">
+            <span class="volume__label">VOL</span>
+            <div class="volume__track" id="volume-track">
+              <div class="volume__fill" id="volume-fill" style="width:75%"></div>
+              <div class="volume__head" id="volume-head" style="left:75%"></div>
+            </div>
+            <span class="volume__value" id="volume-value">75</span>
+          </div>
+          <div class="sys-message" id="sys-message" aria-hidden="true">
+              <span class="sys-message__text" id="sys-message-text"></span>
+          </div>
+          <div class="hub-link" id="hub-link">
+              <span class="hub-link__dot" aria-hidden="true"></span>
+              <span class="hub-link__text">RETROCORE://HUB</span>
+          </div>
+
+        </div>
+      </section>
+
+            <aside class="playlist" aria-label="Radio queue">
+        <div class="playlist__header">
+          <div class="playlist__title-row">
+            <span class="playlist__title">RETROWAVE FM</span>
+            <span class="playlist__count" id="playlist-count">09 TRACKS</span>
+          </div>
+          <div class="playlist__divider"></div>
+        </div>
+
+        <div class="radio-section">
+          <div class="radio-section__head">
+            <span class="radio-section__label">UP NEXT</span>
+          </div>
+          <div class="radio-section__divider"></div>
+          <div class="radio-section__list" id="radio-up-next"></div>
+        </div>
+
+        <div class="radio-section radio-section--log">
+          <div class="radio-section__head">
+            <span class="radio-section__label">RECENTLY</span>
+          </div>
+          <div class="radio-section__divider"></div>
+          <div class="radio-section__list" id="radio-recently"></div>
+        </div>
+      </aside>
+
+    </main>
+
+    <footer class="sys-footer">
+      <div class="sys-footer__block">
+        <span class="sys-footer__text">AUDIO.SYS v2.4.1</span>
+      </div>
+      <div class="sys-footer__block">
+        <span class="sys-indicator sys-indicator--ok" aria-hidden="true"></span>
+        <span class="sys-footer__text">BUFFER: OK</span>
+      </div>
+      <div class="sys-footer__block">
+        <span class="sys-footer__text">MEM: 128KB FREE</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="hub-transition" id="hub-transition" aria-hidden="true">
+      <div class="hub-transition__inner">
+        <span class="hub-transition__line hub-transition__line--1"></span>
+        <span class="hub-transition__msg" id="hub-transition-msg"></span>
+        <span class="hub-transition__line hub-transition__line--2"></span>
+      </div>
+  </div>
+
+<script>
+/* ============================================================
+   RETROCORE://RETROWAVE-FM — Radio Broadcast System
+   With live WebAudio visualizer
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   PlaylistManager
+   ---------------------------------------------------------- */
+class PlaylistManager {
+  constructor() {
+    this.tracks = [
+      {
+        title: 'STATION', artist: 'RETROWAVE-FM', album: '--',
+        file: 'assets/audio/jingle-01.mp3', cover: '',
+        freq: '--', mhz: 87.5, era: 'jingle', isJingle: true
+      },
+      {
+        title: 'STATION', artist: 'RETROWAVE-FM', album: '--',
+        file: 'assets/audio/jingle-02.mp3', cover: '',
+        freq: '--', mhz: 87.5, era: 'jingle', isJingle: true
+      },
+      {
+        title: 'Pump Up The Jam', artist: 'Technotronic', album: 'Pump Up The Jam',
+        file: 'assets/audio/track-01.mp3',
+        cover: 'assets/covers/track-01.jpg',
+        freq: '440.0', mhz: 87.5, era: '80s', isJingle: false
+      },
+      {
+        title: 'Take On Me', artist: 'A-HA', album: 'Signal Archive',
+        file: 'assets/audio/track-02.mp3',
+        cover: 'assets/covers/track-02.jpg',
+        freq: '392.0', mhz: 87.5, era: '80s', isJingle: false
+      },
+      {
+        title: 'Terminal Horizon', artist: 'Void Sequence', album: 'Edge Protocol',
+        file: 'assets/audio/track-03.mp3',
+        cover: 'https://picsum.photos/seed/terminal-horizon-rc/400/400.jpg',
+        freq: '349.2', mhz: 87.5, era: '80s', isJingle: false
+      },
+      {
+        title: 'Chrome Meridian', artist: 'Datastream', album: 'Edge Protocol',
+        file: 'assets/audio/track-04.mp3',
+        cover: 'https://picsum.photos/seed/chrome-meridian-rc/400/400.jpg',
+        freq: '329.6', mhz: 87.5, era: '80s', isJingle: false
+      },
+      {
+        title: 'Analog Ghosts', artist: 'Circuit Prophet', album: 'Phantom Grid',
+        file: 'assets/audio/track-05.mp3',
+        cover: 'https://picsum.photos/seed/analog-ghosts-rc/400/400.jpg',
+        freq: '293.7', mhz: 87.5, era: '80s', isJingle: false
+      },
+      {
+        title: 'Deep State', artist: 'Night Protocol', album: 'Phantom Grid',
+        file: 'assets/audio/track-06.mp3',
+        cover: 'https://picsum.photos/seed/deep-state-rc/400/400.jpg',
+        freq: '261.6', mhz: 87.5, era: '80s', isJingle: false
+      },
+      {
+        title: 'Midnight Walk', artist: 'Suno AI', album: 'Generated',
+        file: 'assets/audio/track-07.mp3',
+        cover: 'https://picsum.photos/seed/suno-midnight-drive/400/400.jpg',
+        freq: '380.0', mhz: 87.5, era: 'suno', isJingle: false
+      },
+      {
+        title: 'Neon Boulevard', artist: 'Trav1s', album: 'Through Atlantis',
+        file: 'assets/audio/track-08.mp3',
+        cover: 'https://picsum.photos/seed/suno-neon-boulevard/400/400.jpg',
+        freq: '415.3', mhz: 87.5, era: 'suno', isJingle: false
+      },
+      {
+        title: 'Boys & Girls', artist: 'Clare Finn', album: 'One More Time',
+        file: 'assets/audio/track-09.mp3',
+        cover: 'https://picsum.photos/seed/suno-solar-winds/400/400.jpg',
+        freq: '345.0', mhz: 87.5, era: 'suno', isJingle: false
+      },
+      {
+        title: 'Neon Drift', artist: 'Trav1s', album: 'Through Atlantis',
+        file: 'assets/audio/track-10.mp3',
+        cover: 'https://picsum.photos/seed/retro-sunset-highway-drive/400/400.jpg',
+        freq: '345.0', mhz: 87.5, era: 'suno', isJingle: false
+      },
+      {
+        title: 'Through Atlantis', artist: 'Trav1s', album: 'Through Atlantis',
+        file: 'assets/audio/track-11.mp3',
+        cover: 'https://picsum.photos/seed/foggy-atlantic-bridge/400/400.jpg',
+        freq: '345.0', mhz: 87.5, era: 'suno', isJingle: false
+      },
+      {
+        title: 'In My Dreams', artist: 'Simon_s Crew', album: 'Through Atlantis',
+        file: 'assets/audio/track-12.mp3',
+        cover: 'https://picsum.photos/seed/atlantis-ocean-night/400/400.jpg',
+        freq: '345.0', mhz: 87.5, era: 'suno', isJingle: false
+      }
+    ];
+
+    var self = this;
+    this.tracks.forEach(function(t, i) { t._fullIndex = i; });
+    this.jingles = this.tracks.filter(function(t) { return t.isJingle; });
+    this.musicTracks = this.tracks.filter(function(t) { return !t.isJingle; });
+    this._musicToFull = {};
+    this.musicTracks.forEach(function(t, i) { self._musicToFull[i] = t._fullIndex; });
+    this.activeIndex = -1;
+  }
+
+  getCurrent()     { return this.activeIndex >= 0 ? this.tracks[this.activeIndex] : null; }
+  getAt(index)     { return this.tracks[index] || null; }
+  get length()     { return this.tracks.length; }
+  get musicCount() { return this.musicTracks.length; }
+
+  setActive(index) {
+    if (index >= 0 && index < this.tracks.length) this.activeIndex = index;
+  }
+
+  getNextMusicIndex() {
+    var cur = this.getCurrent();
+    if (!cur || cur.isJingle) return this._musicToFull[0];
+    var mi = this.musicTracks.indexOf(cur);
+    return this._musicToFull[(mi + 1) % this.musicTracks.length];
+  }
+
+  getPrevMusicIndex() {
+    var cur = this.getCurrent();
+    if (!cur || cur.isJingle) return this._musicToFull[this.musicTracks.length - 1];
+    var mi = this.musicTracks.indexOf(cur);
+    return this._musicToFull[(mi - 1 + this.musicTracks.length) % this.musicTracks.length];
+  }
+
+  getUpNext(count) {
+    var cur = this.getCurrent();
+    var mi = 0;
+    if (cur && !cur.isJingle) mi = this.musicTracks.indexOf(cur);
+    var out = [];
+    for (var i = 1; i <= count; i++) out.push(this.musicTracks[(mi + i) % this.musicTracks.length]);
+    return out;
+  }
+
+    /* Get a random music track index, excluding current */
+  getRandomMusicIndex() {
+    var cur = this.getCurrent();
+    var mi = 0;
+    if (cur && !cur.isJingle) mi = this.musicTracks.indexOf(cur);
+    if (this.musicTracks.length <= 1) return this._musicToFull[0];
+    var pick;
+    do {
+      pick = Math.floor(Math.random() * this.musicTracks.length);
+    } while (pick === mi);
+    return this._musicToFull[pick];
+  }
+
+  static formatTime(sec) {
+    if (!sec || !isFinite(sec)) return '-:--';
+    var t = Math.max(0, Math.floor(sec));
+    return Math.floor(t / 60) + ':' + (t % 60).toString().padStart(2, '0');
+  }
+}
+
+
+/* ----------------------------------------------------------
+   AudioSystem — with WebAudio analyser
+   ---------------------------------------------------------- */
+class AudioSystem {
+  constructor() {
+    this.audio = new Audio();
+    this.audio.preload = 'metadata';
+    this._context = null;
+    this._analyser = null;
+    this._sourceNode = null;
+    this._webAudioReady = false;
+  }
+
+  get element()     { return this.audio; }
+  get playing()     { return this.audio.readyState >= 2 && !this.audio.paused && !this.audio.ended; }
+  get currentTime() { return this.audio.currentTime || 0; }
+  get duration()    { return this.audio.duration || 0; }
+
+  /* Initialize WebAudio pipeline. Must be called from user gesture. */
+  initWebAudio() {
+    if (this._webAudioReady) return;
+    try {
+      this._context = new (window.AudioContext || window.webkitAudioContext)();
+      this._analyser = this._context.createAnalyser();
+      this._analyser.fftSize = 256;
+      this._analyser.smoothingTimeConstant = 0.72;
+      this._sourceNode = this._context.createMediaElementSource(this.audio);
+      this._sourceNode.connect(this._analyser);
+      this._analyser.connect(this._context.destination);
+      this._webAudioReady = true;
+    } catch (e) {
+      console.warn('[AUDIO.SYS] WebAudio init failed:', e);
+    }
+  }
+
+  /* Resume suspended context (browser autoplay policy) */
+  async ensureContext() {
+    if (this._context && this._context.state === 'suspended') {
+      await this._context.resume();
+    }
+  }
+
+  getAnalyser()    { return this._analyser; }
+  isWebAudioReady(){ return this._webAudioReady; }
+
+  load(u)    { this.audio.src = u; this.audio.load(); }
+  play()     { return this.audio.play(); }
+  pause()    { this.audio.pause(); }
+  destroy()  { this.audio.pause(); this.audio.removeAttribute('src'); this.audio.load(); }
+
+  seek(t) {
+    if (isFinite(t) && this.audio.duration)
+      this.audio.currentTime = Math.max(0, Math.min(t, this.audio.duration));
+  }
+
+  setVolume(v) { this.audio.volume = Math.max(0, Math.min(1, v)); }
+  getVolume()  { return this.audio.volume; }
+}
+
+
+/* ----------------------------------------------------------
+   Visualizer — live WebAudio frequency analyzer (boosted)
+   ---------------------------------------------------------- */
+class Visualizer {
+  constructor() {
+    this.bars = [];
+    this.baseHeights = [];
+    this.displayHeights = [];
+    this._analyser = null;
+    this._running = false;
+    this._returning = false;
+    this._rafId = null;
+
+    var c = document.getElementById('visualizer');
+    if (c) {
+      this.bars = Array.from(c.querySelectorAll('.viz__bar'));
+      var self = this;
+      this.bars.forEach(function(bar) {
+        var base = parseFloat(bar.style.getPropertyValue('--h')) || 10;
+        self.baseHeights.push(base);
+        self.displayHeights.push(base);
+      });
+    }
+  }
+
+  connect(analyser) {
+    this._analyser = analyser;
+  }
+
+  start() {
+    if (this._running || !this._analyser) return;
+    this._returning = false;
+    this._running = true;
+    this._render();
+  }
+
+  stop() {
+    this._running = false;
+    if (this._rafId) {
+      cancelAnimationFrame(this._rafId);
+      this._rafId = null;
+    }
+    if (!this._returning) {
+      this._returning = true;
+      this._returnToBase();
+    }
+  }
+
+  _render() {
+    if (!this._running) return;
+    var self = this;
+
+    var bufLen = this._analyser.frequencyBinCount;
+    var data = new Uint8Array(bufLen);
+    this._analyser.getByteFrequencyData(data);
+
+    var mapped = this._mapFrequency(data);
+
+    for (var i = 0; i < this.bars.length; i++) {
+      /* Audio contribution — boosted to 0.65 of total height */
+      var audioContrib = mapped[i] * 0.65;
+      var target = this.baseHeights[i] + audioContrib;
+      target = Math.min(target, 98);
+
+      /* Fast rise, slow fall */
+      if (target > this.displayHeights[i]) {
+        this.displayHeights[i] += (target - this.displayHeights[i]) * 0.45;
+      } else {
+        this.displayHeights[i] -= (this.displayHeights[i] - target) * 0.12;
+      }
+
+      this.bars[i].style.height = this.displayHeights[i].toFixed(1) + '%';
+
+      /* Opacity follows height */
+      var activity = (this.displayHeights[i] - this.baseHeights[i]) / 40;
+      this.bars[i].style.opacity = (0.4 + Math.min(activity, 0.6)).toFixed(2);
+    }
+
+    this._rafId = requestAnimationFrame(function() { self._render(); });
+  }
+
+  _mapFrequency(data) {
+    var barCount = this.bars.length;
+    var binCount = data.length;
+    var result = [];
+
+    for (var i = 0; i < barCount; i++) {
+      var logStart = Math.pow(i / barCount, 1.5) * binCount;
+      var logEnd = Math.pow((i + 1) / barCount, 1.5) * binCount;
+      var startBin = Math.floor(logStart);
+      var endBin = Math.min(Math.floor(logEnd) + 1, binCount);
+
+      if (startBin >= endBin) endBin = startBin + 1;
+
+      var sum = 0;
+      var count = 0;
+      for (var j = startBin; j < endBin && j < binCount; j++) {
+        sum += data[j];
+        count++;
+      }
+
+      result.push(count > 0 ? (sum / count) / 255 : 0);
+    }
+
+    return result;
+  }
+
+  _returnToBase() {
+    if (!this._returning) return;
+    var self = this;
+    var done = true;
+
+    for (var i = 0; i < this.bars.length; i++) {
+      var diff = this.displayHeights[i] - this.baseHeights[i];
+      if (Math.abs(diff) > 0.3) {
+        this.displayHeights[i] -= diff * 0.08;
+        done = false;
+      } else {
+        this.displayHeights[i] = this.baseHeights[i];
+      }
+      this.bars[i].style.height = this.displayHeights[i].toFixed(1) + '%';
+      this.bars[i].style.opacity = '0.5';
+    }
+
+    if (!done) {
+      requestAnimationFrame(function() { self._returnToBase(); });
+    } else {
+      this._returning = false;
+    }
+  }
+}
+
+
+/* ----------------------------------------------------------
+   PlayerController
+   ---------------------------------------------------------- */
+var VOL_KEY = 'retrocore-volume';
+
+class PlayerController {
+  constructor(audio, viz, playlist) {
+    this.audio = audio;
+    this.viz = viz;
+    this.playlist = playlist;
+    this._loading = false;
+    this._jingleMode = false;
+    this._lastCover = '';
+
+    this.state = {
+      playing: false,
+      trackIndex: -1,
+      shuffle: false,
+      repeat: 'all',
+      volume: 75,
+      currentTime: 0,
+      duration: 0,
+      signalLost: false
+    };
+
+    this.onTrackChange    = null;
+    this.onTimeUpdate     = null;
+    this.onLoadedMetadata = null;
+    this.onError          = null;
+    this.onPlay           = null;
+    this.onPause          = null;
+    this.onEnded          = null;
+    this.onJingleStart    = null;
+    this.onJingleEnded    = null;
+    this.onVolumeChange   = null;
+    this.onShuffleToggle  = null;
+    this.onRepeatCycle    = null;
+
+    this._bindAudioEvents();
+    this._restoreVolume();
+  }
+
+  /* Ensure WebAudio is initialized (must be from user gesture) */
+  async _ensureReady() {
+    this.audio.initWebAudio();
+    await this.audio.ensureContext();
+  }
+
+  _bindAudioEvents() {
+    var self = this;
+    var el = this.audio.element;
+
+    el.addEventListener('timeupdate', function() {
+      self.state.currentTime = self.audio.currentTime;
+      self.state.duration = self.audio.duration || 0;
+      if (self.onTimeUpdate) self.onTimeUpdate(self.state.currentTime, self.state.duration);
+    });
+
+    el.addEventListener('ended', function() {
+      if (self._jingleMode) {
+        self._jingleMode = false;
+        if (self.onJingleEnded) self.onJingleEnded();
+      } else {
+        self.state.playing = false;
+        if (self.onEnded) self.onEnded();
+      }
+    });
+
+    el.addEventListener('loadedmetadata', function() {
+      self.state.duration = self.audio.duration;
+      self.state.signalLost = false;
+      if (self.onLoadedMetadata) self.onLoadedMetadata(self.state.duration);
+    });
+
+    el.addEventListener('error', function() {
+      self.state.playing = false;
+      self.state.signalLost = true;
+      self._jingleMode = false;
+      if (self.onError) self.onError();
+    });
+
+    el.addEventListener('play', function() {
+      self.state.playing = true;
+      self.state.signalLost = false;
+      if (self.onPlay) self.onPlay();
+    });
+
+    el.addEventListener('pause', function() {
+      if (!self.audio.ended) {
+        self.state.playing = false;
+        if (self.onPause) self.onPause();
+      }
+    });
+  }
+
+  _restoreVolume() {
+    var vol = 75;
+    try {
+      var s = localStorage.getItem(VOL_KEY);
+      if (s !== null) { var p = parseInt(s, 10); if (!isNaN(p)) vol = p; }
+    } catch (e) {}
+    this.state.volume = vol;
+    this.audio.setVolume(vol / 100);
+  }
+
+    _fadeAudio(target, ms) {
+    var self = this;
+    return new Promise(function(resolve) {
+      var start = self.audio.getVolume();
+      if (Math.abs(start - target) < 0.005) {
+        self.audio.setVolume(target);
+        resolve();
+        return;
+      }
+
+      /* Background tab: skip animation, set volume directly */
+      if (document.hidden) {
+        self.audio.setVolume(target);
+        resolve();
+        return;
+      }
+
+      var t0 = performance.now();
+      var resolved = false;
+
+      function tick(now) {
+        if (resolved) return;
+        var p = Math.min((now - t0) / ms, 1);
+        var e = p * p * (3 - 2 * p);
+        self.audio.setVolume(start + (target - start) * e);
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          resolved = true;
+          resolve();
+        }
+      }
+
+      requestAnimationFrame(tick);
+
+      /* Safety: force resolve if rAF freezes in background */
+      setTimeout(function() {
+        if (!resolved) {
+          resolved = true;
+          self.audio.setVolume(target);
+          resolve();
+        }
+      }, ms + 300);
+    });
+  }
+
+    _wait(ms) {
+    /* Background tab: skip long pauses so tracks keep playing */
+    if (document.hidden) ms = Math.min(ms, 50);
+    return new Promise(function(r) { setTimeout(r, ms); });
+  }
+
+  async loadTrack(index, autoPlay) {
+    if (this._loading) return;
+    this._loading = true;
+    try {
+      await this._ensureReady();
+      var track = this.playlist.getAt(index);
+      if (!track) return;
+
+      var shouldPlay = autoPlay || this.state.playing;
+      var targetVol = this.state.volume / 100;
+      var switching = this.state.trackIndex >= 0 && this.state.trackIndex !== index;
+
+      if (this.audio.playing) {
+        await this._fadeAudio(0, 250);
+        this.audio.pause();
+      }
+
+      this.playlist.setActive(index);
+      this.state.trackIndex = index;
+      this.state.signalLost = false;
+      this.state.currentTime = 0;
+      this.state.duration = 0;
+      this._jingleMode = false;
+      this.audio.setVolume(0);
+      this.audio.load(track.file);
+
+      if (this.onTrackChange) this.onTrackChange(track, index, switching);
+      await this._wait(180);
+
+      if (shouldPlay) {
+        try {
+          await this.audio.play();
+          await this._fadeAudio(targetVol, 450);
+        } catch (e) { this.audio.setVolume(targetVol); }
+      } else {
+        this.audio.setVolume(targetVol);
+      }
+    } finally { this._loading = false; }
+  }
+
+  async playJingle(jingleData) {
+    if (this._loading) return;
+    this._loading = true;
+    this._jingleMode = true;
+    try {
+      await this._ensureReady();
+      var targetVol = this.state.volume / 100;
+      this.audio.setVolume(0);
+      this.audio.load(jingleData.file);
+      if (this.onJingleStart) this.onJingleStart(jingleData);
+      await this._wait(100);
+      try {
+        await this.audio.play();
+        await this._fadeAudio(targetVol * 0.7, 250);
+      } catch (e) { this._jingleMode = false; }
+    } finally { this._loading = false; }
+  }
+
+  async togglePlay() {
+    if (this._jingleMode) { this.audio.pause(); return; }
+    if (this.state.trackIndex < 0) {
+      await this.loadTrack(this.playlist.getNextMusicIndex(), true);
+      return;
+    }
+    if (this.audio.playing) this.audio.pause();
+    else {
+      await this._ensureReady();
+      try { await this.audio.play(); } catch (e) {}
+    }
+  }
+
+  async nextTrack() {
+    if (this._jingleMode) { this.audio.pause(); this._jingleMode = false; }
+    var was = this.state.playing;
+    await this.loadTrack(this.playlist.getNextMusicIndex(), was);
+  }
+
+  async prevTrack() {
+    if (this._jingleMode) { this.audio.pause(); this._jingleMode = false; }
+    if (this.audio.currentTime > 3) { this.audio.seek(0); return; }
+    var was = this.state.playing;
+    await this.loadTrack(this.playlist.getPrevMusicIndex(), was);
+  }
+
+  seek(f) { if (this.state.duration > 0) this.audio.seek(f * this.state.duration); }
+
+  setVolume(v) {
+    var c = Math.max(0, Math.min(100, Math.round(v)));
+    this.state.volume = c;
+    this.audio.setVolume(c / 100);
+    try { localStorage.setItem(VOL_KEY, c.toString()); } catch (e) {}
+    if (this.onVolumeChange) this.onVolumeChange(c);
+  }
+
+  toggleShuffle() {
+    this.state.shuffle = !this.state.shuffle;
+    if (this.onShuffleToggle) this.onShuffleToggle(this.state.shuffle);
+  }
+
+  cycleRepeat() {
+    var m = ['none', 'all', 'one'];
+    var c = m.indexOf(this.state.repeat);
+    this.state.repeat = m[(c + 1) % m.length];
+    if (this.onRepeatCycle) this.onRepeatCycle(this.state.repeat);
+  }
+
+  setLastCover(src) { this._lastCover = src; }
+  getLastCover()    { return this._lastCover; }
+}
+
+
+/* ----------------------------------------------------------
+   RadioEngine
+   ---------------------------------------------------------- */
+class RadioEngine {
+  constructor(player, playlist) {
+    this.player = player;
+    this.playlist = playlist;
+    this.recentLog = [];
+    this.jingleProbability = 0.30;
+    this._upNextCount = 4;
+    this._maxLog = 5;
+    this.onQueueUpdate = null;
+  }
+
+  musicEnded() {
+    var track = this.playlist.getCurrent();
+    if (track && !track.isJingle) this._addLog(track);
+    var jingles = this.playlist.jingles;
+    if (jingles.length > 0 && Math.random() < this.jingleProbability) {
+      this.player.playJingle(jingles[Math.floor(Math.random() * jingles.length)]);
+    } else {
+      this._playNextMusic();
+    }
+    this._notifyUpdate();
+  }
+
+  jingleEnded() {
+    this._playNextMusic();
+    this._notifyUpdate();
+  }
+
+  trackChanged(track) {
+    if (track && !track.isJingle) {
+      this.recentLog = this.recentLog.filter(function(t) { return t.file !== track.file; });
+      this._addLog(track);
+      this._notifyUpdate();
+    }
+  }
+
+    _playNextMusic() {
+    var idx;
+    if (this.player.state.shuffle) {
+      idx = this.playlist.getRandomMusicIndex();
+    } else {
+      idx = this.playlist.getNextMusicIndex();
+    }
+    this.player.loadTrack(idx, true);
+  }
+
+  _addLog(track) {
+    this.recentLog.unshift({ title: track.title, artist: track.artist, era: track.era });
+    if (this.recentLog.length > this._maxLog) this.recentLog.pop();
+  }
+
+  getUpNext()    { return this.playlist.getUpNext(this._upNextCount); }
+  getRecently()  { return this.recentLog.slice(); }
+
+  _notifyUpdate() { if (this.onQueueUpdate) this.onQueueUpdate(); }
+}
+
+
+/* ----------------------------------------------------------
+   VHSEffectController
+   ---------------------------------------------------------- */
+class VHSEffectController {
+  constructor() {
+    this._timeout = null;
+    this._running = false;
+    this._fxB = document.querySelector('.fx-brightness');
+    this._fxD = document.getElementById('fx-distortion');
+    this._fxS = document.querySelector('.fx-scanlines');
+    this._sys = document.getElementById('system');
+    this._enabled = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var self = this;
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) self.stop(); else if (self._enabled) self.start();
+    });
+  }
+
+  start() {
+    if (this._running || !this._enabled) return;
+    this._running = true;
+    this._schedule();
+  }
+
+  stop() {
+    this._running = false;
+    if (this._timeout) { clearTimeout(this._timeout); this._timeout = null; }
+  }
+
+  _schedule() {
+    if (!this._running) return;
+    var self = this;
+    this._timeout = setTimeout(function() {
+      if (!self._running) return;
+      var fx = ['flicker', 'scanlineDrift', 'brightness', 'distortion'];
+      var pick = fx[Math.floor(Math.random() * fx.length)];
+      if (pick === 'flicker')       self._doFlicker();
+      if (pick === 'scanlineDrift') self._doScanlineDrift();
+      if (pick === 'brightness')    self._doBrightness();
+      if (pick === 'distortion')    self._doDistortion();
+      self._schedule();
+    }, 7000 + Math.random() * 12000);
+  }
+
+  _doFlicker() {
+    var el = this._sys; if (!el) return;
+    el.style.opacity = '0.97';
+    setTimeout(function() { el.style.opacity = '1'; }, 70);
+    setTimeout(function() { el.style.opacity = '0.985'; }, 140);
+    setTimeout(function() { el.style.opacity = '1'; }, 200);
+  }
+
+  _doScanlineDrift() {
+    var el = this._fxS; if (!el) return;
+    el.classList.add('fx-scanlines--drift');
+    setTimeout(function() { el.classList.remove('fx-scanlines--drift'); }, 450);
+  }
+
+  _doBrightness() {
+    var el = this._fxB; if (!el) return;
+    el.classList.add('fx-brightness--pulse');
+    setTimeout(function() { el.classList.remove('fx-brightness--pulse'); }, 250);
+  }
+
+  _doDistortion() {
+    var el = this._fxD; if (!el) return;
+    el.style.top = (10 + Math.random() * 80) + '%';
+    el.classList.add('fx-distortion--flash');
+    setTimeout(function() { el.classList.remove('fx-distortion--flash'); }, 180);
+  }
+
+  triggerTransitionGlitch() { if (this._enabled) this._doDistortion(); }
+}
+
+
+/* ----------------------------------------------------------
+   SystemMessageQueue
+   ---------------------------------------------------------- */
+class SystemMessageQueue {
+  constructor() {
+    this._el = document.getElementById('sys-message');
+    this._t = document.getElementById('sys-message-text');
+    this._q = [];
+    this._on = false;
+  }
+
+  push(text, hold) {
+    this._q.push({ text: text, hold: hold || 1100 });
+    if (!this._on) this._next();
+  }
+
+  clear() {
+    this._q = [];
+    if (this._on && this._el) {
+      this._el.classList.remove('sys-message--visible');
+      this._on = false;
+    }
+  }
+
+  _next() {
+    if (!this._q.length) { this._on = false; return; }
+    this._on = true;
+    var msg = this._q.shift();
+    var self = this;
+    this._t.textContent = msg.text;
+    this._el.classList.add('sys-message--visible');
+    setTimeout(function() {
+      self._el.classList.remove('sys-message--visible');
+      setTimeout(function() { self._next(); }, 350);
+    }, msg.hold);
+  }
+}
+
+
+/* ----------------------------------------------------------
+   HubTransitionController
+   ---------------------------------------------------------- */
+class HubTransitionController {
+  constructor() {
+    this._ov = document.getElementById('hub-transition');
+    this._mg = document.getElementById('hub-transition-msg');
+    this._lk = document.getElementById('hub-link');
+    this._running = false;
+    this._bound = false;
+  }
+
+  bind() {
+    if (this._bound || !this._lk) return;
+    this._bound = true;
+    var self = this;
+    this._lk.addEventListener('click', function(e) { e.preventDefault(); self.execute(); });
+    this._lk.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); self.execute(); }
+    });
+    this._lk.setAttribute('tabindex', '0');
+    this._lk.setAttribute('role', 'link');
+    this._lk.setAttribute('aria-label', 'Return to RETROCORE HUB');
+  }
+
+  async execute() {
+    if (this._running) return;
+    this._running = true;
+    if (window.RETCORE_WAVECAST && window.RETCORE_WAVECAST.isPlaying()) window.RETCORE_WAVECAST.pause();
+    if (window.RETCORE_WAVECAST && window.RETCORE_WAVECAST.onHubReturn) window.RETCORE_WAVECAST.onHubReturn();
+    this._ov.classList.add('hub-transition--active');
+    await this._d(600);
+    await this._m('ESTABLISHING LINK...', 900);
+    await this._m('RETURNING TO HUB...', 1000);
+    await this._m('SIGNAL LINK STABLE', 700);
+    await this._m('TRANSFER COMPLETE', 800);
+    await this._d(400);
+    window.location.href = '../../index.html';
+  }
+
+  _m(t, h) {
+    var self = this;
+    return new Promise(function(resolve) {
+      self._mg.textContent = t;
+      self._mg.classList.add('hub-transition__msg--visible');
+      setTimeout(function() {
+        self._mg.classList.remove('hub-transition__msg--visible');
+        setTimeout(resolve, 300);
+      }, h);
+    });
+  }
+
+  _d(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
+}
+
+
+/* ----------------------------------------------------------
+   UIController
+   ---------------------------------------------------------- */
+class UIController {
+  constructor(player) {
+    this.player = player;
+    this.radio = null;
+    this.clockEl = document.getElementById('sys-clock');
+    this._clockInt = null;
+    this._progDrag = false;
+    this._pendSeek = null;
+
+    this.dom = {
+      coverImg:      document.querySelector('.cover__img'),
+      coverNum:      document.querySelector('.cover__num'),
+      trackTitle:    document.getElementById('track-title'),
+      trackArtist:   document.getElementById('track-artist'),
+      trackAlbum:    document.getElementById('track-album'),
+      trackFreq:     document.getElementById('track-freq'),
+      progressFill:  document.getElementById('progress-fill'),
+      progressHead:  document.getElementById('progress-head'),
+      progressTrack: document.getElementById('progress-track'),
+      timeCurrent:   document.getElementById('time-current'),
+      timeTotal:     document.getElementById('time-total'),
+      volumeFill:    document.getElementById('volume-fill'),
+      volumeHead:    document.getElementById('volume-head'),
+      volumeTrack:   document.getElementById('volume-track'),
+      volumeValue:   document.getElementById('volume-value'),
+      btnPlay:       document.getElementById('btn-play'),
+      btnShuffle:    document.getElementById('btn-shuffle'),
+      btnRepeat:     document.getElementById('btn-repeat'),
+      sysStatus:     document.querySelector('.sys-header__status'),
+      sysIndicator:  document.querySelector('.sys-header__block--center .sys-indicator'),
+      systemEl:      document.getElementById('system'),
+      vizContainer:  document.getElementById('visualizer'),
+      upNext:        document.getElementById('radio-up-next'),
+      recently:      document.getElementById('radio-recently'),
+      playlistCount: document.getElementById('playlist-count')
+    };
+
+    this.vhs = new VHSEffectController();
+    this.messages = new SystemMessageQueue();
+  }
+
+  boot() {
+    this._startClock();
+    this._bindControls();
+    this._bindSliders();
+    this._registerCallbacks();
+    this._renderInitialState();
+    this._setSystemStatus('STANDBY MODE');
+    this.hubTransition = new HubTransitionController();
+    this.hubTransition.bind();
+  }
+
+  _startClock() {
+    if (!this.clockEl) return;
+    var self = this;
+    function update() {
+      var d = new Date();
+      self.clockEl.textContent =
+        d.getHours().toString().padStart(2, '0') + ':' +
+        d.getMinutes().toString().padStart(2, '0') + ':' +
+        d.getSeconds().toString().padStart(2, '0');
+    }
+    update();
+    this._clockInt = setInterval(update, 1000);
+  }
+
+  _bindControls() {
+    var self = this;
+    this.dom.btnPlay.addEventListener('click', function() { self.player.togglePlay(); });
+    document.getElementById('btn-next').addEventListener('click', function() { self.player.nextTrack(); });
+    document.getElementById('btn-prev').addEventListener('click', function() { self.player.prevTrack(); });
+    this.dom.btnShuffle.addEventListener('click', function() { self.player.toggleShuffle(); });
+    this.dom.btnRepeat.addEventListener('click', function() { self.player.cycleRepeat(); });
+  }
+
+  _initSlider(trackEl, onChange, onEnd) {
+    if (!trackEl) return;
+    var dragging = false;
+    function calc(cx) {
+      var r = trackEl.getBoundingClientRect();
+      return Math.max(0, Math.min(1, (cx - r.left) / r.width));
+    }
+    trackEl.addEventListener('mousedown', function(e) { e.preventDefault(); dragging = true; onChange(calc(e.clientX)); });
+    document.addEventListener('mousemove', function(e) { if (dragging) onChange(calc(e.clientX)); });
+    document.addEventListener('mouseup', function() { dragging = false; if (onEnd) onEnd(); });
+    trackEl.addEventListener('touchstart', function(e) { dragging = true; onChange(calc(e.touches[0].clientX)); }, { passive: true });
+    document.addEventListener('touchmove', function(e) { if (dragging) onChange(calc(e.touches[0].clientX)); }, { passive: true });
+    document.addEventListener('touchend', function() { dragging = false; if (onEnd) onEnd(); });
+  }
+
+  _bindSliders() {
+    var self = this;
+    this._initSlider(this.dom.progressTrack,
+      function(f) {
+        self._progDrag = true;
+        self._pendSeek = f;
+        self._renderProgress(f, f * self.player.state.duration, self.player.state.duration);
+      },
+      function() {
+        self._progDrag = false;
+        if (self._pendSeek !== null) { self.player.seek(self._pendSeek); self._pendSeek = null; }
+      }
+    );
+    this._initSlider(this.dom.volumeTrack,
+      function(f) { self.player.setVolume(f * 100); }
+    );
+  }
+
+  _registerCallbacks() {
+    var self = this;
+    var p = this.player;
+
+    p.onTrackChange = function(track, index, isSwitching) {
+      if (isSwitching) {
+        self.messages.push('RE-TUNING...', 500);
+        self.messages.push('LINKING CHANNEL...', 800);
+      } else {
+        self.messages.push('INITIALIZING SIGNAL...', 600);
+        self.messages.push('LINKING CHANNEL...', 800);
+      }
+      self.vhs.triggerTransitionGlitch();
+      self._renderTrackInfo(track, index);
+      self._setSystemStatus('TUNING...');
+      self._setIndicatorState('loading');
+      if (track.cover) p.setLastCover(track.cover);
+      if (self.radio) self.radio.trackChanged(track);
+      if (window.RETCORE_WAVECAST && window.RETCORE_WAVECAST.onTrackChange)
+        window.RETCORE_WAVECAST.onTrackChange(track, index);
+    };
+
+    p.onLoadedMetadata = function(dur) {
+      self.dom.timeTotal.textContent = PlaylistManager.formatTime(dur);
+      if (!p._jingleMode) {
+        self._setSystemStatus('ON AIR');
+        self._setIndicatorState('on-air');
+      }
+    };
+
+    p.onTimeUpdate = function(cur, dur) {
+      if (self._progDrag) return;
+      self._renderProgress(dur > 0 ? cur / dur : 0, cur, dur);
+    };
+
+    p.onPlay = function() {
+      self._renderPlayState(true);
+      self._updateAtmosphere(true);
+      self.vhs.start();
+      if (!p._jingleMode) {
+        self._setSystemStatus('ON AIR');
+        self._setIndicatorState('on-air');
+      }
+      if (window.RETCORE_WAVECAST && window.RETCORE_WAVECAST.onPlayStateChange)
+        window.RETCORE_WAVECAST.onPlayStateChange(true);
+    };
+
+    p.onPause = function() {
+      self._renderPlayState(false);
+      self._updateAtmosphere(false);
+      self.vhs.stop();
+      self._setSystemStatus('SIGNAL PAUSED');
+      self._setIndicatorState('paused');
+      if (window.RETCORE_WAVECAST && window.RETCORE_WAVECAST.onPlayStateChange)
+        window.RETCORE_WAVECAST.onPlayStateChange(false);
+    };
+
+    p.onEnded = function() {
+      self._updateAtmosphere(false);
+      self.vhs.stop();
+      if (self.radio) self.radio.musicEnded();
+    };
+
+    p.onJingleStart = function() { self._renderJingleState(); };
+
+    p.onJingleEnded = function() {
+      self._clearJingleState();
+      if (self.radio) self.radio.jingleEnded();
+    };
+
+    p.onError = function() {
+      if (p._jingleMode) { p._jingleMode = false; return; }
+      self._renderSignalLost();
+    };
+
+    p.onVolumeChange = function(v) {
+      self._renderVolume(v);
+      if (window.RETCORE_WAVECAST && window.RETCORE_WAVECAST.onVolumeChange)
+        window.RETCORE_WAVECAST.onVolumeChange(v);
+    };
+
+    p.onShuffleToggle = function(a) { self.dom.btnShuffle.classList.toggle('ctrl-btn--active', a); };
+
+    p.onRepeatCycle = function(m) {
+      self.dom.btnRepeat.classList.remove('ctrl-btn--active');
+      if (m !== 'none') self.dom.btnRepeat.classList.add('ctrl-btn--active');
+    };
+  }
+
+  /* ========== SIDEBAR ========== */
+
+  _renderSidebar() {
+    if (!this.radio) return;
+    this._renderUpNext();
+    this._renderRecently();
+    if (this.dom.playlistCount)
+      this.dom.playlistCount.textContent = this.player.playlist.musicCount + ' TRACKS';
+  }
+
+  _renderUpNext() {
+    var tracks = this.radio.getUpNext();
+    if (!this.dom.upNext) return;
+    if (!tracks.length) {
+      this.dom.upNext.innerHTML = '<div class="radio-section__empty">NO SIGNAL</div>';
+      return;
+    }
+    var self = this;
+    this.dom.upNext.innerHTML = tracks.map(function(t, i) {
+      return '<div class="radio-item" data-full-index="' + t._fullIndex + '">' +
+        '<span class="radio-item__num">' + (i + 1) + '</span>' +
+        '<div class="radio-item__info">' +
+          '<span class="radio-item__name">' + t.title + '</span>' +
+          '<span class="radio-item__artist">' + t.artist + '</span>' +
+        '</div>' +
+        '<span class="radio-item__era">' + t.era.toUpperCase() + '</span>' +
+      '</div>';
+    }).join('');
+    this.dom.upNext.querySelectorAll('.radio-item').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var idx = parseInt(el.dataset.fullIndex, 10);
+        if (!isNaN(idx)) self.player.loadTrack(idx, true);
+      });
+    });
+  }
+
+  _renderRecently() {
+    var log = this.radio.getRecently();
+    if (!this.dom.recently) return;
+    if (!log.length) {
+      this.dom.recently.innerHTML = '<div class="radio-section__empty">AWAITING TRANSMISSION</div>';
+      return;
+    }
+    this.dom.recently.innerHTML = log.map(function(t) {
+      return '<div class="radio-item radio-item--log">' +
+        '<span class="radio-item__played"></span>' +
+        '<div class="radio-item__info">' +
+          '<span class="radio-item__name">' + t.title + '</span>' +
+          '<span class="radio-item__artist">' + t.artist + '</span>' +
+        '</div>' +
+        '<span class="radio-item__era">' + t.era.toUpperCase() + '</span>' +
+      '</div>';
+    }).join('');
+  }
+
+  /* ========== RENDER HELPERS ========== */
+
+    _renderInitialState() {
+    this._renderVolume(this.player.state.volume);
+    this._renderPlayState(false);
+    /* Highlight repeat button — defaults to 'all' */
+    this.dom.btnRepeat.classList.add('ctrl-btn--active');
+  }
+
+  _renderTrackInfo(track, index) {
+    this.dom.trackTitle.textContent = track.title.toUpperCase();
+    this.dom.trackTitle.classList.remove('track-info__title--error', 'track-info__title--jingle');
+    this.dom.trackArtist.textContent = track.artist;
+    this.dom.trackAlbum.textContent = track.album;
+    this.dom.trackFreq.textContent = 'FREQ: ' + track.freq + 'Hz';
+    if (track.cover) {
+      var self = this;
+      this.dom.coverImg.classList.add('cover__img--loading');
+      var img = new Image();
+      img.onload = function() {
+        self.dom.coverImg.src = track.cover;
+        requestAnimationFrame(function() { self.dom.coverImg.classList.remove('cover__img--loading'); });
+      };
+      img.onerror = function() { self.dom.coverImg.classList.remove('cover__img--loading'); };
+      img.src = track.cover;
+    }
+    if (this.dom.coverNum)
+      this.dom.coverNum.textContent = (index + 1).toString().padStart(2, '0');
+    this._renderProgress(0, 0, 0);
+    this.dom.timeTotal.textContent = '-:--';
+  }
+
+  _renderJingleState() {
+    this.dom.trackTitle.textContent = 'STATION ID';
+    this.dom.trackTitle.classList.add('track-info__title--jingle');
+    this.dom.trackTitle.classList.remove('track-info__title--error');
+    this.dom.trackArtist.textContent = 'RETROWAVE FM';
+    this.dom.trackAlbum.textContent = '--';
+    this.dom.trackFreq.textContent = '87.5 MHz';
+    this._renderProgress(0, 0, 0);
+    this.dom.timeTotal.textContent = '-:--';
+    this._setSystemStatus('STATION ID');
+    this._setIndicatorState('station-id');
+  }
+
+  _clearJingleState() {
+    this.dom.trackTitle.classList.remove('track-info__title--jingle');
+  }
+
+  _renderProgress(f, cur, dur) {
+    var pct = (f * 100).toFixed(2) + '%';
+    this.dom.progressFill.style.width = pct;
+    this.dom.progressHead.style.left = pct;
+    if (cur != null) this.dom.timeCurrent.textContent = PlaylistManager.formatTime(cur);
+    if (dur != null && dur > 0) this.dom.timeTotal.textContent = PlaylistManager.formatTime(dur);
+  }
+
+  _renderVolume(v) {
+    var p = v + '%';
+    this.dom.volumeFill.style.width = p;
+    this.dom.volumeHead.style.left = p;
+    this.dom.volumeValue.textContent = v;
+  }
+
+  _renderPlayState(isPlaying) {
+    var p = this.dom.btnPlay.querySelector('.icon-play');
+    var a = this.dom.btnPlay.querySelector('.icon-pause');
+    if (p && a) {
+      p.style.display = isPlaying ? 'none' : 'block';
+      a.style.display = isPlaying ? 'block' : 'none';
+    }
+    this.dom.btnPlay.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+    this.dom.btnPlay.setAttribute('title', isPlaying ? 'PAUSE' : 'PLAY');
+  }
+
+  _renderSignalLost() {
+    this.dom.trackTitle.textContent = 'SIGNAL LOST';
+    this.dom.trackTitle.classList.add('track-info__title--error');
+    this.dom.trackArtist.textContent = '--';
+    this.dom.trackAlbum.textContent = '--';
+    this.dom.trackFreq.textContent = 'FREQ: --.-Hz';
+    this._renderProgress(0, 0, 0);
+    this.dom.timeTotal.textContent = '-:--';
+    this._setSystemStatus('SIGNAL LOST');
+    this._setIndicatorState('lost');
+    this._updateAtmosphere(false);
+    this.vhs.stop();
+    var p = this.dom.btnPlay.querySelector('.icon-play');
+    var a = this.dom.btnPlay.querySelector('.icon-pause');
+    if (p && a) { p.style.display = 'block'; a.style.display = 'none'; }
+  }
+
+  /* Atmosphere: glow + visualizer on/off */
+  _updateAtmosphere(on) {
+    this.dom.systemEl.classList.toggle('system--transmitting', on);
+    this.dom.vizContainer.classList.toggle('viz--active', on);
+    if (on) {
+      this.player.viz.start();
+    } else {
+      this.player.viz.stop();
+    }
+  }
+
+  _setSystemStatus(t) { if (this.dom.sysStatus) this.dom.sysStatus.textContent = t; }
+
+  _setIndicatorState(s) {
+    if (!this.dom.sysIndicator) return;
+    var el = this.dom.sysIndicator;
+    el.classList.remove('sys-indicator--active', 'sys-indicator--paused', 'sys-indicator--lost', 'sys-indicator--on-air', 'sys-indicator--station-id');
+    if (s === 'active')     el.classList.add('sys-indicator--active');
+    if (s === 'paused')     el.classList.add('sys-indicator--paused');
+    if (s === 'lost')       el.classList.add('sys-indicator--lost');
+    if (s === 'on-air')     el.classList.add('sys-indicator--on-air');
+    if (s === 'station-id') el.classList.add('sys-indicator--station-id');
+  }
+
+  destroy() {
+    if (this._clockInt) { clearInterval(this._clockInt); this._clockInt = null; }
+    this.vhs.stop();
+  }
+}
+
+
+/* ----------------------------------------------------------
+   HUB INTEGRATION HOOKS
+   ---------------------------------------------------------- */
+window.RETCORE_WAVECAST = {
+  _player: null,
+  _ui: null,
+  init: function(p, u) { this._player = p; this._ui = u; },
+  getCurrentTrack: function() { return this._player ? this._player.playlist.getCurrent() : null; },
+  getTrackIndex: function() { return this._player ? this._player.state.trackIndex : -1; },
+  isPlaying: function() { return this._player ? this._player.state.playing : false; },
+  getVolume: function() { return this._player ? this._player.state.volume : 0; },
+  getPlaybackState: function() {
+    if (!this._player) return null;
+    return {
+      playing: this._player.state.playing,
+      trackIndex: this._player.state.trackIndex,
+      volume: this._player.state.volume,
+      repeat: this._player.state.repeat,
+      shuffle: this._player.state.shuffle,
+      currentTime: this._player.state.currentTime,
+      duration: this._player.state.duration,
+      signalLost: this._player.state.signalLost
+    };
+  },
+  play: function() { if (this._player) this._player.togglePlay(); },
+  pause: function() { if (this._player && this._player.state.playing) this._player.togglePlay(); },
+  next: function() { if (this._player) this._player.nextTrack(); },
+  prev: function() { if (this._player) this._player.prevTrack(); },
+  setVolume: function(v) { if (this._player) this._player.setVolume(v); },
+  loadTrack: function(i, a) { if (this._player) this._player.loadTrack(i, a); },
+  onTrackChange: null,
+  onPlayStateChange: null,
+  onVolumeChange: null,
+  onHubReturn: null
+};
+
+
+/* ----------------------------------------------------------
+   BOOT
+   ---------------------------------------------------------- */
+(function() {
+  var audio  = new AudioSystem();
+  var viz    = new Visualizer();
+  var list   = new PlaylistManager();
+  var player = new PlayerController(audio, viz, list);
+  var ui     = new UIController(player);
+  var radio  = new RadioEngine(player, list);
+
+  /* Connect visualizer to audio analyser once WebAudio initializes */
+  var checkInterval = setInterval(function() {
+    if (audio.isWebAudioReady()) {
+      viz.connect(audio.getAnalyser());
+      clearInterval(checkInterval);
+    }
+  }, 200);
+
+  radio.onQueueUpdate = function() { ui._renderSidebar(); };
+  ui.radio = radio;
+
+  window.RETCORE_WAVECAST.init(player, ui);
+  ui.boot();
+  ui._renderSidebar();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+/* RETROCORE://HUB — variables.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&family=VT323&display=swap');
+
+:root {
+  /* ── PALETTE ─────────────────────────────────── */
+  --clr-void:        #020408;
+  --clr-deep:        #05090f;
+  --clr-surface:     #0a1220;
+  --clr-panel:       rgba(8, 16, 28, 0.72);
+
+  --clr-cyan:        #00e5ff;
+  --clr-cyan-dim:    #0099b8;
+  --clr-cyan-ghost:  rgba(0, 229, 255, 0.07);
+
+  --clr-teal:        #00c9a7;
+  --clr-amber:       #ffb347;
+  --clr-amber-dim:   rgba(255, 179, 71, 0.15);
+
+  --clr-white:       #e8f0f8;
+  --clr-white-dim:   rgba(232, 240, 248, 0.55);
+  --clr-white-ghost: rgba(232, 240, 248, 0.08);
+
+  --clr-red-vhs:     #ff2d55;
+
+  /* ── PHASE 7 — NETWORK EXPANSION ────────────────── */
+  --clr-archive:           #ffb347;          /* warm VHS amber/gold       */
+  --clr-archive-dim:       rgba(255, 179, 71, 0.14);
+  --clr-archive-ghost:     rgba(255, 179, 71, 0.045);
+  --glow-archive-sm:       0 0 6px rgba(255, 179, 71, 0.45),
+                           0 0 18px rgba(255, 179, 71, 0.15);
+
+  --clr-wavecast:          #ff2d9b;          /* synthwave magenta/pink    */
+  --clr-wavecast-dim:      rgba(255, 45, 155, 0.14);
+  --clr-wavecast-ghost:    rgba(255, 45, 155, 0.045);
+  --glow-wavecast-sm:      0 0 6px rgba(255, 45, 155, 0.45),
+                           0 0 18px rgba(255, 45, 155, 0.15);
+
+  /* ── GLOW ────────────────────────────────────── */
+  --glow-cyan-sm:    0 0 6px rgba(0, 229, 255, 0.35),
+                     0 0 14px rgba(0, 229, 255, 0.15);
+  --glow-cyan-md:    0 0 10px rgba(0, 229, 255, 0.5),
+                     0 0 30px rgba(0, 229, 255, 0.2),
+                     0 0 60px rgba(0, 229, 255, 0.07);
+  --glow-cyan-lg:    0 0 20px rgba(0, 229, 255, 0.6),
+                     0 0 60px rgba(0, 229, 255, 0.25),
+                     0 0 120px rgba(0, 229, 255, 0.08);
+  --glow-teal-sm:    0 0 8px rgba(0, 201, 167, 0.4),
+                     0 0 20px rgba(0, 201, 167, 0.15);
+  --glow-amber-sm:   0 0 6px rgba(255, 179, 71, 0.4),
+                     0 0 18px rgba(255, 179, 71, 0.12);
+
+  /* ── TYPOGRAPHY ──────────────────────────────── */
+  --font-display:    'Orbitron', 'Share Tech Mono', monospace;
+  --font-mono:       'Share Tech Mono', 'Courier New', monospace;
+  --font-terminal:   'VT323', monospace;
+
+  --fs-xs:           0.6875rem;  /* 11px */
+  --fs-sm:           0.8125rem;  /* 13px */
+  --fs-base:         1rem;       /* 16px */
+  --fs-md:           1.125rem;   /* 18px */
+  --fs-lg:           1.375rem;   /* 22px */
+  --fs-xl:           1.75rem;    /* 28px */
+  --fs-2xl:          2.25rem;    /* 36px */
+  --fs-3xl:          3rem;       /* 48px */
+  --fs-4xl:          4rem;       /* 64px */
+  --fs-hero:         clamp(2.2rem, 5.5vw, 4.5rem);
+
+  --lh-tight:        1.1;
+  --lh-snug:         1.3;
+  --lh-normal:       1.6;
+  --lh-loose:        2;
+
+  --ls-wide:         0.12em;
+  --ls-wider:        0.22em;
+  --ls-widest:       0.38em;
+
+  /* ── SPACING ─────────────────────────────────── */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-5:  1.25rem;
+  --sp-6:  1.5rem;
+  --sp-8:  2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+  --sp-24: 6rem;
+  --sp-32: 8rem;
+
+  /* ── LAYOUT ──────────────────────────────────── */
+  --max-w:           1280px;
+  --header-h:        68px;
+  --header-h-sm:     56px;
+
+  /* ── BORDERS ─────────────────────────────────── */
+  --border-dim:      1px solid rgba(0, 229, 255, 0.08);
+  --border-mid:      1px solid rgba(0, 229, 255, 0.18);
+  --border-bright:   1px solid rgba(0, 229, 255, 0.4);
+
+  /* ── RADIUS ──────────────────────────────────── */
+  --r-sm:  2px;
+  --r-md:  4px;
+  --r-lg:  8px;
+
+  /* ── TRANSITIONS ─────────────────────────────── */
+  --ease-out-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:     cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-cyber:      cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  --dur-fast:        120ms;
+  --dur-base:        260ms;
+  --dur-slow:        480ms;
+  --dur-cinematic:   900ms;
+
+  /* ── BLUR / GLASS ────────────────────────────── */
+  --blur-glass:      blur(20px) saturate(160%);
+  --blur-sm:         blur(8px);
+
+  /* ── Z-INDEX STACK ───────────────────────────── */
+  --z-bg:      0;
+  --z-content: 10;
+  --z-overlay: 20;
+  --z-header:  100;
+  --z-modal:   200;
+}

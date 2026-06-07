@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RETROCORE://UNKNOWN_SECTOR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- SVG filter for grain effect -->
+  <svg class="sr-only" aria-hidden="true">
+    <filter id="grain-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </svg>
+
+  <!-- Atmospheric overlays -->
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="grain-overlay" aria-hidden="true"></div>
+  <div class="flicker-overlay" aria-hidden="true"></div>
+  <div class="vhs-line" aria-hidden="true"></div>
+
+  <!-- Background canvas systems -->
+  <canvas id="radar-canvas" aria-hidden="true"></canvas>
+  <canvas id="signals-canvas" aria-hidden="true"></canvas>
+
+  <!-- Anomaly markers -->
+  <div class="anomaly-markers" aria-hidden="true">
+    <div class="anomaly-marker" style="top:14%;left:7%"></div>
+    <div class="anomaly-marker" style="top:71%;left:88%"></div>
+    <div class="anomaly-marker" style="top:43%;left:93%"></div>
+  </div>
+
+  <!-- Main content -->
+  <div class="content-wrapper">
+
+    <header class="header">
+      <div class="header-protocol" data-i18n="header.protocol">RETROCORE://UNKNOWN_SECTOR</div>
+      <div class="header-subtitle" data-i18n="header.subtitle">RESTRICTED NETWORK ACCESS</div>
+      <div class="header-system">
+        <span data-i18n="header.access">ACCESS GRANTED</span>
+        <span class="separator" aria-hidden="true">|</span>
+        <span data-i18n="header.clearance">CLEARANCE LEVEL: ANOMALY</span>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language selector">
+        <button class="lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
+        <span class="lang-sep" aria-hidden="true">/</span>
+        <button class="lang-btn" data-lang="ua" data-i18n="lang.ua">UA</button>
+      </div>
+    </header>
+
+    <section class="hero" aria-label="Introduction">
+      <p data-i18n="hero.p1">This network branch exists outside standard RETROCORE infrastructure.</p>
+      <p data-i18n="hero.p2">Signal origin remains unresolved.</p>
+      <p data-i18n="hero.p3">Anomalous activity has been recorded across multiple observation nodes.</p>
+    </section>
+
+    <div class="main-grid">
+
+      <section class="modules" aria-label="Available modules">
+
+        <article class="module-card">
+          <div class="module-status active">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span data-i18n="modules.night.status">ACTIVE</span>
+          </div>
+          <h2 class="module-title" data-i18n="modules.night.title">NIGHT OBSERVER</h2>
+          <p class="module-desc" data-i18n="modules.night.desc">Remote anomaly monitoring subsystem.</p>
+          <p class="module-purpose">
+            <span class="purpose-label" data-i18n="labels.purpose">Purpose:</span>
+            <span data-i18n="modules.night.purpose">Observe unidentified aerial events, signal disturbances and surveillance anomalies.</span>
+          </p>
+          <a href="modules/night-observer/index.html" class="module-btn" data-i18n="modules.night.btn">ENTER MODULE</a>
+        </article>
+
+        <article class="module-card module-card--amber">
+          <div class="module-status unverified">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span data-i18n="modules.signal.status">UNVERIFIED</span>
+          </div>
+          <h2 class="module-title" data-i18n="modules.signal.title">OUTSIDE SIGNAL</h2>
+          <p class="module-desc" data-i18n="modules.signal.desc">Recovered transmission of unknown origin.</p>
+          <p class="module-purpose">
+            <span class="purpose-label" data-i18n="labels.purpose">Purpose:</span>
+            <span data-i18n="modules.signal.purpose">Analyze transmissions, frequencies and non-standard signal structures.</span>
+          </p>
+          <div class="module-access" id="outside-signal-access"></div>
+          <a href="modules/outside-signal/index.html" class="module-btn" data-i18n="modules.signal.btn">ENTER MODULE</a>
+        </article>
+
+      </section>
+
+      <aside class="side-panel" aria-label="System terminal">
+        <div class="panel-title" data-i18n="panel.title">SYSTEM TERMINAL</div>
+        <div class="panel-line">
+          <span class="panel-label" data-i18n="panel.nodeStatus">NODE STATUS:</span>
+          <span class="panel-value online" data-i18n="panel.nodeOnline">ONLINE</span>
+        </div>
+        <div class="panel-line">
+          <span class="panel-label" data-i18n="panel.obsNodes">OBSERVATION NODES:</span>
+          <span class="panel-value" data-i18n="panel.obsActive">07 ACTIVE</span>
+        </div>
+        <div class="panel-line">
+          <span class="panel-label" data-i18n="panel.anomalies">ANOMALIES:</span>
+          <span class="panel-value warning" data-i18n="panel.anomaliesCount">03 DETECTED</span>
+        </div>
+        <div class="panel-line">
+          <span class="panel-label" data-i18n="panel.signalOrigin">SIGNAL ORIGIN:</span>
+          <span class="panel-value unknown" data-i18n="panel.signalUnknown">UNKNOWN</span>
+        </div>
+      </aside>
+
+    </div>
+
+    <footer class="footer">
+      <a href="../../index.html" class="return-link">
+        <span class="return-arrow" aria-hidden="true">&larr;</span>
+        <span data-i18n="footer.return">RETURN TO MAIN HUB</span>
+      </a>
+    </footer>
+
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+  <script>
+  (function() {
+    try {
+      var raw = localStorage.getItem('retrocore-night-observer');
+      if (raw) {
+        var data = JSON.parse(raw);
+        var el = document.getElementById('outside-signal-access');
+        if (data.outsideSignalUnlocked && el) {
+          el.textContent = 'ACCESS AVAILABLE';
+          el.classList.add('module-access--available');
+        }
+      }
+    } catch(e) {}
+  })();
+</script>
+</body>
+</html>

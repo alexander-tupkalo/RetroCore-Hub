@@ -1,0 +1,26 @@
+:root {
+    /* --- Фоны --- */
+    --bg-primary: #050509;
+    --bg-secondary: #0a0f1a;
+    --bg-panel: rgba(10, 15, 26, 0.85);
+    
+    /* --- Неоновые акценты (Сдержанное свечение) --- */
+    --cyan-primary: #00d2d3;
+    --cyan-dim: #005456;
+    --cyan-glow: rgba(0, 210, 211, 0.4);
+    
+    --red-alert: #ff2a2a;
+    --red-dim: #5a0f0f;
+    --red-glow: rgba(255, 42, 42, 0.4);
+
+    --text-primary: #b8c6db;
+    --text-dim: #3a4556;
+
+    /* --- Типографика (Терминальный моноширинный шрифт) --- */
+    --font-main: 'Courier New', 'Lucida Console', Monaco, monospace;
+    
+    /* --- Тайминги (Медленные и кинематографичные) --- */
+    --transition-fast: 0.2s ease-out;
+    --transition-normal: 0.5s ease-out;
+    --transition-slow: 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}

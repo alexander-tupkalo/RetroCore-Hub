@@ -1,0 +1,411 @@
+/* ========================================================
+   CYBERPUNK CARD BATTLER - MAIN STYLESHEET
+   Theme: Terminal Noir / High-tech Low-life
+   ======================================================== */
+
+/* --- 1. RESETS & BASE TYPOGRAPHY --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #0a0a12; /* Deep dark tech grey/blue */
+    color: #e0e0e0; /* Clean, readable off-white */
+    font-family: 'Courier New', Courier, monospace; /* Hacker terminal vibe */
+    line-height: 1.4;
+    overflow: hidden; /* Prevent scrollbars in a fixed-viewport game */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility for standard neon green text */
+.neon-text {
+    color: #39ff14;
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+}
+
+
+/* --- 2. MAIN LAYOUT CONTAINER --- */
+#battle-screen {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1024px;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 1rem;
+    position: relative;
+}
+
+
+/* --- 3. SCREEN ROW SPLIT --- */
+
+/* Top Row: Enemy Info */
+#enemy-area {
+    flex: 0 0 20%; /* Takes exactly 20% of viewport height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #1a1a2e;
+    padding-bottom: 1rem;
+}
+
+/* Middle Row: The Battlefield / Drop Zone */
+#drop-zone {
+    flex: 1 1 auto; /* Takes up all remaining space */
+    /* Styling handled in section 4 below */
+}
+
+/* Bottom Row: Player Info & Hand */
+#player-area {
+    flex: 0 0 40%; /* Gives the hand enough room to pop up on hover */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-top: 1px solid #1a1a2e;
+    padding-top: 1rem;
+}
+
+
+/* --- 4. DROP ZONE STYLING --- */
+#drop-zone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0;
+    
+    /* Dashed neon border */
+    border: 2px dashed #ff007f; /* Magenta accent */
+    border-radius: 8px;
+    
+    color: #ff007f;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    
+    /* Subtle terminal target glow */
+    box-shadow: inset 0 0 20px rgba(255, 0, 127, 0.05), 
+                0 0 15px rgba(255, 0, 127, 0.05);
+    transition: all 0.3s ease;
+}
+
+/* Active state for when a card is being dragged/hovered over the zone */
+#drop-zone.active, #drop-zone:hover {
+    background: rgba(255, 0, 127, 0.03);
+    box-shadow: inset 0 0 30px rgba(255, 0, 127, 0.1), 
+                0 0 25px rgba(255, 0, 127, 0.15);
+}
+
+
+/* --- 5. PLAYER HAND CONTAINER --- */
+#player-hand {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Aligns cards to the bottom edge */
+    padding: 20px 0 10px 0;
+    min-height: 200px; /* Prevents layout shift when cards pop up */
+}
+
+
+/* --- 6. CYBER-CARD PLACEHOLDER --- */
+.cyber-card {
+    /* Dimensions */
+    width: 120px;
+    height: 180px;
+    
+    /* Aesthetics */
+    background: linear-gradient(145deg, #12121f, #0d0d18);
+    border: 1px solid #00f0ff; /* Default Cyan accent */
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
+    
+    /* Overlapping Layout */
+    margin: 0 -15px; /* Negative margin creates the fan/overlap effect */
+    
+    /* Inner Layout Prep */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1;
+    
+    /* Senior Trick: Delay z-index transition so it doesn't flicker 
+       underneath adjacent cards during the scale transform */
+    transition: transform 0.2s ease-out, 
+                box-shadow 0.2s ease-out, 
+                z-index 0s 0.2s; 
+}
+
+/* Hover interaction */
+.cyber-card:hover {
+    transform: translateY(-40px) scale(1.15); /* Pop up and grow */
+    z-index: 100; /* Force to front */
+    box-shadow: 0 0 20px #00f0ff, 0 0 40px rgba(0, 240, 255, 0.2);
+    /* Remove z-index delay on hover so it pops instantly */
+    transition: transform 0.2s ease-out, 
+                box-shadow 0.2s ease-out, 
+                z-index 0s 0s; 
+}
+
+/* --- DYNAMIC CARD TYPE STYLING (Via Data Attributes) --- */
+
+/* Attack Cards get Magenta accents */
+.cyber-card[data-type="attack"] {
+    border-color: #ff007f;
+    box-shadow: 0 0 8px rgba(255, 0, 127, 0.15);
+}
+.cyber-card[data-type="attack"]:hover {
+    box-shadow: 0 0 20px #ff007f, 0 0 40px rgba(255, 0, 127, 0.2);
+}
+
+/* Defense Cards keep Cyan accents */
+.cyber-card[data-type="defense"] {
+    border-color: #00f0ff;
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
+}
+.cyber-card[data-type="defense"]:hover {
+    box-shadow: 0 0 20px #00f0ff, 0 0 40px rgba(0, 240, 255, 0.2);
+}
+
+
+/* --- INTERNAL CARD ANATOMY (Prep for DOM injection) --- */
+.card-cost {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 28px;
+    height: 28px;
+    background: #39ff14;
+    color: #0a0a12;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+}
+
+.card-name {
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+}
+
+.card-type-label {
+    font-size: 0.6rem;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.card-description {
+    font-size: 0.6rem;
+    color: #aaa;
+    line-height: 1.2;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.card-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+/* Tie card value color to the card type dynamically */
+.cyber-card[data-type="attack"] .card-value { color: #ff007f; text-shadow: 0 0 10px rgba(255, 0, 127, 0.5); }
+.cyber-card[data-type="defense"] .card-value { color: #00f0ff; text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+
+
+/* --- 7. MINOR RESPONSIVENESS --- */
+@media (max-width: 600px) {
+    #battle-screen {
+        padding: 0.5rem;
+    }
+    
+    .cyber-card {
+        width: 90px;
+        height: 140px;
+        margin: 0 -20px; /* More overlap on small screens */
+        padding: 6px;
+    }
+    
+    .cyber-card:hover {
+        transform: translateY(-20px) scale(1.1); /* Less dramatic pop-up on mobile */
+    }
+    
+    .card-name { font-size: 0.65rem; }
+    .card-description { display: none; } /* Hide flavor text on tiny screens */
+    .card-value { font-size: 1.1rem; }
+}
+
+/* === СИСТЕМА ОВЕРЛЕЕВ === */
+#game-over-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 18, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+/* Класс для скрытия оверлея через JS */
+.hidden {
+    opacity: 0;
+    pointer-events: none; /* Запрещает кликать по скрытому оверлею */
+}
+
+#end-screen-content {
+    text-align: center;
+}
+
+#end-screen-title {
+    font-size: 4rem;
+    color: #ff007f;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(255, 0, 127, 0.6);
+}
+
+#end-screen-subtitle {
+    color: #888;
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+}
+
+#end-screen-btn {
+    background: transparent;
+    color: #39ff14;
+    border: 2px solid #39ff14;
+    padding: 15px 40px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: all 0.2s;
+}
+
+#end-screen-btn:hover {
+    background: #39ff14;
+    color: #0a0a12;
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.4);
+}
+
+/* Если победили, меняем цвет кнопки и заголовка */
+#game-over-overlay.victory #end-screen-title {
+    color: #00f0ff;
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+}
+#game-over-overlay.victory #end-screen-btn {
+    color: #00f0ff;
+    border-color: #00f0ff;
+}
+#game-over-overlay.victory #end-screen-btn:hover {
+    background: #00f0ff;
+    color: #0a0a12;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+}
+
+/* Стиль имени врага */
+.enemy-name-glow {
+    display: block;
+    font-size: 1.5rem;
+    color: #ff007f;
+    letter-spacing: 5px;
+    text-shadow: 0 0 10px #ff007f, 2px 2px 0px rgba(0, 240, 255, 0.5);
+    margin-bottom: 5px;
+}
+
+/* Стиль ASCII арта */
+.ascii-art {
+    font-size: 1.8rem;
+    line-height: 1.1;
+    color: #00f0ff;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+    margin: 0;
+    font-family: 'Courier New', monospace;
+}
+
+/* =========================================
+   VHS / CYBERPUNK RETRO AESTHETICS
+   ========================================= */
+
+/* 1. Легкое мерцание всей страницы (очень тонкое, не бесит глаза) */
+body {
+    animation: screen-flicker 0.15s infinite;
+}
+
+@keyframes screen-flicker {
+    0% { opacity: 0.98; }
+    5% { opacity: 0.95; }
+    10% { opacity: 0.99; }
+    15% { opacity: 0.96; }
+    20% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+/* 2. Подготовка контейнера для эффектов */
+#battle-screen {
+    position: relative;
+    /* Добавляем легкое неоновое свечение вокруг самого монитора */
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 240, 255, 0.03);
+}
+
+/* 3. Эффект затемненных углов (Виньетирование) */
+#battle-screen::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.7) 100%);
+    pointer-events: none; /* ВАЖНО: чтобы не блокировать клики! */
+    z-index: 997;
+}
+
+/* 4. Эффект Сканлайнов и легкого RGB-шума */
+#battle-screen::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: 
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none; /* ВАЖНО: чтобы карты всё ещё можно было таскать! */
+    z-index: 998;
+}
+
+/* 5. VHS эффект двоения текста при наведении на карту */
+.cyber-card:hover {
+    /* Текст внутри карточки слегка раздваивается по цветам */
+    text-shadow: -1px 0 rgba(255, 0, 127, 0.6), 1px 0 rgba(0, 240, 255, 0.6);
+}
+
+/* 6. Усиливаем глюк для имени врага (добавляем анимацию) */
+.enemy-name-glow {
+    animation: glitch-text 4s infinite;
+}
+
+@keyframes glitch-text {
+    0%, 100% { text-shadow: 0 0 10px #ff007f, 2px 2px 0px rgba(0, 240, 255, 0.5); }
+    2% { text-shadow: -2px 0 #ff007f, 2px 0 #00f0ff; transform: skewX(-20deg); }
+    4% { text-shadow: 0 0 10px #ff007f, 2px 2px 0px rgba(0, 240, 255, 0.5); transform: skewX(0deg); }
+}

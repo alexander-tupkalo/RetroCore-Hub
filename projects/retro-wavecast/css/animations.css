@@ -1,0 +1,196 @@
+/* css/animations.css */
+/* ============================================
+   RETROCORE://WAVECAST — Animations
+   Slow, elegant, atmospheric motion only
+   ============================================ */
+
+/* CRT sweep line — slow downward pass */
+@keyframes sweep {
+  0%   { top: -80px; }
+  100% { top: calc(100vh + 80px); }
+}
+
+/* Status indicator pulse */
+@keyframes indicator-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+/* Ambient glow drift — cyan orb */
+@keyframes glow-drift-cyan {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, -30px) scale(1.08); }
+}
+
+/* Ambient glow drift — pink orb */
+@keyframes glow-drift-pink {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-30px, 20px) scale(1.05); }
+}
+
+/* Cover scan line — slow vertical pass */
+@keyframes cover-scan {
+  0%   { top: -2px; }
+  100% { top: 100%; }
+}
+
+/* Visualizer bar idle micro-breathing */
+@keyframes viz-idle {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 0.7; }
+}
+
+/* Apply idle animation to viz bars with staggered delays */
+.viz__bar {
+  animation: viz-idle 4s var(--ease-linear) infinite;
+}
+.viz__bar:nth-child(odd)  { animation-delay: 0s; }
+.viz__bar:nth-child(even) { animation-delay: 2s; }
+.viz__bar:nth-child(3n)   { animation-duration: 5s; }
+.viz__bar:nth-child(5n)   { animation-duration: 3.5s; }
+
+/* System boot fade-in */
+.system {
+  animation: sys-boot 1.2s var(--ease-out) forwards;
+}
+
+@keyframes sys-boot {
+  0% {
+    opacity: 0;
+    filter: brightness(1.3);
+  }
+  40% {
+    opacity: 0.6;
+    filter: brightness(1.1);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+/* Player panel subtle entrance */
+.player__frame {
+  animation: panel-enter 1s 0.3s var(--ease-out) both;
+}
+
+@keyframes panel-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Playlist staggered entrance */
+.playlist__item {
+  animation: item-enter 0.5s var(--ease-out) both;
+}
+
+@keyframes item-enter {
+  0% {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Stagger each playlist item */
+.playlist__item:nth-child(1) { animation-delay: 0.5s; }
+.playlist__item:nth-child(2) { animation-delay: 0.58s; }
+.playlist__item:nth-child(3) { animation-delay: 0.66s; }
+.playlist__item:nth-child(4) { animation-delay: 0.74s; }
+.playlist__item:nth-child(5) { animation-delay: 0.82s; }
+.playlist__item:nth-child(6) { animation-delay: 0.90s; }
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========== APPEND TO animations.css ========== */
+
+/* Frequency scanning glitch */
+@keyframes freq-glitch {
+  0%   { opacity: 0.65; }
+  50%  { opacity: 1; }
+}
+
+/* VHS brightness pulse — used via JS class toggle */
+.fx-brightness--pulse {
+  animation: vhs-brightness 0.2s var(--ease-linear) forwards;
+}
+
+@keyframes vhs-brightness {
+  0%   { opacity: 0; }
+  20%  { opacity: 0.06; }
+  40%  { opacity: 0; }
+  60%  { opacity: 0.03; }
+  100% { opacity: 0; }
+}
+
+/* VHS distortion flash */
+.fx-distortion--flash {
+  animation: vhs-distortion 0.15s var(--ease-linear) forwards;
+}
+
+@keyframes vhs-distortion {
+  0%   { opacity: 0; transform: scaleX(0.98) translateX(-1px); }
+  30%  { opacity: 0.2; transform: scaleX(1.01) translateX(1px); }
+  100% { opacity: 0; transform: scaleX(0.98) translateX(0); }
+}
+
+/* Scanline drift — applied via JS */
+.fx-scanlines--drift {
+  animation: scanline-drift 0.4s var(--ease-out) forwards;
+}
+
+@keyframes scanline-drift {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(3px); }
+  100% { transform: translateY(0); }
+}
+
+/* System message subtle text flicker during display */
+.sys-message--visible .sys-message__text {
+  animation: msg-flicker 3s var(--ease-linear) infinite;
+}
+
+@keyframes msg-flicker {
+  0%, 100% { opacity: 0.85; }
+  48%      { opacity: 0.85; }
+  50%      { opacity: 0.6; }
+  52%      { opacity: 0.85; }
+}
+
+/* ========== HUB Transition Message Flicker ========== */
+.hub-transition__msg--visible {
+  animation: hub-msg-breathe 2.5s var(--ease-linear) infinite;
+}
+
+@keyframes hub-msg-breathe {
+  0%, 100% { opacity: 0.85; }
+  45%      { opacity: 0.85; }
+  50%      { opacity: 0.55; }
+  55%      { opacity: 0.85; }
+}
+
+/* Jingle title subtle pulse */
+.track-info__title--jingle {
+  animation: jingle-text-pulse 2s var(--ease-linear) infinite;
+}
+
+@keyframes jingle-text-pulse {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 0.5; }
+}

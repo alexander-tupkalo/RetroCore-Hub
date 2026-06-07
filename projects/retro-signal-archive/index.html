@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETROCORE://SIGNAL_ARCHIVE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/comic.css">
+    <link rel="stylesheet" href="css/effects.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div id="crt">
+        <!-- Atmospheric layers -->
+        <canvas id="noise" aria-hidden="true"></canvas>
+        <div class="scanlines" aria-hidden="true"></div>
+        <div class="vignette" aria-hidden="true"></div>
+        <div class="drift-glow" aria-hidden="true"></div>
+        <div class="drift-glow-cool" aria-hidden="true"></div>
+        <div class="tracking-band" aria-hidden="true"></div>
+        <div id="crt-line" aria-hidden="true"></div>
+        <div id="crt-flash" aria-hidden="true"></div>
+
+        <!-- System interface -->
+        <div id="system" role="main">
+            <header id="archive-header">
+                <div class="header-top">
+                    <span class="classified-badge" aria-label="Classified">CLASSIFIED</span>
+                    <h1 class="title-text" id="title-text"></h1>
+                    <div class="header-meta">
+                        <div class="signal-strength" aria-label="Signal strength 47 percent">
+                            <span class="sig-label">SIG</span>
+                            <div class="signal-bars">
+                                <span class="bar active"></span>
+                                <span class="bar active"></span>
+                                <span class="bar active"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                            </div>
+                            <span class="sig-value" id="sig-value">47%</span>
+                        </div>
+                        <div class="status-indicator">
+                            <span class="status-dot" aria-hidden="true"></span>
+                            <span id="status-text">RECOVERING</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-bottom" aria-label="Archive metadata">
+                    <span>ISSUE: RC-0041-SIG</span>
+                    <span>SECTOR-7</span>
+                    <span id="timestamp">2087.11.23 | 03:47:12</span>
+                    <span>PROTOCOL: DARKNET BURST</span>
+                </div>
+            </header>
+
+            <div id="archive-body">
+                <main id="main-panel" aria-label="Signal display panel">
+                    <div class="panel-grid" aria-hidden="true"></div>
+                    <div class="panel-content">
+                        <div class="awaiting-text">AWAITING TRANSMISSION</div>
+                        <div class="awaiting-sub">SIGNAL FRAGMENT DETECTED &mdash; STANDBY</div>
+                    </div>
+                </main>
+
+                <aside id="side-terminal" aria-label="Transmission terminal log">
+                    <div class="terminal-header">
+                        <span>TRANSMISSION LOG</span>
+                        <span class="terminal-id">TERM-07</span>
+                    </div>
+                    <div class="terminal-body" id="terminal-body" role="log" aria-live="polite"></div>
+                    <div class="terminal-meta">
+                        <div class="meta-block">
+                            <div class="meta-title">ARCHIVE METADATA</div>
+                            <div class="meta-row">
+                                <span class="meta-key">NODE:</span>
+                                <span class="meta-val">ORPHAN_STA_ETA-9</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-key">FREQ:</span>
+                                <span class="meta-val">47.3 MHz [ENC]</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-key">INTEGRITY:</span>
+                                <span class="meta-val">23.7%</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-key">CLASS:</span>
+                                <span class="meta-val">LEVEL-4</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-key">FORMAT:</span>
+                                <span class="meta-val">SIGNAL BURST</span>
+                            </div>
+                        </div>
+                        <div class="meta-block">
+                            <div class="meta-title">SYSTEM STATUS</div>
+                            <div class="meta-row">
+                                <span class="meta-key">CORE:</span>
+                                <span class="meta-val">ACTIVE</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-key">DECRYPT:</span>
+                                <span class="meta-val">RUNNING</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-key">BUFFER:</span>
+                                <span class="meta-val">127/4096 KB</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-key">UPLINK:</span>
+                                <span class="meta-val severed">SEVERED</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <footer id="archive-footer">
+               <div class="footer-signal">
+                  SIGNAL ROUTE AVAILABLE
+               </div>
+
+               <a href="../../index.html" id="hub-link" role="button"aria-label="Return to RETROCORE hub">
+                  <span class="nav-arrow" aria-hidden="true">&#9664;</span>
+
+                  <span class="hub-label">
+                    RETROCORE://HUB
+                  </span>
+
+                  <span class="hub-status">
+                    LINK STABLE
+                  </span>
+               </a>
+
+                  <span class="footer-id">
+                    RC-ARCHIVE v4.1.7 | ORPHAN NETWORK
+                  </span>
+            </footer>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

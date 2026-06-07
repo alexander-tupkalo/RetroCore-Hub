@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OUTSIDE SIGNAL — RETROCORE://UNKNOWN_SECTOR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <svg class="sr-only" aria-hidden="true">
+    <filter id="grain-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </svg>
+
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="grain-overlay" aria-hidden="true"></div>
+  <div class="flicker-overlay" aria-hidden="true"></div>
+
+  <!-- LOCKED -->
+  <div id="state-locked" class="os-state">
+    <div class="os-container">
+      <div class="os-protocol" data-i18n="signal.protocol">RETROCORE://UNKNOWN_SECTOR/OUTSIDE_SIGNAL</div>
+      <div class="os-status os-status--locked">
+        <span class="os-status-dot" aria-hidden="true"></span>
+        <span data-i18n="signal.statusLocked">ACCESS DENIED</span>
+      </div>
+      <p class="os-message" data-i18n="signal.incomplete">TRANSMISSION INCOMPLETE</p>
+      <p class="os-message os-message--faint" data-i18n="signal.origin">Origin: unresolved</p>
+      <a href="../../index.html" class="os-back-link">
+        <span class="os-back-arrow" aria-hidden="true">&larr;</span>
+        <span data-i18n="signal.back">RETURN TO UNKNOWN_SECTOR</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="state-main" class="os-state os-state--hidden">
+    <div class="os-layout">
+
+      <header class="os-header">
+        <div class="os-title" data-i18n="signal.moduleTitle">OUTSIDE SIGNAL</div>
+        <div class="os-meta">
+          <div class="os-meta-line">
+            <span class="os-meta-label" data-i18n="signal.source">SOURCE:</span>
+            <span class="os-meta-value" data-i18n="signal.sourceUnknown">UNKNOWN</span>
+          </div>
+          <div class="os-meta-line">
+            <span class="os-meta-label" data-i18n="signal.integrity">INTEGRITY:</span>
+            <span class="os-meta-value os-meta-value--integrity" id="integrity-value">38%</span>
+          </div>
+          <div class="os-meta-line">
+            <span class="os-meta-label" data-i18n="signal.status">STATUS:</span>
+            <span class="os-meta-value" id="status-value" data-i18n="signal.statusPartial">PARTIAL RECOVERY</span>
+          </div>
+        </div>
+        <button class="os-audio-btn" id="audio-toggle" type="button" aria-label="Toggle audio">
+          <span data-i18n="signal.audio">SND</span>
+        </button>
+      </header>
+
+      <section class="os-transmission" aria-label="Transmission data">
+        <div class="os-transmission-frame">
+          <div class="os-transmission-head">
+            <span class="os-transmission-label" data-i18n="signal.receivedData">RECEIVED TRANSMISSION DATA</span>
+            <span class="os-transmission-cursor" aria-hidden="true"></span>
+          </div>
+          <div class="os-transmission-body" id="transmission-body"></div>
+        </div>
+      </section>
+
+      <div class="os-actions" id="action-bar">
+        <button class="os-action-btn" id="btn-filter" data-i18n="signal.filter">FILTER</button>
+        <button class="os-action-btn" id="btn-boost" data-i18n="signal.boost">BOOST</button>
+        <button class="os-action-btn" id="btn-reconstruct" data-i18n="signal.reconstruct">RECONSTRUCT</button>
+      </div>
+
+      <footer class="os-footer">
+        <a href="../../index.html" class="os-back-link">
+          <span class="os-back-arrow" aria-hidden="true">&larr;</span>
+          <span data-i18n="signal.back">RETURN TO UNKNOWN_SECTOR</span>
+        </a>
+        <div class="os-lang" role="group" aria-label="Language selector">
+          <button class="os-lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
+          <span class="os-lang-sep" aria-hidden="true">/</span>
+          <button class="os-lang-btn" data-lang="ua" data-i18n="lang.ua">UA</button>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- COMPLETION OVERLAY — outside all state containers so display:none on parent doesn't hide it -->
+  <div class="os-completion" id="completion-overlay" aria-hidden="true">
+    <div class="os-completion-content">
+      <div class="os-comp-line os-comp-line--recovered" id="comp-recovered" data-i18n="signal.transmissionRecovered">TRANSMISSION RECOVERED</div>
+      <div class="os-comp-line os-comp-line--detected" id="comp-detected" data-i18n="signal.newLocation">NEW LOCATION DETECTED</div>
+      <div class="os-comp-line os-comp-line--blacksite" id="comp-blacksite">BLACKSITE</div>
+      <div class="os-comp-action" id="comp-action">
+        <a href="../blacksite/index.html" class="os-open-btn" data-i18n="signal.openBlacksite">OPEN BLACKSITE</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPLETE (return visit) -->
+  <div id="state-complete" class="os-state os-state--hidden">
+    <div class="os-container">
+      <div class="os-protocol" data-i18n="signal.protocol">RETROCORE://UNKNOWN_SECTOR/OUTSIDE_SIGNAL</div>
+      <div class="os-status os-status--available">
+        <span class="os-status-dot" aria-hidden="true"></span>
+        <span data-i18n="signal.statusAvailable">ACCESS AVAILABLE</span>
+      </div>
+      <p class="os-message" data-i18n="signal.transmissionComplete">Transmission fully recovered.</p>
+      <div class="os-detected-block">
+        <span class="os-detected-label" data-i18n="signal.blacksiteDetected">NEW LOCATION DETECTED:</span>
+        <span class="os-detected-name">BLACKSITE</span>
+      </div>
+      <a href="../blacksite/index.html" class="os-open-btn os-open-btn--standalone" data-i18n="signal.openBlacksite">OPEN BLACKSITE</a>
+      <a href="../../index.html" class="os-back-link">
+        <span class="os-back-arrow" aria-hidden="true">&larr;</span>
+        <span data-i18n="signal.back">RETURN TO UNKNOWN_SECTOR</span>
+      </a>
+      <div class="os-lang" role="group" aria-label="Language selector">
+        <button class="os-lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
+        <span class="os-lang-sep" aria-hidden="true">/</span>
+        <button class="os-lang-btn" data-lang="ua" data-i18n="lang.ua">UA</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

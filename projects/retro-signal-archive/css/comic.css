@@ -1,0 +1,332 @@
+/* ═══════════════════════════════════════════
+   COMIC.CSS — Main panel display area,
+   side terminal, metadata blocks,
+   panel image display, overlay entries,
+   panel subtitles
+   ═══════════════════════════════════════════ */
+
+/* ── Main Panel ── */
+#main-panel {
+    position: relative;
+    border: 1px solid var(--border-glow);
+    background: var(--bg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 2s ease;
+    box-shadow:
+        0 0 40px rgba(221, 208, 160, 0.03),
+        inset 0 0 40px rgba(0, 0, 0, 0.2);
+}
+
+#main-panel.panel-active {
+    opacity: 1;
+}
+
+/* Faint CRT horizontal lines inside panel */
+.panel-grid {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 3px,
+        rgba(221, 208, 160, 0.022) 3px,
+        rgba(221, 208, 160, 0.022) 4px
+    );
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* Subtle glass reflection */
+#main-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.015) 0%,
+        transparent 35%,
+        transparent 65%,
+        rgba(255, 255, 255, 0.008) 100%
+    );
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* ── Panel Content (awaiting state) ── */
+.panel-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.awaiting-text {
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 10px;
+    color: var(--fg-dim);
+    animation: slow-pulse 7s ease-in-out infinite;
+}
+
+.awaiting-sub {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--fg-dim);
+    opacity: 0.45;
+    margin-top: 18px;
+    text-transform: uppercase;
+}
+
+/* ── Panel Image ── */
+.panel-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: panel-zoom-drift 35s ease-in-out infinite alternate;
+    filter: contrast(1.08) saturate(0.75) brightness(0.92);
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* ── Panel Corrupted State ── */
+.panel-corrupted {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    letter-spacing: 6px;
+    color: var(--accent-red);
+    z-index: 2;
+    animation: slow-pulse 4s ease-in-out infinite;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* ── Panel Subtitles ── */
+.panel-subtitle {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 8;
+    padding: 50px 24px 22px;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.45) 55%,
+        transparent 100%
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    text-align: center;
+}
+
+.panel-subtitle.visible {
+    opacity: 1;
+}
+
+.panel-subtitle-line {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--fg-primary);
+    line-height: 1.9;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* ── Signal Fragment Flashes ── */
+.signal-fragment {
+    position: absolute;
+    height: 1px;
+    background: rgba(221, 208, 160, 0.22);
+    box-shadow: 0 0 8px rgba(221, 208, 160, 0.1);
+    pointer-events: none;
+    z-index: 6;
+    animation: fragment-fade 1s ease-out forwards;
+}
+
+/* ── Side Terminal ── */
+#side-terminal {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(88, 168, 88, 0.12);
+    background: var(--bg-elevated);
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+#side-terminal.terminal-active {
+    opacity: 1;
+}
+
+.terminal-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--fg-secondary);
+    flex-shrink: 0;
+}
+
+.terminal-id {
+    color: var(--fg-dim);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+}
+
+/* ── Terminal Body ── */
+.terminal-body {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 2;
+    color: var(--fg-terminal);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+.terminal-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+}
+
+/* ── Log Entries ── */
+.log-entry {
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.log-entry.ambient {
+    color: rgba(88, 168, 88, 0.6);
+}
+
+/* ── Overlay Entries ── */
+.log-entry.overlay-entry {
+    color: var(--fg-primary);
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+/* ── Terminal Separator ── */
+.log-separator {
+    color: rgba(88, 168, 88, 0.2);
+    font-size: 10px;
+    line-height: 1.4;
+    margin: 6px 0;
+    user-select: none;
+}
+
+/* ── Typing Cursor ── */
+.cursor {
+    display: inline-block;
+    width: 7px;
+    height: 15px;
+    background: var(--fg-terminal);
+    vertical-align: middle;
+    margin-left: 1px;
+    animation: cursor-blink 0.5s step-end infinite;
+}
+
+.cursor-amber {
+    background: var(--fg-primary);
+}
+
+/* ── Terminal Metadata ── */
+.terminal-meta {
+    border-top: 1px solid var(--border);
+    padding: 14px;
+    font-size: 10px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+
+.meta-block {
+    margin-bottom: 14px;
+}
+
+.meta-block:last-child {
+    margin-bottom: 0;
+}
+
+.meta-title {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+}
+
+.meta-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    line-height: 1.7;
+}
+
+.meta-row .meta-key {
+    color: var(--fg-dim);
+}
+
+.meta-row .meta-val {
+    color: var(--fg-secondary);
+    text-align: right;
+}
+
+.meta-val.severed {
+    color: var(--accent-red);
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+    #main-panel.panel-active,
+    #side-terminal.terminal-active {
+        opacity: 1 !important;
+        transition: none !important;
+    }
+
+    .awaiting-text,
+    .signal-fragment,
+    .panel-image,
+    .panel-corrupted {
+        animation: none !important;
+    }
+
+    .panel-image,
+    .panel-corrupted {
+        opacity: 1 !important;
+        transition: none !important;
+    }
+
+    .panel-subtitle {
+        opacity: 1 !important;
+        transition: none !important;
+    }
+}

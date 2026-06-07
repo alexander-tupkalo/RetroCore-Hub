@@ -1,0 +1,173 @@
+/* ============================================
+   VHS MovieClub — Synthwave / Retro-VHS Theme
+   ============================================
+   Root variables act as a single source of truth
+   for the entire color palette. Changing a value
+   here updates every reference across the site.
+   ============================================ */
+
+:root {
+  /* Deep space-dark background — sets the moody, cinematic base */
+  --bg-primary: #12121c;
+
+  /* Crisp white for headings, primary labels, and high-contrast text */
+  --text-primary: #ffffff;
+
+  /* Neon pink — primary accent used for CTAs, active states, and highlights */
+  --accent-pink: #ff007f;
+
+  /* Neon cyan — secondary accent for links, badges, and subtle glow effects */
+  --accent-cyan: #00f0ff;
+
+  /* Muted gray — secondary/descriptive text that shouldn't compete with headings */
+  --text-secondary: #8e8e9f;
+}
+
+/* ----------------------------------------
+   Global Reset
+   ----------------------------------------
+   Border-box ensures padding and border are
+   included in an element's total width/height,
+   making layout math predictable.
+   ---------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ----------------------------------------
+   Base Body Styles
+   ---------------------------------------- */
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   VHS MovieClub — Tracking & Glitch Effects
+   ============================================
+   Pure CSS animations to simulate the analog
+   feel of VHS tapes and CRT VCR displays.
+   ============================================ */
+
+/* ----------------------------------------
+   1. VHS Scanline Animation
+   ----------------------------------------
+   Moves a semi-transparent horizontal line
+   from the top of the element to the bottom.
+   ---------------------------------------- */
+
+@keyframes vhs-scanline {
+  0% {
+    transform: translateY(-100%); /* Starts completely hidden above the element */
+  }
+  100% {
+    transform: translateY(1500%); /* Moves all the way down past the element */
+  }
+}
+
+/* ----------------------------------------
+   2. Movie Card Hover Effect
+   ----------------------------------------
+   We use a pseudo-element (::after) so the 
+   scanning line glides OVER the poster and 
+   text without disrupting layout or clicks.
+   ---------------------------------------- */
+
+.movie-card {
+  /* Ensure these are present for the pseudo-element to work correctly */
+  position: relative;
+  overflow: hidden; 
+}
+
+.movie-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px; /* Thin, subtle horizontal line */
+  
+  /* The color of the tracking line (white with a hint of our cyan) */
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.15); 
+  
+  pointer-events: none; /* CRITICAL: Prevents the line from blocking mouse clicks */
+  opacity: 0; /* Hidden by default */
+  z-index: 10; /* Ensures it sits above the poster image */
+  
+  /* Smooth fade-in when the animation triggers */
+  transition: opacity 0.3s ease;
+}
+
+/* Trigger the animation strictly on hover */
+.movie-card:hover::after {
+  opacity: 1;
+  /* Continuous loop: 2.5s duration, smooth linear speed */
+  animation: vhs-scanline 2.5s linear infinite; 
+}
+
+/* ----------------------------------------
+   3. VCR Digital Display Glow (.vhs-glow)
+   ----------------------------------------
+   Mimics the segmented LED display of an 
+   80s VCR counter/clock (e.g., "PLAY 01:23:45").
+   ---------------------------------------- */
+
+.vhs-glow {
+  /* Monospace is required for that digital, segmented look */
+  font-family: "Courier New", Courier, monospace;
+  
+  /* Classic VCR neon green */
+  color: #33ff33; 
+  
+  /* Dark background to make the LED glow pop */
+  background-color: #0a0a0a; 
+  padding: 0.25em 0.6em;
+  border: 1px solid rgba(51, 255, 51, 0.2);
+  border-radius: 2px;
+  
+  /* Wide tracking makes numbers look like digital blocks */
+  letter-spacing: 3px; 
+  text-transform: uppercase;
+  
+  /* 
+    The LED Glow Recipe:
+    Layering shadows creates a bright, burning center 
+    that fades outwards, exactly like a backlit LCD screen.
+  */
+  text-shadow: 
+    0 0 4px #33ff33,
+    0 0 11px #33ff33,
+    0 0 19px #33ff33,
+    0 0 40px rgba(51, 255, 51, 0.4);
+}
+
+/* 
+  Quick modifier class if you need a RED "REC" dot effect later.
+  Usage: <span class="vhs-glow rec">REC</span>
+*/
+.vhs-glow.rec {
+  color: #ff3333;
+  border-color: rgba(255, 51, 51, 0.2);
+  text-shadow: 
+    0 0 4px #ff3333,
+    0 0 11px #ff3333,
+    0 0 19px #ff3333,
+    0 0 40px rgba(255, 51, 51, 0.4);
+  animation: rec-blink 1s steps(1) infinite; /* Steps(1) makes it flash sharply like a real VCR */
+}
+
+@keyframes rec-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

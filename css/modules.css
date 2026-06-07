@@ -1,0 +1,836 @@
+/* RETROCORE://HUB — modules.css
+   Active Modules section — Phase 2
+   Extends variables.css + animations.css. No overrides to existing rules.
+*/
+
+/* ═══════════════════════════════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════════════════════════════ */
+.modules {
+  position: relative;
+  z-index: var(--z-content);
+  padding: var(--sp-32) 0 var(--sp-32);
+  overflow: hidden;
+}
+
+/* atmospheric mid-page glow behind section */
+.modules::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%,
+      rgba(0, 229, 255, 0.028) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 60% 40% at 50% 100%,
+      rgba(0, 100, 180, 0.022) 0%,
+      transparent 60%);
+  pointer-events: none;
+}
+
+/* ── SECTION INTRO ─────────────────────────────────── */
+.modules__intro {
+  text-align: center;
+  margin-bottom: var(--sp-16);
+  opacity: 0;
+}
+
+.modules__intro.in-view {
+  animation: moduleReveal 1s var(--ease-out-expo) both;
+}
+
+/* section eyebrow */
+.modules__eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  color: rgba(0, 229, 255, 0.38);
+  margin-bottom: var(--sp-5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-4);
+}
+
+.modules__eyebrow::before,
+.modules__eyebrow::after {
+  content: '';
+  display: inline-block;
+  height: 1px;
+  width: 48px;
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.28));
+}
+.modules__eyebrow::after {
+  background: linear-gradient(90deg, rgba(0, 229, 255, 0.28), transparent);
+}
+
+/* section title */
+.modules__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: var(--ls-wide);
+  color: var(--clr-white);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-4);
+  line-height: var(--lh-tight);
+}
+
+/* section terminal subtitle */
+.modules__subtitle {
+  font-family: var(--font-terminal);
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  letter-spacing: var(--ls-wider);
+  color: var(--clr-white-dim);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+
+.modules__subtitle-prefix {
+  color: var(--clr-teal);
+  opacity: 0.7;
+}
+
+/* animated divider under title */
+.modules__divider {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 229, 255, 0.18) 20%,
+    rgba(0, 229, 255, 0.45) 50%,
+    rgba(0, 229, 255, 0.18) 80%,
+    transparent
+  );
+  margin: var(--sp-6) auto var(--sp-8);
+  max-width: 320px;
+}
+
+.modules__intro.in-view .modules__divider {
+  animation: sectionDividerIn 1.4s var(--ease-out-expo) 0.3s both;
+}
+
+/* ═══════════════════════════════════════════════════════
+   GRID
+═══════════════════════════════════════════════════════ */
+.modules__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-6);
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--sp-6);
+}
+
+@media (max-width: 900px) {
+  .modules__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-5);
+    padding: 0 var(--sp-5);
+  }
+}
+
+@media (max-width: 600px) {
+  .modules__grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+    padding: 0 var(--sp-4);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MODULE CARD — BASE
+═══════════════════════════════════════════════════════ */
+.mod-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 340px;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+
+  /* layered border via box-shadow + outline trick */
+  outline: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(6, 12, 22, 0.75);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+
+  /* CSS vars for per-card accent (overridden per modifier) */
+  --card-accent:         rgba(0, 229, 255, 1);
+  --card-accent-dim:     rgba(0, 229, 255, 0.12);
+  --card-accent-ghost:   rgba(0, 229, 255, 0.04);
+  --card-glow-rest:
+    0 0 0 1px rgba(0, 229, 255, 0.09),
+    0 4px 32px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  --card-glow-breathe:
+    0 0 0 1px rgba(0, 229, 255, 0.14),
+    0 4px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  --card-glow-hover:
+    0 0 0 1px rgba(0, 229, 255, 0.32),
+    0 8px 60px rgba(0, 229, 255, 0.1),
+    0 20px 80px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+
+  box-shadow: var(--card-glow-rest);
+  animation: cardBreath 7s ease-in-out infinite;
+
+  /* scroll-in */
+  opacity: 0;
+  transition:
+    transform var(--dur-slow) var(--ease-out-expo),
+    box-shadow var(--dur-slow) var(--ease-cyber),
+    outline-color var(--dur-slow) ease;
+}
+
+.mod-card.in-view {
+  animation:
+    cardSlideUp 0.9s var(--ease-out-expo) both,
+    cardBreath 7s ease-in-out 1s infinite;
+}
+
+/* stagger delays assigned in JS; fallback here */
+.mod-card:nth-child(1) { animation-delay: 0.1s, 1s; }
+.mod-card:nth-child(2) { animation-delay: 0.22s, 1s; }
+.mod-card:nth-child(3) { animation-delay: 0.34s, 1s; }
+.mod-card:nth-child(4) { animation-delay: 0.46s, 1s; }
+
+/* ── HOVER STATE ────────────────────────────────────── */
+.mod-card:hover {
+  transform: translateY(-5px) scale(1.012);
+  box-shadow: var(--card-glow-hover);
+  outline-color: rgba(255, 255, 255, 0.07);
+  animation-play-state: paused;
+}
+
+/* ── DISABLED (coming soon) ─────────────────────────── */
+.mod-card--disabled {
+  cursor: not-allowed;
+  pointer-events: none; /* allow visual but block nav */
+}
+
+.mod-card--disabled:hover {
+  transform: none;
+  pointer-events: all; /* re-enable just for hover visual */
+}
+
+/* ═══════════════════════════════════════════════════════
+   PER-CARD ACCENT PALETTE
+═══════════════════════════════════════════════════════ */
+
+/* VHS MovieClub — pink/crimson */
+.mod-card--vhs {
+  --card-accent:         rgba(255, 45, 85, 1);
+  --card-accent-dim:     rgba(255, 45, 85, 0.13);
+  --card-accent-ghost:   rgba(255, 45, 85, 0.04);
+  --card-glow-rest:
+    0 0 0 1px rgba(255, 45, 85, 0.1),
+    0 4px 32px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 45, 85, 0.05);
+  --card-glow-breathe:
+    0 0 0 1px rgba(255, 45, 85, 0.16),
+    0 4px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 45, 85, 0.07);
+  --card-glow-hover:
+    0 0 0 1px rgba(255, 45, 85, 0.38),
+    0 8px 60px rgba(255, 45, 85, 0.12),
+    0 20px 80px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 100, 100, 0.08);
+}
+
+/* Neon Invaders — cyan */
+.mod-card--invaders {
+  --card-accent:         rgba(0, 229, 255, 1);
+  --card-accent-dim:     rgba(0, 229, 255, 0.12);
+  --card-accent-ghost:   rgba(0, 229, 255, 0.04);
+  --card-glow-rest:
+    0 0 0 1px rgba(0, 229, 255, 0.09),
+    0 4px 32px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(0, 229, 255, 0.04);
+  --card-glow-breathe:
+    0 0 0 1px rgba(0, 229, 255, 0.15),
+    0 4px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(0, 229, 255, 0.06);
+  --card-glow-hover:
+    0 0 0 1px rgba(0, 229, 255, 0.36),
+    0 8px 60px rgba(0, 229, 255, 0.11),
+    0 20px 80px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(0, 229, 255, 0.07);
+}
+
+/* Neon Cyber-Deck — purple */
+.mod-card--cyberdeck {
+  --card-accent:         rgba(162, 89, 255, 1);
+  --card-accent-dim:     rgba(162, 89, 255, 0.13);
+  --card-accent-ghost:   rgba(162, 89, 255, 0.04);
+  --card-glow-rest:
+    0 0 0 1px rgba(162, 89, 255, 0.1),
+    0 4px 32px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(162, 89, 255, 0.05);
+  --card-glow-breathe:
+    0 0 0 1px rgba(162, 89, 255, 0.16),
+    0 4px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(162, 89, 255, 0.07);
+  --card-glow-hover:
+    0 0 0 1px rgba(162, 89, 255, 0.38),
+    0 8px 60px rgba(162, 89, 255, 0.12),
+    0 20px 80px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(180, 120, 255, 0.08);
+}
+
+/* Neon Battleship — deep blue */
+.mod-card--battleship {
+  --card-accent:         rgba(0, 140, 255, 1);
+  --card-accent-dim:     rgba(0, 140, 255, 0.12);
+  --card-accent-ghost:   rgba(0, 140, 255, 0.04);
+  --card-glow-rest:
+    0 0 0 1px rgba(0, 140, 255, 0.09),
+    0 4px 32px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(0, 140, 255, 0.04);
+  --card-glow-breathe:
+    0 0 0 1px rgba(0, 140, 255, 0.15),
+    0 4px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(0, 140, 255, 0.06);
+  --card-glow-hover:
+    0 0 0 1px rgba(0, 140, 255, 0.36),
+    0 8px 60px rgba(0, 140, 255, 0.12),
+    0 20px 80px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(60, 160, 255, 0.07);
+}
+
+/* ═══════════════════════════════════════════════════════
+   CARD INTERNAL LAYERS
+═══════════════════════════════════════════════════════ */
+
+/* ── AMBIENT GRADIENT BACKGROUND ────────────────────── */
+.mod-card__bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 60% at 30% 0%,
+    var(--card-accent-dim) 0%,
+    transparent 65%
+  );
+  opacity: 0.7;
+  transition: opacity var(--dur-slow) ease;
+  background-size: 200% 200%;
+  animation: cardGradientDrift 14s ease-in-out infinite;
+}
+
+.mod-card:hover .mod-card__bg {
+  opacity: 1;
+  animation-duration: 6s;
+}
+
+/* ── NOISE TEXTURE OVERLAY ──────────────────────────── */
+.mod-card__noise {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+  animation: cardNoiseFloat 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── HORIZONTAL SCANLINES ───────────────────────────── */
+.mod-card__scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.12) 3px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ── HOVER SCANLINE BEAM ────────────────────────────── */
+.mod-card__scan-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--card-accent-ghost) 40%,
+    rgba(255,255,255,0.025) 50%,
+    var(--card-accent-ghost) 60%,
+    transparent 100%
+  );
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) ease;
+}
+
+.mod-card:hover .mod-card__scan-beam {
+  opacity: 1;
+  animation: cardScanSweep 1.8s var(--ease-out-expo) both;
+}
+
+/* ── HOLOGRAPHIC SHIMMER ─────────────────────────────── */
+.mod-card__holo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.mod-card__holo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 40%,
+    rgba(255, 255, 255, 0.065) 50%,
+    rgba(255, 255, 255, 0.03) 60%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(-12deg);
+  opacity: 0;
+  transition: opacity var(--dur-base) ease;
+}
+
+.mod-card:hover .mod-card__holo::after {
+  opacity: 1;
+  animation: holoSweep 0.9s var(--ease-out-expo) both;
+}
+
+/* ── CORNER ACCENT BRACKETS ─────────────────────────── */
+.mod-card__corners {
+  position: absolute;
+  inset: 10px;
+  pointer-events: none;
+}
+
+.mod-card__corners::before,
+.mod-card__corners::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  opacity: 0.2;
+  transition: opacity var(--dur-base) ease,
+              width var(--dur-slow) var(--ease-out-expo),
+              height var(--dur-slow) var(--ease-out-expo);
+}
+
+.mod-card__corners::before {
+  top: 0; left: 0;
+  border-top: 1px solid var(--card-accent);
+  border-left: 1px solid var(--card-accent);
+  animation: cardCornerPulse 3.5s ease-in-out infinite;
+}
+
+.mod-card__corners::after {
+  bottom: 0; right: 0;
+  border-bottom: 1px solid var(--card-accent);
+  border-right: 1px solid var(--card-accent);
+  animation: cardCornerPulse 3.5s ease-in-out infinite;
+  animation-delay: -1.75s;
+}
+
+.mod-card:hover .mod-card__corners::before,
+.mod-card:hover .mod-card__corners::after {
+  opacity: 0.65;
+  width: 22px;
+  height: 22px;
+}
+
+/* ── TOP ACCENT LINE ─────────────────────────────────── */
+.mod-card__accent-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--card-accent-dim) 20%,
+    var(--card-accent) 50%,
+    var(--card-accent-dim) 80%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  transition: opacity var(--dur-slow) ease;
+}
+
+.mod-card:hover .mod-card__accent-line {
+  opacity: 1;
+}
+
+/* ── BOTTOM REFLECTION ───────────────────────────────── */
+.mod-card__reflection {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60%;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CARD CONTENT
+═══════════════════════════════════════════════════════ */
+.mod-card__body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--sp-6) var(--sp-6) var(--sp-5);
+  gap: var(--sp-4);
+}
+
+/* ── CARD HEADER ROW ─────────────────────────────────── */
+.mod-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+/* ── MODULE ID / SLOT LABEL ──────────────────────────── */
+.mod-card__slot {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.2);
+  line-height: 1;
+}
+
+/* ── STATUS BADGE ────────────────────────────────────── */
+.mod-card__status {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 3px var(--sp-3);
+  border-radius: 2px;
+  border: 1px solid;
+  border-color: var(--card-accent-dim);
+  background: var(--card-accent-ghost);
+  flex-shrink: 0;
+}
+
+.mod-card__status-dot {
+  position: relative;
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+}
+
+.mod-card__status-dot-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--card-accent);
+}
+
+.mod-card__status-dot-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: var(--card-accent);
+  opacity: 0.4;
+  animation: accentPing 2.4s ease-out infinite;
+}
+
+.mod-card--disabled .mod-card__status-dot-ring {
+  animation: none;
+}
+
+.mod-card__status-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--card-accent);
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+/* ── MODULE ICON AREA ────────────────────────────────── */
+.mod-card__icon-wrap {
+  margin: var(--sp-2) 0;
+}
+
+.mod-card__icon {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mod-card__icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--card-accent);
+  fill: none;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 6px var(--card-accent));
+  transition: opacity var(--dur-base) ease, filter var(--dur-base) ease;
+}
+
+.mod-card:hover .mod-card__icon svg {
+  opacity: 1;
+  filter: drop-shadow(0 0 10px var(--card-accent));
+}
+
+/* ── TITLE ───────────────────────────────────────────── */
+.mod-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--clr-white);
+  line-height: var(--lh-snug);
+  transition: color var(--dur-base) ease,
+              text-shadow var(--dur-base) ease;
+}
+
+.mod-card:hover .mod-card__title {
+  color: #fff;
+  text-shadow: 0 0 18px var(--card-accent),
+               0 0 40px color-mix(in srgb, var(--card-accent) 30%, transparent);
+}
+
+/* ── DESCRIPTION ─────────────────────────────────────── */
+.mod-card__desc {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--clr-white-dim);
+  opacity: 0.75;
+  flex: 1;
+  letter-spacing: 0.02em;
+}
+
+/* ── CARD DIVIDER ────────────────────────────────────── */
+.mod-card__line {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--card-accent-dim) 0%,
+    rgba(255,255,255,0.04) 100%
+  );
+  margin: var(--sp-1) 0;
+}
+
+/* ── FOOTER ROW ──────────────────────────────────────── */
+.mod-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-top: auto;
+  padding-top: var(--sp-4);
+}
+
+/* ── RUN MODULE BUTTON ───────────────────────────────── */
+.mod-card__run {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--card-accent);
+  opacity: 0.5;
+  transition: opacity var(--dur-base) ease,
+              gap var(--dur-base) ease;
+}
+
+.mod-card:hover .mod-card__run {
+  opacity: 1;
+}
+
+.mod-card__run-arrow {
+  display: inline-flex;
+  align-items: center;
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+
+.mod-card:hover .mod-card__run-arrow {
+  transform: translateX(4px);
+}
+
+.mod-card__run-blink {
+  display: inline-block;
+  width: 6px;
+  height: 10px;
+  background: var(--card-accent);
+  border-radius: 1px;
+  animation: runBlink 1.3s step-end infinite;
+  opacity: 0;
+  transition: opacity var(--dur-base) ease;
+  box-shadow: 0 0 6px var(--card-accent);
+}
+
+.mod-card:hover .mod-card__run-blink {
+  opacity: 1;
+}
+
+/* ── MODULE META TAGS ────────────────────────────────── */
+.mod-card__tags {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.mod-card__tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 2px;
+  padding: 2px 6px;
+  transition: color var(--dur-base) ease,
+              border-color var(--dur-base) ease;
+}
+
+.mod-card:hover .mod-card__tag {
+  color: color-mix(in srgb, var(--card-accent) 60%, rgba(255,255,255,0.4));
+  border-color: var(--card-accent-dim);
+}
+
+/* ═══════════════════════════════════════════════════════
+   COMING SOON OVERLAY
+═══════════════════════════════════════════════════════ */
+.mod-card__coming-soon {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: var(--sp-5);
+  background: linear-gradient(
+    0deg,
+    rgba(2, 4, 8, 0.72) 0%,
+    transparent 60%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.mod-card__ticker-wrap {
+  width: 100%;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 140, 255, 0.12);
+  padding: var(--sp-2) 0;
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+}
+
+.mod-card__ticker {
+  display: inline-flex;
+  gap: var(--sp-8);
+  white-space: nowrap;
+  animation: tickerSlide 14s linear infinite;
+}
+
+.mod-card__ticker-text {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: rgba(0, 140, 255, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION SEPARATOR (below modules)
+═══════════════════════════════════════════════════════ */
+.modules__separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-6);
+  margin-top: var(--sp-20);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.modules__separator.in-view {
+  opacity: 1;
+}
+
+.modules__separator-line {
+  flex: 1;
+  max-width: 240px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,229,255,0.1));
+}
+
+.modules__separator-line:last-child {
+  background: linear-gradient(90deg, rgba(0,229,255,0.1), transparent);
+}
+
+.modules__separator-icon {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wider);
+  color: rgba(0, 229, 255, 0.2);
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+═══════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .modules {
+    padding: var(--sp-24) 0;
+  }
+
+  .mod-card {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modules {
+    padding: var(--sp-20) 0;
+  }
+
+  .mod-card {
+    min-height: 280px;
+  }
+
+  .mod-card__body {
+    padding: var(--sp-5);
+  }
+}
