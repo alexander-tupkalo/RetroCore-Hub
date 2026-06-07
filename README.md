@@ -10,11 +10,11 @@ RETROCORE://HUB is designed as a cinematic sci-fi operating system that unifies 
 
 ### RETROCORE://HUB
 
-![RETROCORE HUB](assets/screenshots/hub-main-01.png)
+![RETROCORE HUB](assets/screenshot/hub-main-01.png)
 
-![RETROCORE HUB 02](assets/screenshots/hub-main-02.png)
+![RETROCORE HUB 02](assets/screenshot/hub-main-02.png)
 
-![RETROCORE HUB 03](assets/screenshots/hub-main-03.png)
+![RETROCORE HUB 03](assets/screenshot/hub-main-03.png)
 
 ---
 
@@ -89,7 +89,7 @@ Generated entirely with Web Audio API:
 
 Retro arcade shooter with procedural Canvas rendering, synthwave combat atmosphere and dynamic enemy formations.
 
-![Neon Invaders](assets/screenshots/neon-invaders.png)
+![Neon Invaders](assets/screenshot/neon-invaders.png)
 
 ---
 
@@ -97,7 +97,7 @@ Retro arcade shooter with procedural Canvas rendering, synthwave combat atmosphe
 
 Retro VHS streaming SPA with custom video player, CRT overlays and analog cassette-inspired interface design.
 
-![VHS MovieClub](assets/screenshots/vhs-movieclub.png)
+![VHS MovieClub](assets/screenshot/vhs-movieclub.png)
 
 ---
 
@@ -105,7 +105,7 @@ Retro VHS streaming SPA with custom video player, CRT overlays and analog casset
 
 Retro-futuristic roguelike deckbuilder inspired by terminal warfare and corrupted digital systems.
 
-![Neon Cyber-Deck](assets/screenshots/neon-cyberdeck.png)
+![Neon Cyber-Deck](assets/screenshot/neon-cyberdeck.png)
 
 ---
 
@@ -113,7 +113,7 @@ Retro-futuristic roguelike deckbuilder inspired by terminal warfare and corrupte
 
 Tactical naval sci-fi experience with radar systems, military terminal aesthetics and cinematic UI behavior.
 
-![Neon Battleship](assets/screenshots/neon-battleship.png)
+![Neon Battleship](assets/screenshot/neon-battleship.png)
 
 ---
 
@@ -121,7 +121,7 @@ Tactical naval sci-fi experience with radar systems, military terminal aesthetic
 
 Persistent synthwave radio subsystem with custom player UI and atmospheric retro broadcast design.
 
-![RetroWave FM](assets/screenshots/retro-wavecast.png)
+![RetroWave FM](assets/screenshot/retro-wavecast.png)
 
 ---
 
@@ -129,7 +129,7 @@ Persistent synthwave radio subsystem with custom player UI and atmospheric retro
 
 Atmospheric motion-comic subsystem with VHS sci-fi noir storytelling, corrupted transmissions and cinematic panel transitions.
 
-![Signal Archive](assets/screenshots/signal-archive.png)
+![Signal Archive](assets/screenshot/signal-archive.png)
 
 ---
 
@@ -148,7 +148,7 @@ Features:
 
 Current version is a frontend prototype prepared for future backend + LLM integration.
 
-![SIGNAL_AI](assets/screenshots/signal-ai.png)
+![SIGNAL_AI](assets/screenshot/signal-ai.png)
 
 ---
 
