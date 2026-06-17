@@ -3,7 +3,7 @@
  */
 
 export function renderUI(state) {
-        // --- 0. UPDATE ENEMY INTENT & SPRITE ---
+    // --- 0. ENEMY INTENT & SPRITE ---
     const enemyIntentEl = document.getElementById('enemy-intent');
     if (enemyIntentEl && state.enemyIntent) {
         const icon = state.enemyIntent.type === 'attack' ? '⚔️' : '🛡️';
@@ -11,13 +11,13 @@ export function renderUI(state) {
         enemyIntentEl.textContent = `${icon} Intent: ${typeName} ${state.enemyIntent.value}`;
     }
 
-    // Рисуем ASCII-арт вместо смайлика
     const enemySpriteEl = document.getElementById('enemy-sprite');
     if (enemySpriteEl && state.currentEnemy) {
-        enemySpriteEl.innerHTML = `<span class="enemy-name-glow">${state.currentEnemy.name}</span><pre class="ascii-art">${state.currentEnemy.ascii}</pre>`;
+        const asciiArt = state.currentEnemy.ascii ? `<pre class="ascii-art">${state.currentEnemy.ascii}</pre>` : '';
+        enemySpriteEl.innerHTML = `<span class="enemy-name-glow">${state.currentEnemy.name}</span>${asciiArt}`;
     }
 
-    // --- 1. UPDATE STATS & PROGRESS BARS ---
+    // --- 1. STATS & BARS ---
     const energyText = document.getElementById('energy-text');
     if (energyText) energyText.textContent = `${state.energy} / ${state.maxEnergy}`;
 
@@ -60,7 +60,7 @@ export function renderUI(state) {
         cardElement.dataset.type = card.type;
         cardElement.dataset.id = card.id;
 
-        // Drag and Drop
+        // --- DRAG AND DROP ---
         cardElement.draggable = true;
         cardElement.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', card.id);
@@ -83,43 +83,39 @@ export function renderUI(state) {
 }
 
 /**
- * Показывает экран окончания игры.
- * @param {'win' | 'lose'} result 
- * @param {number} nextLevel - Какой уровень будет следующим (для текста)
- * @param {boolean} isFinalWin - Выиграли ли вообще всё
+ * Показывает экран конца игры (Победа/Поражение)
  */
 export function showEndScreen(result, nextLevel, isFinalWin) {
     const overlay = document.getElementById('game-over-overlay');
-    const title = document.getElementById('end-screen-title');
-    const subtitle = document.getElementById('end-screen-subtitle');
-    const btn = document.getElementById('end-screen-btn');
-
-    if (!overlay) return;
+    const content = document.getElementById('end-screen-content');
+    if (!overlay || !content) return;
 
     if (result === 'lose') {
-        title.textContent = 'YOU DIED';
-        subtitle.textContent = 'Connection terminated by hostile ICE.';
-        btn.textContent = 'REBOOT SYSTEM';
         overlay.classList.remove('victory');
+        content.innerHTML = `
+            <h1 id="end-screen-title">YOU DIED</h1>
+            <p id="end-screen-subtitle">Connection terminated by hostile ICE.</p>
+            <button id="end-screen-btn" style="margin-top:30px;">REBOOT SYSTEM</button>
+        `;
     } else {
         overlay.classList.add('victory');
         if (isFinalWin) {
-            title.textContent = 'SYSTEM LIBERATED';
-            subtitle.textContent = 'You have cleared the mainframe.';
-            btn.textContent = 'RESTART GAME';
+            content.innerHTML = `
+                <h1 id="end-screen-title">SYSTEM LIBERATED</h1>
+                <p id="end-screen-subtitle">You have cleared the mainframe.</p>
+                <button id="end-screen-btn" style="margin-top:30px;">RESTART GAME</button>
+            `;
         } else {
-            title.textContent = 'NODE CLEARED';
-            subtitle.textContent = `Incoming connection from Level ${nextLevel + 1}...`;
-            btn.textContent = 'JACK IN';
+            content.innerHTML = `
+                <h1 id="end-screen-title">NODE CLEARED</h1>
+                <p id="end-screen-subtitle">Incoming connection from Level ${nextLevel}...</p>
+                <button id="end-screen-btn" style="margin-top:30px;">JACK IN</button>
+            `;
         }
     }
-
     overlay.classList.remove('hidden');
 }
 
-/**
- * Скрывает экран окончания игры.
- */
 export function hideEndScreen() {
     const overlay = document.getElementById('game-over-overlay');
     if (overlay) overlay.classList.add('hidden');
@@ -127,8 +123,6 @@ export function hideEndScreen() {
 
 /**
  * Показывает экран выбора награды (3 карты).
- * @param {Array} rewardCards - Массив из 3-х объектов карт.
- * @param {Function} onCardSelected - Callback, который сработает при клике на карту.
  */
 export function showRewardScreen(rewardCards, onCardSelected) {
     const overlay = document.getElementById('game-over-overlay');
@@ -149,7 +143,7 @@ export function showRewardScreen(rewardCards, onCardSelected) {
 
     rewardCards.forEach(card => {
         const cardEl = document.createElement('div');
-        cardEl.classList.add('cyber-card', 'reward-card'); // reward-card чтобы убрать драг-эффекты
+        cardEl.classList.add('cyber-card', 'reward-card');
         cardEl.dataset.type = card.type;
         
         cardEl.innerHTML = `
@@ -160,7 +154,6 @@ export function showRewardScreen(rewardCards, onCardSelected) {
             <div class="card-value">${card.value}</div>
         `;
 
-        // При клике на карту — забираем её
         cardEl.addEventListener('click', () => {
             onCardSelected(card);
         });
