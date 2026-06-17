@@ -16,7 +16,9 @@ export const RARE_CARD_POOL = [
     { id: 'rare_ice_wall', name: 'Ice Wall', type: 'defense', cost: 3, value: 14, description: 'Impenetrable frozen firewall.' },
     { id: 'rare_spam_bot', name: 'Spam Bot', type: 'attack', cost: 0, value: 2, description: 'Free attack. Annoying but effective.' },
     { id: 'rare_emp_blast', name: 'EMP Blast', type: 'attack', cost: 2, value: 8, description: 'Electronic pulse. High damage, low cost.' },
-    { id: 'rare_nano_armor', name: 'Nano Armor', type: 'defense', cost: 1, value: 6, description: 'Smart shield that adapts to threats.' }
+    { id: 'rare_nano_armor', name: 'Nano Armor', type: 'defense', cost: 1, value: 6, description: 'Smart shield that adapts to threats.' },
+    { id: 'rare_neural_virus', name: 'Neural Virus', type: 'attack', cost: 1, value: 2, effect: 'poison', effectValue: 3, description: 'Injects virus. 2 Dmg, applies 3 Poison.' },
+    { id: 'rare_repair_bot', name: 'Repair Bot', type: 'heal', cost: 1, value: 8, description: 'Reconstructs tissue. Heals 8 HP.' }
 ];
 
 export const createDeck = (customPool = null) => {

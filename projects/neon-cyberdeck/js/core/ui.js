@@ -1,5 +1,5 @@
 /**
- * ui.js - DOM Rendering Module
+ * ui.js - DOM Rendering Module & Game Juice
  */
 
 export function renderUI(state) {
@@ -14,7 +14,9 @@ export function renderUI(state) {
     const enemySpriteEl = document.getElementById('enemy-sprite');
     if (enemySpriteEl && state.currentEnemy) {
         const asciiArt = state.currentEnemy.ascii ? `<pre class="ascii-art">${state.currentEnemy.ascii}</pre>` : '';
-        enemySpriteEl.innerHTML = `<span class="enemy-name-glow">${state.currentEnemy.name}</span>${asciiArt}`;
+        // Рисуем иконку яда, если он есть
+        const poisonIcon = state.enemyPoison > 0 ? `<div class="enemy-status-container">☠️ ${state.enemyPoison}</div>` : '';
+        enemySpriteEl.innerHTML = `${poisonIcon}<span class="enemy-name-glow">${state.currentEnemy.name}</span>${asciiArt}`;
     }
 
     // --- 1. STATS & BARS ---
@@ -60,7 +62,6 @@ export function renderUI(state) {
         cardElement.dataset.type = card.type;
         cardElement.dataset.id = card.id;
 
-        // --- DRAG AND DROP ---
         cardElement.draggable = true;
         cardElement.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', card.id);
@@ -82,9 +83,6 @@ export function renderUI(state) {
     });
 }
 
-/**
- * Показывает экран конца игры (Победа/Поражение)
- */
 export function showEndScreen(result, nextLevel, isFinalWin) {
     const overlay = document.getElementById('game-over-overlay');
     const content = document.getElementById('end-screen-content');
@@ -121,9 +119,6 @@ export function hideEndScreen() {
     if (overlay) overlay.classList.add('hidden');
 }
 
-/**
- * Показывает экран выбора награды (3 карты).
- */
 export function showRewardScreen(rewardCards, onCardSelected) {
     const overlay = document.getElementById('game-over-overlay');
     const content = document.getElementById('end-screen-content');
@@ -160,4 +155,21 @@ export function showRewardScreen(rewardCards, onCardSelected) {
 
         container.appendChild(cardEl);
     });
+}
+
+/**
+ * СОК: Создает всплывающую цифру урона/лечения.
+ */
+export function spawnFloatingText(targetId, text, color) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    const el = document.createElement('div');
+    el.className = 'floating-text';
+    el.style.color = color;
+    el.textContent = text;
+    
+    target.appendChild(el);
+    
+    setTimeout(() => el.remove(), 1000);
 }

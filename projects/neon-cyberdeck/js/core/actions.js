@@ -35,6 +35,14 @@ export function playCard(state, cardId) {
         state.enemyHp = Math.max(0, state.enemyHp - card.value);
     } else if (card.type === 'defense') {
         state.playerShield += card.value;
+    } else if (card.type === 'heal') {
+        // НОВОЕ: Лечение не может превысить максимальное ХП
+        state.playerHp = Math.min(state.playerMaxHp, state.playerHp + card.value);
+    }
+
+    // НОВОЕ: Накладываем статусные эффекты (например, Яд)
+    if (card.effect === 'poison') {
+        state.enemyPoison += card.effectValue;
     }
 
     state.hand.splice(cardIndex, 1);
@@ -43,7 +51,15 @@ export function playCard(state, cardId) {
 }
 
 export function endTurn(state, drawCardsFn) {
+    // --- 0. РЕЗОЛЬВЯЦИЯ СТАТУСОВ (ЯД) ---
+    if (state.enemyPoison > 0) {
+        state.enemyHp = Math.max(0, state.enemyHp - state.enemyPoison);
+        state.enemyPoison = Math.max(0, state.enemyPoison - 1); // Яд спадает на 1
+    }
+
+    // --- 1. ENEMY TURN: Resolve Intent ---
     if (state.enemyIntent) {
+        // ... (оставляем старый код логики атаки врага без изменений) ...
         if (state.enemyIntent.type === 'attack') {
             let incomingDamage = state.enemyIntent.value;
             if (state.playerShield > 0) {
@@ -60,12 +76,18 @@ export function endTurn(state, drawCardsFn) {
         }
     }
 
+    // --- 2. DISCARD HAND ---
     state.discard.push(...state.hand);
     state.hand.length = 0; 
+
+    // --- 3. RESET TURN STATS ---
     state.energy = state.maxEnergy;
     state.playerShield = 0;
+
+    // --- 4. DRAW NEW HAND ---
     drawCardsFn(state, 5);
 
+    // --- 5. ROLL NEXT ENEMY INTENT ---
     if (state.currentEnemy) {
         const enemy = state.currentEnemy;
         if (enemy.baseDefend > 0 && Math.random() > 0.5) {

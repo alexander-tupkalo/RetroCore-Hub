@@ -409,3 +409,39 @@ body {
     2% { text-shadow: -2px 0 #ff007f, 2px 0 #00f0ff; transform: skewX(-20deg); }
     4% { text-shadow: 0 0 10px #ff007f, 2px 2px 0px rgba(0, 240, 255, 0.5); transform: skewX(0deg); }
 }
+
+/* =========================================
+   GAME JUICE: FLOATING TEXT (Урон/Лечение)
+   ========================================= */
+/* Убеждаемся, что родители позиционируются относительно себя для полета цифр */
+#enemy-area, #player-status { position: relative; }
+
+.floating-text {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1.8rem;
+    pointer-events: none;
+    /* Выше сканлайнов (у них z-index 998) */
+    z-index: 1001; 
+    text-shadow: 2px 2px 0px #000;
+    animation: float-up 1s ease-out forwards;
+}
+
+@keyframes float-up {
+    0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+    100% { transform: translateX(-50%) translateY(-60px); opacity: 0; }
+}
+
+/* Иконка статуса Яд рядом с ХП врага */
+.enemy-status-container {
+    position: absolute;
+    top: -20px;
+    right: 0;
+    color: #39ff14;
+    font-size: 0.9rem;
+    text-shadow: 0 0 5px #39ff14;
+}

@@ -11,6 +11,7 @@ export class GameState {
         this.hand = [];
         this.discard = [];
         this.enemyIntent = { type: 'attack', value: 10 };
+        this.enemyPoison = 0;
         
         // Прогрессия
         this.currentLevel = 0;
@@ -34,6 +35,7 @@ export class GameState {
         this.hand = [];
         this.discard = [];
         this.enemyIntent = { type: 'attack', value: 10 };
+        this.enemyPoison = 0;
         this.currentLevel = 0;
         this.currentEnemy = null;
         this.permanentDeckPool = []; 
